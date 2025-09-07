@@ -144,13 +144,13 @@
                     </div>
                   </td>
                   <td class="px-6 py-4 text-sm text-gray-500">
-                    <% if log.response_data.present? %>
+                    <% if log.details.present? %>
                       <details class="cursor-pointer">
                         <summary class="text-xs text-indigo-600 hover:text-indigo-500">
                           View metadata
                         </summary>
                         <pre class="mt-2 text-xs bg-gray-50 p-2 rounded overflow-x-auto max-w-xs">
-<%= JSON.pretty_generate(log.response_data) rescue log.response_data.to_s %>
+<%= log.details %>
                         </pre>
                       </details>
                     <% else %>
