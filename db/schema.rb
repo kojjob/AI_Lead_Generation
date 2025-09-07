@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_07_061100) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_07_062826) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -38,6 +38,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_061100) do
     t.index ["mention_id"], name: "index_analysis_results_on_mention_id"
   end
 
+  create_table "integration_logs", force: :cascade do |t|
+    t.bigint "integration_id", null: false
+    t.string "activity_type"
+    t.text "details"
+    t.datetime "performed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["integration_id"], name: "index_integration_logs_on_integration_id"
+  end
+
   create_table "integrations", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "provider"
@@ -58,6 +68,35 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_061100) do
     t.datetime "search_deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "platform_name"
+    t.text "api_key"
+    t.text "api_secret"
+    t.text "access_token"
+    t.text "refresh_token"
+    t.datetime "token_expires_at"
+    t.datetime "last_sync_at"
+    t.string "sync_frequency", default: "hourly"
+    t.text "error_message"
+    t.integer "error_count", default: 0
+    t.datetime "last_error_at"
+    t.jsonb "settings", default: {}
+    t.boolean "enabled", default: true
+    t.string "webhook_url"
+    t.string "webhook_secret"
+    t.integer "rate_limit_remaining"
+    t.datetime "rate_limit_reset_at"
+    t.string "sync_cursor"
+    t.integer "total_synced_items", default: 0
+    t.datetime "last_successful_sync_at"
+    t.string "connection_status", default: "disconnected"
+    t.string "api_version"
+    t.jsonb "metadata", default: {}
+    t.index ["connection_status"], name: "index_integrations_on_connection_status"
+    t.index ["enabled"], name: "index_integrations_on_enabled"
+    t.index ["last_sync_at"], name: "index_integrations_on_last_sync_at"
+    t.index ["platform_name"], name: "index_integrations_on_platform_name"
+    t.index ["user_id", "connection_status"], name: "idx_integrations_user_connection"
+    t.index ["user_id", "provider", "enabled"], name: "idx_integrations_user_provider_enabled"
     t.index ["user_id"], name: "index_integrations_on_user_id"
   end
 
@@ -186,6 +225,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_061100) do
   end
 
   add_foreign_key "analysis_results", "mentions"
+  add_foreign_key "integration_logs", "integrations"
   add_foreign_key "integrations", "users"
   add_foreign_key "keywords", "users"
   add_foreign_key "leads", "mentions"
