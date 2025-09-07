@@ -70,25 +70,25 @@
       <div class="mt-2 space-y-2">
         <label class="inline-flex items-center">
           <input type="checkbox" name="keyword[platforms][]" value="twitter" 
-                 <%= 'checked' if keyword.platforms&.include?('twitter') %>
+                 <%= 'checked' if keyword.platforms_array.include?('twitter') %>
                  class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
           <span class="ml-2">Twitter</span>
         </label>
         <label class="inline-flex items-center ml-6">
           <input type="checkbox" name="keyword[platforms][]" value="reddit" 
-                 <%= 'checked' if keyword.platforms&.include?('reddit') %>
+                 <%= 'checked' if keyword.platforms_array.include?('reddit') %>
                  class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
           <span class="ml-2">Reddit</span>
         </label>
         <label class="inline-flex items-center ml-6">
           <input type="checkbox" name="keyword[platforms][]" value="linkedin" 
-                 <%= 'checked' if keyword.platforms&.include?('linkedin') %>
+                 <%= 'checked' if keyword.platforms_array.include?('linkedin') %>
                  class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
           <span class="ml-2">LinkedIn</span>
         </label>
         <label class="inline-flex items-center ml-6">
           <input type="checkbox" name="keyword[platforms][]" value="facebook" 
-                 <%= 'checked' if keyword.platforms&.include?('facebook') %>
+                 <%= 'checked' if keyword.platforms_array.include?('facebook') %>
                  class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
           <span class="ml-2">Facebook</span>
         </label>

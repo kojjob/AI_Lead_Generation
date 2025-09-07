@@ -56,6 +56,13 @@ class KeywordsController < ApplicationController
   end
 
   def keyword_params
-    params.require(:keyword).permit(:keyword, :type, :status, :search_parameters, platforms: [])
+    permitted = params.require(:keyword).permit(:keyword, :type, :status, :search_parameters, platforms: [])
+    
+    # Convert platforms array to comma-separated string for storage
+    if permitted[:platforms].present?
+      permitted[:platforms] = permitted[:platforms].reject(&:blank?).join(',')
+    end
+    
+    permitted
   end
 end

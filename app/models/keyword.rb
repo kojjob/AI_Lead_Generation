@@ -5,8 +5,14 @@ class Keyword < ApplicationRecord
   has_many :mentions, dependent: :destroy
   has_many :leads, through: :mentions
 
-  # Serialize platforms as an array
-  serialize :platforms, Array
+  # Handle platforms as comma-separated string
+  def platforms_array
+    platforms.to_s.split(',').map(&:strip)
+  end
+
+  def platforms_array=(values)
+    self.platforms = values.reject(&:blank?).join(',')
+  end
 
   # Validations
   validates :keyword, presence: true, uniqueness: { scope: :user_id }
