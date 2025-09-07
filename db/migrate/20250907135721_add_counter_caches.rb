@@ -11,8 +11,13 @@ class AddCounterCaches < ActiveRecord::Migration[8.0]
     # Reset counters for existing records
     reversible do |dir|
       dir.up do
-        User.reset_counters(User.pluck(:id), :keywords, :leads, :integrations)
-        Keyword.reset_counters(Keyword.pluck(:id), :mentions, :leads)
+        User.find_each do |user|
+          User.reset_counters(user.id, :keywords, :leads, :integrations)
+        end
+        
+        Keyword.find_each do |keyword|
+          Keyword.reset_counters(keyword.id, :mentions)
+        end
       end
     end
   end
