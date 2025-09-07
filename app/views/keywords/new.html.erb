@@ -1,0 +1,736 @@
+<% content_for :title, "Create New Keyword - AI Lead Generation" %>
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50" data-controller="keyword-wizard" data-keyword-wizard-current-step-value="1">
+  <!-- Skip to main content for accessibility -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-indigo-600 text-white px-4 py-2 rounded-md z-50">
+    Skip to main content
+  </a>
+
+  <!-- Header with Breadcrumb -->
+  <header class="bg-white shadow-sm border-b border-gray-200" role="banner">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Breadcrumb Navigation -->
+        <nav class="flex items-center space-x-4" aria-label="Breadcrumb">
+          <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+              <%= link_to dashboard_path, class: "inline-flex items-center text-gray-500 hover:text-indigo-600 transition-colors duration-200", "aria-label": "Go to Dashboard" do %>
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v3H8V5z"></path>
+                </svg>
+                Dashboard
+              <% end %>
+            </li>
+            <li>
+              <div class="flex items-center">
+                <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <%= link_to keywords_path, class: "ml-1 text-gray-500 hover:text-indigo-600 transition-colors duration-200 md:ml-2", "aria-label": "Go to Keywords" do %>
+                  Keywords
+                <% end %>
+              </div>
+            </li>
+            <li>
+              <div class="flex items-center">
+                <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="ml-1 text-gray-900 font-medium md:ml-2" aria-current="page">Create New</span>
+              </div>
+            </li>
+          </ol>
+        </nav>
+
+        <!-- Progress Indicator -->
+        <div class="hidden md:flex items-center space-x-2">
+          <span class="text-sm text-gray-500">Step</span>
+          <span class="text-sm font-semibold text-indigo-600" data-keyword-wizard-target="stepIndicator">1</span>
+          <span class="text-sm text-gray-500">of 4</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8" role="main">
+    <!-- Page Header -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full mb-4">
+        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+        </svg>
+      </div>
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Create New Keyword</h1>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        Set up intelligent keyword monitoring to discover high-quality leads across social media platforms
+      </p>
+    </div>
+
+    <!-- Progress Steps -->
+    <div class="mb-8">
+      <div class="flex items-center justify-center">
+        <ol class="flex items-center w-full max-w-2xl">
+          <!-- Step 1: Keyword Setup -->
+          <li class="flex w-full items-center text-indigo-600 after:content-[''] after:w-full after:h-1 after:border-b after:border-indigo-100 after:border-4 after:inline-block" data-keyword-wizard-target="step" data-step="1">
+            <span class="flex items-center justify-center w-10 h-10 bg-indigo-600 rounded-full lg:h-12 lg:w-12 shrink-0 text-white font-semibold">
+              1
+            </span>
+            <span class="ml-2 text-sm font-medium text-indigo-600 hidden sm:inline">Keyword Setup</span>
+          </li>
+
+          <!-- Step 2: Platform Selection -->
+          <li class="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-100 after:border-4 after:inline-block" data-keyword-wizard-target="step" data-step="2">
+            <span class="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full lg:h-12 lg:w-12 shrink-0 text-gray-500 font-semibold">
+              2
+            </span>
+            <span class="ml-2 text-sm font-medium text-gray-500 hidden sm:inline">Platforms</span>
+          </li>
+
+          <!-- Step 3: Advanced Settings -->
+          <li class="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-100 after:border-4 after:inline-block" data-keyword-wizard-target="step" data-step="3">
+            <span class="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full lg:h-12 lg:w-12 shrink-0 text-gray-500 font-semibold">
+              3
+            </span>
+            <span class="ml-2 text-sm font-medium text-gray-500 hidden sm:inline">Settings</span>
+          </li>
+
+          <!-- Step 4: Review & Create -->
+          <li class="flex items-center" data-keyword-wizard-target="step" data-step="4">
+            <span class="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full lg:h-12 lg:w-12 shrink-0 text-gray-500 font-semibold">
+              4
+            </span>
+            <span class="ml-2 text-sm font-medium text-gray-500 hidden sm:inline">Review</span>
+          </li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Form Container -->
+    <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+      <%= form_with(model: @keyword, local: true, data: { keyword_wizard_target: "form", action: "submit->keyword-wizard#handleSubmit" }, class: "keyword-wizard-form") do |form| %>
+
+        <!-- Error Messages -->
+        <% if @keyword.errors.any? %>
+          <div class="bg-red-50 border-l-4 border-red-400 p-4 m-6 rounded-lg" role="alert" aria-live="polite">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-sm font-medium text-red-800">
+                  Please fix the following <%= pluralize(@keyword.errors.count, "error") %>:
+                </h3>
+                <div class="mt-2 text-sm text-red-700">
+                  <ul class="list-disc list-inside space-y-1">
+                    <% @keyword.errors.full_messages.each do |message| %>
+                      <li><%= message %></li>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Step 1: Keyword Setup -->
+        <div class="wizard-step" data-keyword-wizard-target="stepContent" data-step="1">
+          <div class="px-6 py-8 sm:px-8">
+            <div class="mb-6">
+              <h2 class="text-2xl font-bold text-gray-900 mb-2">Keyword Setup</h2>
+              <p class="text-gray-600">Define the keyword or phrase you want to monitor for potential leads</p>
+            </div>
+
+            <div class="space-y-8">
+              <!-- Primary Keyword Input -->
+              <div class="space-y-4">
+                <div>
+                  <%= form.label :keyword, class: "block text-sm font-semibold text-gray-900 mb-2" do %>
+                    Primary Keyword <span class="text-red-500" aria-label="required">*</span>
+                  <% end %>
+                  <div class="relative">
+                    <%= form.text_field :keyword,
+                        class: "block w-full px-4 py-3 text-lg border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200",
+                        placeholder: "e.g., Ruby on Rails developer, SaaS marketing help",
+                        data: {
+                          keyword_wizard_target: "keywordInput",
+                          action: "input->keyword-wizard#validateKeyword blur->keyword-wizard#analyzeKeyword"
+                        },
+                        "aria-describedby": "keyword-help keyword-feedback",
+                        required: true %>
+
+                    <!-- Validation Feedback -->
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none" data-keyword-wizard-target="keywordValidation">
+                      <!-- Success icon (hidden by default) -->
+                      <svg class="h-5 w-5 text-green-500 hidden" data-keyword-wizard-target="validIcon" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                      </svg>
+                      <!-- Error icon (hidden by default) -->
+                      <svg class="h-5 w-5 text-red-500 hidden" data-keyword-wizard-target="invalidIcon" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <!-- Help Text -->
+                  <p id="keyword-help" class="mt-2 text-sm text-gray-500">
+                    Enter the exact phrase your potential customers might use when seeking your services
+                  </p>
+
+                  <!-- Dynamic Feedback -->
+                  <div id="keyword-feedback" class="mt-2 text-sm" data-keyword-wizard-target="keywordFeedback" aria-live="polite">
+                    <!-- Feedback will be inserted here -->
+                  </div>
+                </div>
+
+                <!-- Keyword Suggestions -->
+                <div class="hidden" data-keyword-wizard-target="suggestions">
+                  <h4 class="text-sm font-medium text-gray-900 mb-3">💡 Suggested Variations</h4>
+                  <div class="flex flex-wrap gap-2" data-keyword-wizard-target="suggestionsList">
+                    <!-- Suggestions will be populated here -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Keyword Type Selection -->
+              <div class="space-y-4">
+                <div>
+                  <%= form.label :type, class: "block text-sm font-semibold text-gray-900 mb-3" do %>
+                    Matching Type
+                    <button type="button" class="ml-1 text-gray-400 hover:text-gray-600" data-keyword-wizard-target="typeTooltip" aria-label="Learn about matching types">
+                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                      </svg>
+                    </button>
+                  <% end %>
+
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <% [
+                      ['exact', 'Exact Match', 'Matches the exact phrase only', 'Most precise, fewer results'],
+                      ['phrase', 'Phrase Match', 'Matches phrase with additional words', 'Balanced precision and reach'],
+                      ['broad', 'Broad Match', 'Matches related terms and variations', 'Maximum reach, less precise'],
+                      ['standard', 'Standard', 'Default matching behavior', 'Recommended for beginners']
+                    ].each do |value, label, description, note| %>
+                      <label class="relative flex cursor-pointer rounded-lg border border-gray-300 bg-white p-4 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 hover:border-indigo-300 transition-all duration-200">
+                        <%= form.radio_button :type, value,
+                            class: "sr-only",
+                            checked: (@keyword.type == value || (value == 'standard' && @keyword.type.blank?)),
+                            data: { action: "change->keyword-wizard#updateTypeSelection" } %>
+                        <span class="flex flex-1 flex-col">
+                          <span class="block text-sm font-medium text-gray-900"><%= label %></span>
+                          <span class="mt-1 flex items-center text-sm text-gray-500"><%= description %></span>
+                          <span class="mt-1 text-xs text-indigo-600 font-medium"><%= note %></span>
+                        </span>
+                        <svg class="h-5 w-5 text-indigo-600 opacity-0 transition-opacity duration-200" data-keyword-wizard-target="typeCheck" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                        </svg>
+                      </label>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Keyword Analysis Preview -->
+              <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 border border-indigo-200" data-keyword-wizard-target="analysisPreview">
+                <h4 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <svg class="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                  </svg>
+                  Keyword Analysis
+                </h4>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <!-- Competition Level -->
+                  <div class="text-center">
+                    <div class="text-2xl font-bold text-gray-900 mb-1" data-keyword-wizard-target="competitionScore">-</div>
+                    <div class="text-sm text-gray-600">Competition</div>
+                    <div class="mt-2">
+                      <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-gradient-to-r from-green-400 to-yellow-400 h-2 rounded-full transition-all duration-500" style="width: 0%" data-keyword-wizard-target="competitionBar"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Estimated Volume -->
+                  <div class="text-center">
+                    <div class="text-2xl font-bold text-gray-900 mb-1" data-keyword-wizard-target="volumeScore">-</div>
+                    <div class="text-sm text-gray-600">Est. Monthly Volume</div>
+                    <div class="mt-2">
+                      <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-gradient-to-r from-blue-400 to-indigo-400 h-2 rounded-full transition-all duration-500" style="width: 0%" data-keyword-wizard-target="volumeBar"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Opportunity Score -->
+                  <div class="text-center">
+                    <div class="text-2xl font-bold text-gray-900 mb-1" data-keyword-wizard-target="opportunityScore">-</div>
+                    <div class="text-sm text-gray-600">Opportunity</div>
+                    <div class="mt-2">
+                      <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-gradient-to-r from-purple-400 to-pink-400 h-2 rounded-full transition-all duration-500" style="width: 0%" data-keyword-wizard-target="opportunityBar"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-4 text-center">
+                  <p class="text-sm text-gray-600" data-keyword-wizard-target="analysisNote">
+                    Enter a keyword above to see analysis
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Platform Selection -->
+        <div class="wizard-step hidden" data-keyword-wizard-target="stepContent" data-step="2">
+          <div class="px-6 py-8 sm:px-8">
+            <div class="mb-6">
+              <h2 class="text-2xl font-bold text-gray-900 mb-2">Platform Selection</h2>
+              <p class="text-gray-600">Choose which social media platforms to monitor for your keyword</p>
+            </div>
+
+            <div class="space-y-6">
+              <!-- Platform Grid -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <% [
+                  {
+                    value: 'twitter',
+                    name: 'Twitter',
+                    icon: 'M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z',
+                    color: 'blue',
+                    description: 'Real-time conversations and trending topics',
+                    volume: 'High volume, fast-paced'
+                  },
+                  {
+                    value: 'linkedin',
+                    name: 'LinkedIn',
+                    icon: 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z',
+                    color: 'blue',
+                    description: 'Professional networking and B2B discussions',
+                    volume: 'Quality-focused, professional'
+                  },
+                  {
+                    value: 'reddit',
+                    name: 'Reddit',
+                    icon: 'M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z',
+                    color: 'orange',
+                    description: 'Community discussions and niche topics',
+                    volume: 'Targeted communities, engaged users'
+                  },
+                  {
+                    value: 'facebook',
+                    name: 'Facebook',
+                    icon: 'M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z',
+                    color: 'blue',
+                    description: 'Social networking and group discussions',
+                    volume: 'Broad reach, diverse demographics'
+                  }
+                ].each do |platform| %>
+                  <label class="relative flex flex-col cursor-pointer rounded-xl border-2 border-gray-200 bg-white p-6 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 hover:border-indigo-300 hover:shadow-md transition-all duration-200 group">
+                    <input type="checkbox"
+                           name="keyword[platforms][]"
+                           value="<%= platform[:value] %>"
+                           <%= 'checked' if @keyword.platforms_array.include?(platform[:value]) %>
+                           class="sr-only"
+                           data-action="change->keyword-wizard#updatePlatformSelection">
+
+                    <!-- Platform Icon -->
+                    <div class="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-<%= platform[:color] %>-100 rounded-xl group-hover:bg-<%= platform[:color] %>-200 transition-colors duration-200">
+                      <svg class="w-6 h-6 text-<%= platform[:color] %>-600" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="<%= platform[:icon] %>"/>
+                      </svg>
+                    </div>
+
+                    <!-- Platform Info -->
+                    <div class="text-center">
+                      <h3 class="text-lg font-semibold text-gray-900 mb-2"><%= platform[:name] %></h3>
+                      <p class="text-sm text-gray-600 mb-2"><%= platform[:description] %></p>
+                      <p class="text-xs text-<%= platform[:color] %>-600 font-medium"><%= platform[:volume] %></p>
+                    </div>
+
+                    <!-- Selection Indicator -->
+                    <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200" data-keyword-wizard-target="platformCheck">
+                      <div class="w-6 h-6 bg-indigo-600 rounded-full flex items-center justify-center">
+                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                      </div>
+                    </div>
+                  </label>
+                <% end %>
+              </div>
+
+              <!-- Platform Selection Summary -->
+              <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                <h4 class="text-lg font-semibold text-gray-900 mb-4">Selection Summary</h4>
+                <div class="space-y-3" data-keyword-wizard-target="platformSummary">
+                  <p class="text-gray-600">Select at least one platform to monitor your keyword</p>
+                </div>
+              </div>
+
+              <!-- Bulk Import Option -->
+              <div class="border-t border-gray-200 pt-6">
+                <div class="flex items-start space-x-3">
+                  <div class="flex-shrink-0">
+                    <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                    </svg>
+                  </div>
+                  <div class="flex-1">
+                    <h4 class="text-lg font-semibold text-gray-900 mb-2">Bulk Import Keywords</h4>
+                    <p class="text-gray-600 mb-4">Have multiple keywords? Upload a CSV file to create them all at once.</p>
+                    <button type="button"
+                            class="inline-flex items-center px-4 py-2 border border-indigo-300 rounded-lg text-sm font-medium text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
+                            data-action="click->keyword-wizard#showBulkImport">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                      </svg>
+                      Import CSV File
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Advanced Settings -->
+        <div class="wizard-step hidden" data-keyword-wizard-target="stepContent" data-step="3">
+          <div class="px-6 py-8 sm:px-8">
+            <div class="mb-6">
+              <h2 class="text-2xl font-bold text-gray-900 mb-2">Advanced Settings</h2>
+              <p class="text-gray-600">Configure monitoring preferences and notification settings</p>
+            </div>
+
+            <div class="space-y-8">
+              <!-- Monitoring Status -->
+              <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                  <%= form.label :active, class: "text-lg font-semibold text-gray-900" do %>
+                    Monitoring Status
+                  <% end %>
+                  <div class="flex items-center">
+                    <%= form.check_box :active,
+                        class: "sr-only",
+                        checked: @keyword.active != false,
+                        data: { action: "change->keyword-wizard#toggleActive" } %>
+                    <button type="button"
+                            class="bg-indigo-600 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            role="switch"
+                            aria-checked="true"
+                            data-keyword-wizard-target="activeToggle"
+                            data-action="click->keyword-wizard#toggleActive">
+                      <span class="translate-x-5 pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200" data-keyword-wizard-target="activeToggleIndicator"></span>
+                    </button>
+                  </div>
+                </div>
+                <p class="text-sm text-gray-600">
+                  When enabled, this keyword will actively monitor for new mentions across selected platforms
+                </p>
+              </div>
+
+              <!-- Notification Preferences -->
+              <div class="space-y-4">
+                <h3 class="text-lg font-semibold text-gray-900">Notification Preferences</h3>
+
+                <div class="space-y-3">
+                  <% [
+                    ['instant', 'Instant Notifications', 'Get notified immediately when new mentions are found'],
+                    ['daily', 'Daily Summary', 'Receive a daily digest of all new mentions'],
+                    ['weekly', 'Weekly Report', 'Get a comprehensive weekly report'],
+                    ['none', 'No Notifications', 'Monitor silently without notifications']
+                  ].each do |value, label, description| %>
+                    <label class="relative flex cursor-pointer rounded-lg border border-gray-300 bg-white p-4 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 hover:border-indigo-300 transition-all duration-200">
+                      <%= form.radio_button :notification_frequency, value,
+                          class: "sr-only",
+                          checked: (@keyword.notification_frequency == value || (value == 'daily' && @keyword.notification_frequency.blank?)),
+                          data: { action: "change->keyword-wizard#updateNotificationFrequency" } %>
+                      <span class="flex flex-1 items-center">
+                        <span class="flex flex-col">
+                          <span class="block text-sm font-medium text-gray-900"><%= label %></span>
+                          <span class="mt-1 text-sm text-gray-500"><%= description %></span>
+                        </span>
+                      </span>
+                      <svg class="h-5 w-5 text-indigo-600 opacity-0 transition-opacity duration-200" data-keyword-wizard-target="notificationCheck" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                      </svg>
+                    </label>
+                  <% end %>
+                </div>
+              </div>
+
+              <!-- Priority Level -->
+              <div class="space-y-4">
+                <div>
+                  <%= form.label :priority, class: "block text-lg font-semibold text-gray-900 mb-3" do %>
+                    Priority Level
+                    <button type="button" class="ml-1 text-gray-400 hover:text-gray-600" data-keyword-wizard-target="priorityTooltip" aria-label="Learn about priority levels">
+                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                      </svg>
+                    </button>
+                  <% end %>
+
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <% [
+                      ['low', 'Low Priority', 'Standard monitoring', 'bg-gray-50 border-gray-200 text-gray-700'],
+                      ['medium', 'Medium Priority', 'Enhanced tracking', 'bg-yellow-50 border-yellow-200 text-yellow-700'],
+                      ['high', 'High Priority', 'Priority alerts', 'bg-red-50 border-red-200 text-red-700']
+                    ].each do |value, label, description, classes| %>
+                      <label class="relative flex cursor-pointer rounded-lg border-2 p-4 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 hover:shadow-md transition-all duration-200 <%= classes %>">
+                        <%= form.radio_button :priority, value,
+                            class: "sr-only",
+                            checked: (@keyword.priority == value || (value == 'medium' && @keyword.priority.blank?)),
+                            data: { action: "change->keyword-wizard#updatePrioritySelection" } %>
+                        <span class="flex flex-1 flex-col text-center">
+                          <span class="block text-sm font-medium"><%= label %></span>
+                          <span class="mt-1 text-xs"><%= description %></span>
+                        </span>
+                        <svg class="h-5 w-5 text-indigo-600 absolute top-2 right-2 opacity-0 transition-opacity duration-200" data-keyword-wizard-target="priorityCheck" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                        </svg>
+                      </label>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Additional Notes -->
+              <div class="space-y-4">
+                <div>
+                  <%= form.label :notes, class: "block text-lg font-semibold text-gray-900 mb-2" do %>
+                    Additional Notes
+                    <span class="text-sm font-normal text-gray-500">(Optional)</span>
+                  <% end %>
+                  <%= form.text_area :notes,
+                      class: "block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200",
+                      placeholder: "Add any specific instructions or context for this keyword...",
+                      rows: 4,
+                      "aria-describedby": "notes-help" %>
+                  <p id="notes-help" class="mt-2 text-sm text-gray-500">
+                    These notes will help you remember the context and purpose of this keyword
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Review & Create -->
+        <div class="wizard-step hidden" data-keyword-wizard-target="stepContent" data-step="4">
+          <div class="px-6 py-8 sm:px-8">
+            <div class="mb-6">
+              <h2 class="text-2xl font-bold text-gray-900 mb-2">Review & Create</h2>
+              <p class="text-gray-600">Review your keyword configuration before creating</p>
+            </div>
+
+            <div class="space-y-6">
+              <!-- Summary Cards -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Keyword Summary -->
+                <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 border border-indigo-200">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                    </svg>
+                    Keyword Details
+                  </h3>
+                  <div class="space-y-3">
+                    <div>
+                      <span class="text-sm font-medium text-gray-600">Keyword:</span>
+                      <p class="text-lg font-semibold text-gray-900" data-keyword-wizard-target="reviewKeyword">-</p>
+                    </div>
+                    <div>
+                      <span class="text-sm font-medium text-gray-600">Matching Type:</span>
+                      <p class="text-sm text-gray-900" data-keyword-wizard-target="reviewType">-</p>
+                    </div>
+                    <div>
+                      <span class="text-sm font-medium text-gray-600">Status:</span>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" data-keyword-wizard-target="reviewStatus">
+                        <!-- Status badge will be inserted here -->
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Platform Summary -->
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
+                  <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"></path>
+                    </svg>
+                    Platforms
+                  </h3>
+                  <div class="space-y-3">
+                    <div>
+                      <span class="text-sm font-medium text-gray-600">Selected Platforms:</span>
+                      <div class="mt-2 flex flex-wrap gap-2" data-keyword-wizard-target="reviewPlatforms">
+                        <!-- Platform badges will be inserted here -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Settings Summary -->
+              <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <svg class="w-5 h-5 mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  </svg>
+                  Advanced Settings
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div>
+                    <span class="text-sm font-medium text-gray-600">Notifications:</span>
+                    <p class="text-sm text-gray-900" data-keyword-wizard-target="reviewNotifications">-</p>
+                  </div>
+                  <div>
+                    <span class="text-sm font-medium text-gray-600">Priority:</span>
+                    <p class="text-sm text-gray-900" data-keyword-wizard-target="reviewPriority">-</p>
+                  </div>
+                  <div>
+                    <span class="text-sm font-medium text-gray-600">Notes:</span>
+                    <p class="text-sm text-gray-900" data-keyword-wizard-target="reviewNotes">None</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Expected Results Preview -->
+              <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                  </svg>
+                  Expected Results
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                  <div>
+                    <div class="text-2xl font-bold text-green-600" data-keyword-wizard-target="expectedMentions">~15</div>
+                    <div class="text-sm text-gray-600">Monthly Mentions</div>
+                  </div>
+                  <div>
+                    <div class="text-2xl font-bold text-green-600" data-keyword-wizard-target="expectedLeads">~3-5</div>
+                    <div class="text-sm text-gray-600">Qualified Leads</div>
+                  </div>
+                  <div>
+                    <div class="text-2xl font-bold text-green-600" data-keyword-wizard-target="expectedOpportunities">~1-2</div>
+                    <div class="text-sm text-gray-600">Opportunities</div>
+                  </div>
+                </div>
+                <p class="mt-4 text-sm text-gray-600 text-center">
+                  These estimates are based on keyword analysis and platform activity
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="px-6 py-6 bg-gray-50 border-t border-gray-200 sm:px-8">
+          <div class="flex items-center justify-between">
+            <!-- Previous Button -->
+            <button type="button"
+                    class="inline-flex items-center px-6 py-3 border border-gray-300 shadow-sm text-sm font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    data-keyword-wizard-target="prevButton"
+                    data-action="click->keyword-wizard#previousStep"
+                    disabled>
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+              </svg>
+              Previous
+            </button>
+
+            <!-- Step Info -->
+            <div class="hidden sm:flex items-center space-x-2 text-sm text-gray-500">
+              <span>Step</span>
+              <span class="font-semibold text-indigo-600" data-keyword-wizard-target="currentStepDisplay">1</span>
+              <span>of 4</span>
+            </div>
+
+            <!-- Next/Submit Button -->
+            <div class="flex items-center space-x-3">
+              <!-- Next Button -->
+              <button type="button"
+                      class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 shadow-sm hover:shadow-md"
+                      data-keyword-wizard-target="nextButton"
+                      data-action="click->keyword-wizard#nextStep">
+                Next
+                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </button>
+
+              <!-- Submit Button -->
+              <%= form.submit "Create Keyword",
+                  class: "hidden inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105",
+                  data: { keyword_wizard_target: "submitButton" } %>
+            </div>
+          </div>
+        </div>
+
+      <% end %>
+    </div>
+
+    <!-- Help & Tips Section -->
+    <div class="mt-8 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div class="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+          <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          Tips for Effective Keywords
+        </h3>
+      </div>
+      <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h4 class="text-sm font-semibold text-gray-900 mb-3">✨ Best Practices</h4>
+            <ul class="text-sm text-gray-600 space-y-2">
+              <li class="flex items-start">
+                <svg class="w-4 h-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Use specific terms your target audience would naturally use
+              </li>
+              <li class="flex items-start">
+                <svg class="w-4 h-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Include product names, industry terms, and pain points
+              </li>
+              <li class="flex items-start">
+                <svg class="w-4 h-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Start broad, then refine based on results
+              </li>
+              <li class="flex items-start">
+                <svg class="w-4 h-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Monitor competitor brand names for opportunities
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-sm font-semibold text-gray-900 mb-3">🎯 Example Keywords</h4>
+            <ul class="text-sm text-gray-600 space-y-2">
+              <li><span class="font-medium">"Ruby on Rails developer"</span> - Service-based</li>
+              <li><span class="font-medium">"SaaS marketing help"</span> - Problem-focused</li>
+              <li><span class="font-medium">"lead generation tools"</span> - Product category</li>
+              <li><span class="font-medium">"email automation software"</span> - Solution-specific</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

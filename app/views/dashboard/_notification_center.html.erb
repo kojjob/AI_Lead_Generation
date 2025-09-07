@@ -1,0 +1,261 @@
+<!-- Notification Center -->
+<div class="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden">
+  <div class="px-6 py-4 border-b border-gray-200">
+    <div class="flex items-center justify-between">
+      <div>
+        <h3 class="text-lg font-semibold text-gray-900">Notification Center</h3>
+        <p class="text-sm text-gray-500">Stay updated with real-time alerts and actionable insights</p>
+      </div>
+      <div class="flex items-center space-x-2">
+        <button class="text-sm text-indigo-600 hover:text-indigo-800 font-medium">Mark All Read</button>
+        <button class="p-2 text-gray-400 hover:text-gray-600 transition-colors duration-200" title="Settings">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-h-96 overflow-y-auto">
+    <!-- Notification Tabs -->
+    <div class="border-b border-gray-200">
+      <nav class="flex space-x-8 px-6" aria-label="Tabs">
+        <button class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 border-indigo-500 text-indigo-600">
+          All
+          <span class="bg-indigo-100 text-indigo-600 ml-2 py-0.5 px-2.5 rounded-full text-xs font-medium">5</span>
+        </button>
+        <button class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200">
+          Leads
+          <span class="bg-gray-100 text-gray-600 ml-2 py-0.5 px-2.5 rounded-full text-xs font-medium">3</span>
+        </button>
+        <button class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200">
+          System
+          <span class="bg-gray-100 text-gray-600 ml-2 py-0.5 px-2.5 rounded-full text-xs font-medium">2</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Notifications List -->
+    <div class="divide-y divide-gray-200">
+      <!-- High Priority Lead Notification -->
+      <div class="p-6 hover:bg-gray-50 transition-colors duration-200 relative">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <p class="text-sm font-semibold text-gray-900">High-Priority Lead Detected</p>
+              <div class="flex items-center space-x-2">
+                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                  Urgent
+                </span>
+                <span class="text-xs text-gray-500">2m ago</span>
+              </div>
+            </div>
+            <p class="text-sm text-gray-600 mt-1">
+              New mention from @techstartup_ceo looking for "Ruby on Rails developer" with high engagement (150+ likes)
+            </p>
+            <div class="mt-3 flex items-center space-x-3">
+              <button class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                View Lead
+              </button>
+              <button class="inline-flex items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                Quick Reply
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Unread indicator -->
+        <div class="absolute top-6 left-2 w-2 h-2 bg-indigo-600 rounded-full"></div>
+      </div>
+
+      <!-- Integration Sync Success -->
+      <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <p class="text-sm font-semibold text-gray-900">Twitter Integration Synced</p>
+              <span class="text-xs text-gray-500">5m ago</span>
+            </div>
+            <p class="text-sm text-gray-600 mt-1">
+              Successfully synced 23 new mentions. 5 qualified leads identified.
+            </p>
+            <div class="mt-2">
+              <button class="text-xs text-indigo-600 hover:text-indigo-800 font-medium">View New Leads</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Keyword Performance Alert -->
+      <div class="p-6 hover:bg-gray-50 transition-colors duration-200 relative">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <p class="text-sm font-semibold text-gray-900">Keyword Performance Drop</p>
+              <div class="flex items-center space-x-2">
+                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                  Warning
+                </span>
+                <span class="text-xs text-gray-500">15m ago</span>
+              </div>
+            </div>
+            <p class="text-sm text-gray-600 mt-1">
+              "AI automation consultant" mentions dropped 40% this week. Consider expanding keyword variations.
+            </p>
+            <div class="mt-3 flex items-center space-x-3">
+              <button class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition-colors duration-200">
+                Optimize Keywords
+              </button>
+              <button class="text-xs text-gray-500 hover:text-gray-700">Dismiss</button>
+            </div>
+          </div>
+        </div>
+        <!-- Unread indicator -->
+        <div class="absolute top-6 left-2 w-2 h-2 bg-indigo-600 rounded-full"></div>
+      </div>
+
+      <!-- Lead Conversion Success -->
+      <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <p class="text-sm font-semibold text-gray-900">🎉 Lead Converted to Customer!</p>
+              <span class="text-xs text-gray-500">1h ago</span>
+            </div>
+            <p class="text-sm text-gray-600 mt-1">
+              @startup_founder from LinkedIn mention signed up for your SaaS marketing consultation service.
+            </p>
+            <div class="mt-2 flex items-center space-x-4 text-xs text-gray-500">
+              <span>Revenue: $2,500</span>
+              <span>•</span>
+              <span>Source: LinkedIn</span>
+              <span>•</span>
+              <span>Keyword: "SaaS marketing help"</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- System Maintenance -->
+      <div class="p-6 hover:bg-gray-50 transition-colors duration-200 relative">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <p class="text-sm font-semibold text-gray-900">Scheduled Maintenance</p>
+              <div class="flex items-center space-x-2">
+                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                  Info
+                </span>
+                <span class="text-xs text-gray-500">2h ago</span>
+              </div>
+            </div>
+            <p class="text-sm text-gray-600 mt-1">
+              System maintenance scheduled for tonight 2:00-4:00 AM EST. Minimal service disruption expected.
+            </p>
+            <div class="mt-2">
+              <button class="text-xs text-blue-600 hover:text-blue-800 font-medium">Learn More</button>
+            </div>
+          </div>
+        </div>
+        <!-- Unread indicator -->
+        <div class="absolute top-6 left-2 w-2 h-2 bg-indigo-600 rounded-full"></div>
+      </div>
+    </div>
+
+    <!-- Empty State (when no notifications) -->
+    <div class="hidden p-12 text-center">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5-5-5h5v-5a7.5 7.5 0 1 0-15 0v5h5l-5 5-5-5h5V7a12 12 0 1 1 24 0v10z"></path>
+      </svg>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">No notifications</h3>
+      <p class="mt-1 text-sm text-gray-500">You're all caught up! Check back later for updates.</p>
+    </div>
+  </div>
+
+  <!-- Notification Footer -->
+  <div class="px-6 py-3 bg-gray-50 border-t border-gray-200">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-4 text-sm text-gray-500">
+        <span>5 unread notifications</span>
+        <span>•</span>
+        <span>Last updated: just now</span>
+      </div>
+      <button class="text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+        View All Notifications
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Notification Settings Modal (Hidden by default) -->
+<div class="hidden fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+      <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+          Notification Preferences
+        </h3>
+        <div class="mt-4 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-gray-700">New leads</span>
+            <button type="button" class="bg-indigo-600 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" role="switch" aria-checked="true">
+              <span class="translate-x-5 pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"></span>
+            </button>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-gray-700">Integration sync</span>
+            <button type="button" class="bg-gray-200 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" role="switch" aria-checked="false">
+              <span class="translate-x-0 pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
+          Save
+        </button>
+        <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

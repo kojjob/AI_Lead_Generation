@@ -1,0 +1,370 @@
+/* Dashboard Animations and Micro-interactions */
+
+/* Smooth transitions for all interactive elements */
+.transition-smooth {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-bounce {
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Card hover effects */
+.card-hover {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.card-hover:hover {
+  @apply transform -translate-y-1 shadow-lg;
+}
+
+/* Button animations */
+.btn-primary {
+  @apply transition-all duration-200 ease-in-out;
+  @apply transform active:scale-95;
+}
+
+.btn-primary:hover {
+  @apply transform scale-105 shadow-md;
+}
+
+.btn-secondary {
+  @apply transition-all duration-200 ease-in-out;
+  @apply transform active:scale-95;
+}
+
+.btn-secondary:hover {
+  @apply transform scale-102 shadow-sm;
+}
+
+/* Loading animations */
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.pulse-slow {
+  animation: pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 400% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Progress bar animations */
+@keyframes progress-fill {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: var(--progress-width);
+  }
+}
+
+.progress-animated {
+  animation: progress-fill 1s ease-out forwards;
+}
+
+/* Notification animations */
+@keyframes slide-in-right {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out-right {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.notification-enter {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+.notification-exit {
+  animation: slide-out-right 0.3s ease-in;
+}
+
+/* Modal animations */
+@keyframes modal-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-scale-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-backdrop {
+  animation: modal-fade-in 0.2s ease-out;
+}
+
+.modal-content {
+  animation: modal-scale-in 0.2s ease-out;
+}
+
+/* Chart animations */
+@keyframes chart-draw {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.chart-line {
+  stroke-dasharray: 1000;
+  animation: chart-draw 2s ease-out forwards;
+}
+
+@keyframes bar-grow {
+  0% {
+    transform: scaleY(0);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+.chart-bar {
+  transform-origin: bottom;
+  animation: bar-grow 1s ease-out forwards;
+}
+
+/* Counter animations */
+@keyframes count-up {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.counter-animate {
+  animation: count-up 0.6s ease-out;
+}
+
+/* Icon animations */
+@keyframes icon-bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.icon-bounce {
+  animation: icon-bounce 1s ease-in-out;
+}
+
+@keyframes icon-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.icon-spin {
+  animation: icon-spin 1s linear infinite;
+}
+
+/* Status indicator animations */
+@keyframes status-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+.status-active {
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
+/* Hover effects for interactive elements */
+.hover-lift {
+  @apply transition-transform duration-200 ease-in-out;
+}
+
+.hover-lift:hover {
+  @apply transform -translate-y-1;
+}
+
+.hover-glow {
+  @apply transition-shadow duration-200 ease-in-out;
+}
+
+.hover-glow:hover {
+  @apply shadow-lg;
+  box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.2), 0 10px 10px -5px rgba(99, 102, 241, 0.04);
+}
+
+/* Focus animations */
+.focus-ring-animated {
+  @apply transition-all duration-200 ease-in-out;
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
+}
+
+.focus-ring-animated:focus {
+  @apply transform scale-105;
+}
+
+/* Loading skeleton animations */
+.skeleton {
+  @apply bg-gray-200 rounded;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Stagger animations for lists */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: stagger-fade-in 0.5s ease-out forwards;
+}
+
+@keyframes stagger-fade-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-item:nth-child(1) { animation-delay: 0.1s; }
+.stagger-item:nth-child(2) { animation-delay: 0.2s; }
+.stagger-item:nth-child(3) { animation-delay: 0.3s; }
+.stagger-item:nth-child(4) { animation-delay: 0.4s; }
+.stagger-item:nth-child(5) { animation-delay: 0.5s; }
+
+/* Success/Error state animations */
+@keyframes success-checkmark {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.success-checkmark {
+  stroke-dasharray: 100;
+  animation: success-checkmark 0.6s ease-out forwards;
+}
+
+@keyframes error-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+.error-shake {
+  animation: error-shake 0.6s ease-in-out;
+}
+
+/* Tooltip animations */
+@keyframes tooltip-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tooltip-enter {
+  animation: tooltip-fade-in 0.2s ease-out;
+}
+
+/* Responsive animation controls */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .card-hover:hover {
+    @apply transform-none;
+  }
+  
+  .btn-primary:hover,
+  .btn-secondary:hover {
+    @apply transform-none;
+  }
+}
+
+/* Performance optimizations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}

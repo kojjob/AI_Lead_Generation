@@ -1,3 +1,204 @@
 class Lead < ApplicationRecord
+  self.inheritance_column = nil # Disable single-table inheritance
+
+  # Associations
   belongs_to :mention
+  has_one :keyword, through: :mention
+  has_one :user, through: :keyword
+
+  # Validations
+  validates :status, inclusion: { in: %w[new contacted qualified converted rejected archived] }
+  validates :priority, inclusion: { in: %w[low medium high urgent] }
+  validates :lead_stage, inclusion: { in: %w[prospect qualified opportunity proposal negotiation closed] }
+  validates :temperature, inclusion: { in: %w[cold warm hot] }
+  validates :qualification_score, numericality: { in: 0..100 }
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: true
+  validates :conversion_value, numericality: { greater_than_or_equal_to: 0 }, allow_blank: true
+
+  # Callbacks
+  before_save :update_interaction_tracking
+  before_save :calculate_qualification_score
+  after_update :track_status_changes
+
+  # Scopes
+  scope :new_leads, -> { where(status: "new") }
+  scope :contacted, -> { where(status: "contacted") }
+  scope :qualified, -> { where(status: "qualified") }
+  scope :converted, -> { where(status: "converted") }
+  scope :rejected, -> { where(status: "rejected") }
+  scope :archived, -> { where(status: "archived") }
+  scope :recent, -> { order(created_at: :desc) }
+  scope :by_priority, -> { order(Arel.sql("CASE priority WHEN 'urgent' THEN 1 WHEN 'high' THEN 2 WHEN 'medium' THEN 3 WHEN 'low' THEN 4 END")) }
+  scope :high_value, -> { where("qualification_score >= ?", 70) }
+  scope :needs_follow_up, -> { where("next_follow_up <= ? AND status NOT IN (?)", Time.current, %w[converted rejected archived]) }
+  scope :hot_leads, -> { where(temperature: "hot") }
+  scope :warm_leads, -> { where(temperature: "warm") }
+  scope :cold_leads, -> { where(temperature: "cold") }
+  scope :by_stage, ->(stage) { where(lead_stage: stage) }
+  scope :by_platform, ->(platform) { where(source_platform: platform) }
+  scope :assigned_to, ->(user) { where(assigned_to: user) }
+  scope :unassigned, -> { where(assigned_to: [ nil, "" ]) }
+
+  # Search scope
+  scope :search, ->(query) {
+    return all if query.blank?
+
+    where(
+      "name ILIKE ? OR email ILIKE ? OR company ILIKE ? OR position ILIKE ? OR notes ILIKE ?",
+      "%#{query}%", "%#{query}%", "%#{query}%", "%#{query}%", "%#{query}%"
+    )
+  }
+
+  # Instance methods
+  def contacted?
+    last_contacted_at.present?
+  end
+
+  def converted?
+    status == "converted"
+  end
+
+  def qualified?
+    status == "qualified" || qualification_score >= 50
+  end
+
+  def hot?
+    temperature == "hot" || qualification_score >= 80
+  end
+
+  def needs_follow_up?
+    next_follow_up.present? && next_follow_up <= Time.current && !%w[converted rejected archived].include?(status)
+  end
+
+  def overdue_follow_up?
+    next_follow_up.present? && next_follow_up < Time.current && !%w[converted rejected archived].include?(status)
+  end
+
+  def response_time_hours
+    return nil unless last_contacted_at && created_at
+    ((last_contacted_at - created_at) / 1.hour).round(2)
+  end
+
+  def days_since_created
+    ((Time.current - created_at) / 1.day).round
+  end
+
+  def days_since_last_contact
+    return nil unless last_contacted_at
+    ((Time.current - last_contacted_at) / 1.day).round
+  end
+
+  def full_name_or_email
+    name.present? ? name : email.presence || "Unknown Lead"
+  end
+
+  def display_company
+    company.present? ? company : "Unknown Company"
+  end
+
+  def contact_info
+    info = []
+    info << email if email.present?
+    info << phone if phone.present?
+    info.join(" • ")
+  end
+
+  def priority_color
+    case priority
+    when "urgent" then "red"
+    when "high" then "orange"
+    when "medium" then "yellow"
+    when "low" then "gray"
+    else "gray"
+    end
+  end
+
+  def status_color
+    case status
+    when "new" then "blue"
+    when "contacted" then "yellow"
+    when "qualified" then "purple"
+    when "converted" then "green"
+    when "rejected" then "red"
+    when "archived" then "gray"
+    else "gray"
+    end
+  end
+
+  def temperature_color
+    case temperature
+    when "hot" then "red"
+    when "warm" then "orange"
+    when "cold" then "blue"
+    else "gray"
+    end
+  end
+
+  def stage_progress_percentage
+    stages = %w[prospect qualified opportunity proposal negotiation closed]
+    current_index = stages.index(lead_stage) || 0
+    ((current_index + 1).to_f / stages.length * 100).round
+  end
+
+  private
+
+  def update_interaction_tracking
+    if status_changed? && status_was != "new"
+      self.interaction_count += 1
+      self.last_interaction_at = Time.current
+    end
+
+    if last_contacted_at_changed? && last_contacted_at.present?
+      self.interaction_count += 1
+      self.last_interaction_at = last_contacted_at
+    end
+  end
+
+  def calculate_qualification_score
+    return if qualification_score_changed? && qualification_score.present?
+
+    score = 0
+
+    # Base score from mention engagement
+    if mention&.engagement_score.present?
+      score += [ mention.engagement_score * 20, 30 ].min
+    end
+
+    # Contact information completeness
+    score += 10 if email.present?
+    score += 5 if phone.present?
+    score += 10 if name.present?
+    score += 10 if company.present?
+    score += 5 if position.present?
+
+    # Interaction quality
+    score += 15 if contacted?
+    score += 10 if interaction_count > 1
+
+    # Platform quality
+    case source_platform
+    when "linkedin" then score += 15
+    when "twitter" then score += 10
+    when "reddit" then score += 5
+    end
+
+    # Recency bonus
+    if created_at.present?
+      days_old = ((Time.current - created_at) / 1.day).round
+      score += [ 10 - days_old, 0 ].max if days_old <= 10
+    end
+
+    self.qualification_score = [ score, 100 ].min
+  end
+
+  def track_status_changes
+    if status_changed?
+      case status
+      when "contacted"
+        self.update_column(:last_contacted_at, Time.current) if last_contacted_at.blank?
+      when "converted"
+        self.update_column(:last_interaction_at, Time.current)
+      end
+    end
+  end
 end

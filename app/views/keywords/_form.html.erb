@@ -1,0 +1,146 @@
+<%= form_with(model: keyword, local: true) do |form| %>
+  <% if keyword.errors.any? %>
+    <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">
+            There were <%= pluralize(keyword.errors.count, "error") %> with your submission
+          </h3>
+          <div class="mt-2 text-sm text-red-700">
+            <ul class="list-disc list-inside">
+              <% keyword.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="space-y-6">
+    <!-- Keyword Field -->
+    <div>
+      <%= form.label :keyword, class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= form.text_field :keyword, 
+          class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-lg px-4 py-2",
+          placeholder: "Enter keyword or phrase to monitor" %>
+      <p class="mt-2 text-sm text-gray-500">The keyword or phrase you want to monitor across platforms.</p>
+    </div>
+
+    <!-- Type Field -->
+    <div>
+      <%= form.label :type, class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= form.select :type, 
+          options_for_select([
+            ['Standard', 'standard'],
+            ['Broad Match', 'broad'],
+            ['Exact Match', 'exact'],
+            ['Phrase Match', 'phrase']
+          ], keyword.type),
+          { prompt: 'Select keyword type' },
+          class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-lg px-4 py-2" %>
+      <p class="mt-2 text-sm text-gray-500">Choose how the keyword should be matched in content.</p>
+    </div>
+
+    <!-- Status Field -->
+    <div>
+      <%= form.label :status, class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <div class="mt-2">
+        <label class="inline-flex items-center">
+          <%= form.radio_button :status, 'active', checked: keyword.status == 'active' || keyword.new_record? %>
+          <span class="ml-2">Active</span>
+        </label>
+        <label class="inline-flex items-center ml-6">
+          <%= form.radio_button :status, 'paused' %>
+          <span class="ml-2">Paused</span>
+        </label>
+      </div>
+      <p class="mt-2 text-sm text-gray-500">Active keywords will be monitored for new mentions.</p>
+    </div>
+
+    <!-- Priority Field -->
+    <div>
+      <%= form.label :priority, class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= form.select :priority, 
+          options_for_select([
+            ['Low', 'low'],
+            ['Medium', 'medium'],
+            ['High', 'high']
+          ], keyword.priority || 'medium'),
+          {},
+          class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-lg px-4 py-2" %>
+      <p class="mt-2 text-sm text-gray-500">Set the priority level for this keyword monitoring.</p>
+    </div>
+
+    <!-- Notification Frequency Field -->
+    <div>
+      <%= form.label :notification_frequency, class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= form.select :notification_frequency, 
+          options_for_select([
+            ['Instant', 'instant'],
+            ['Daily', 'daily'],
+            ['Weekly', 'weekly'],
+            ['None', 'none']
+          ], keyword.notification_frequency || 'daily'),
+          {},
+          class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-lg px-4 py-2" %>
+      <p class="mt-2 text-sm text-gray-500">How often you want to receive notifications for new mentions.</p>
+    </div>
+
+    <!-- Platforms Field -->
+    <div>
+      <%= form.label :platforms, class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <div class="mt-2 space-y-2">
+        <label class="inline-flex items-center">
+          <input type="checkbox" name="keyword[platforms][]" value="twitter" 
+                 <%= 'checked' if keyword.platforms_array.include?('twitter') %>
+                 class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+          <span class="ml-2">Twitter</span>
+        </label>
+        <label class="inline-flex items-center ml-6">
+          <input type="checkbox" name="keyword[platforms][]" value="reddit" 
+                 <%= 'checked' if keyword.platforms_array.include?('reddit') %>
+                 class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+          <span class="ml-2">Reddit</span>
+        </label>
+        <label class="inline-flex items-center ml-6">
+          <input type="checkbox" name="keyword[platforms][]" value="linkedin" 
+                 <%= 'checked' if keyword.platforms_array.include?('linkedin') %>
+                 class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+          <span class="ml-2">LinkedIn</span>
+        </label>
+        <label class="inline-flex items-center ml-6">
+          <input type="checkbox" name="keyword[platforms][]" value="facebook" 
+                 <%= 'checked' if keyword.platforms_array.include?('facebook') %>
+                 class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+          <span class="ml-2">Facebook</span>
+        </label>
+      </div>
+      <p class="mt-2 text-sm text-gray-500">Select which platforms to monitor for this keyword.</p>
+    </div>
+
+    <!-- Advanced Search Parameters -->
+    <div>
+      <div class="flex items-center justify-between mb-2">
+        <%= form.label :search_parameters, "Advanced Parameters", class: "block text-sm font-medium text-gray-700" %>
+        <span class="text-xs text-gray-500">Optional - JSON format</span>
+      </div>
+      <%= form.text_area :search_parameters, 
+          rows: 4,
+          class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-lg px-4 py-2 font-mono text-xs",
+          placeholder: '{"exclude_terms": ["spam", "bot"], "min_engagement": 10}' %>
+      <p class="mt-2 text-sm text-gray-500">Advanced search parameters in JSON format (optional).</p>
+    </div>
+  </div>
+
+  <div class="pt-6 flex items-center justify-between">
+    <%= link_to "Cancel", keywords_path, class: "px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition" %>
+    <%= form.submit class: "px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition" %>
+  </div>
+<% end %>
