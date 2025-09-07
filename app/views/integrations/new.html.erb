@@ -1,51 +1,599 @@
-<div class="min-h-screen bg-gray-50 py-8">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-    <!-- Header -->
-    <div class="mb-8">
-      <div class="flex items-center">
-        <%= link_to integrations_path, class: "mr-4 text-gray-400 hover:text-gray-500" do %>
-          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-        <% end %>
-        <div>
-          <h1 class="text-3xl font-bold text-gray-900">Add New Integration</h1>
-          <p class="mt-1 text-sm text-gray-500">
-            Connect a new platform to start monitoring mentions and generating leads
-          </p>
+<% content_for :title, "Connect New Platform - AI Lead Generation" %>
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50">
+  <!-- Header -->
+  <div class="bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center space-x-4" aria-label="Breadcrumb">
+          <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+              <%= link_to integrations_path, class: "inline-flex items-center text-gray-500 hover:text-indigo-600 transition-colors duration-200" do %>
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                </svg>
+                Integrations
+              <% end %>
+            </li>
+            <li>
+              <div class="flex items-center">
+                <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="ml-1 text-gray-900 font-medium md:ml-2">Connect Platform</span>
+              </div>
+            </li>
+          </ol>
+        </nav>
+
+        <!-- Help Link -->
+        <div class="flex items-center space-x-3">
+          <a href="#" class="inline-flex items-center px-3 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Setup Guide
+          </a>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Available Platforms Info -->
-    <% if @available_platforms&.any? %>
-      <div class="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <div class="flex">
-          <div class="flex-shrink-0">
-            <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-            </svg>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Page Header -->
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full mb-6">
+        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+        </svg>
+      </div>
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">Connect Your Platform</h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Integrate with your favorite social media platforms to automatically monitor mentions, track keywords, and generate qualified leads
+      </p>
+    </div>
+
+    <!-- Platform Selection Cards -->
+    <div class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Choose Your Platform</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" data-controller="platform-selector">
+        <!-- Twitter -->
+        <div class="platform-card bg-white rounded-2xl shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-lg hover:border-indigo-300 transition-all duration-300 transform hover:scale-105" data-platform="twitter" data-action="click->platform-selector#selectPlatform">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-gradient-to-r from-blue-400 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Twitter</h3>
+            <p class="text-sm text-gray-600 mb-4">Monitor tweets, mentions, and hashtags in real-time</p>
+            <div class="flex items-center justify-center text-xs text-gray-500">
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+              Real-time monitoring
+            </div>
           </div>
-          <div class="ml-3">
-            <h3 class="text-sm font-medium text-blue-800">
-              Available Platforms
-            </h3>
-            <div class="mt-2 text-sm text-blue-700">
-              <p>You can connect to the following platforms:</p>
-              <div class="mt-2 flex flex-wrap gap-2">
-                <% @available_platforms.each do |platform| %>
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                    <%= platform.capitalize %>
-                  </span>
-                <% end %>
-              </div>
+        </div>
+
+        <!-- LinkedIn -->
+        <div class="platform-card bg-white rounded-2xl shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-lg hover:border-indigo-300 transition-all duration-300 transform hover:scale-105" data-platform="linkedin" data-action="click->platform-selector#selectPlatform">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">LinkedIn</h3>
+            <p class="text-sm text-gray-600 mb-4">Track professional discussions and business opportunities</p>
+            <div class="flex items-center justify-center text-xs text-gray-500">
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m8 0H8m8 0v6a2 2 0 01-2 2H10a2 2 0 01-2-2V6m8 0V4a2 2 0 00-2-2H10a2 2 0 00-2 2v2"></path>
+              </svg>
+              Professional network
+            </div>
+          </div>
+        </div>
+
+        <!-- Reddit -->
+        <div class="platform-card bg-white rounded-2xl shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-lg hover:border-indigo-300 transition-all duration-300 transform hover:scale-105" data-platform="reddit" data-action="click->platform-selector#selectPlatform">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-gradient-to-r from-orange-400 to-red-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Reddit</h3>
+            <p class="text-sm text-gray-600 mb-4">Monitor subreddits and community discussions</p>
+            <div class="flex items-center justify-center text-xs text-gray-500">
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path>
+              </svg>
+              Community insights
+            </div>
+          </div>
+        </div>
+
+        <!-- Facebook -->
+        <div class="platform-card bg-white rounded-2xl shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-lg hover:border-indigo-300 transition-all duration-300 transform hover:scale-105" data-platform="facebook" data-action="click->platform-selector#selectPlatform">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-700 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Facebook</h3>
+            <p class="text-sm text-gray-600 mb-4">Track pages, groups, and social conversations</p>
+            <div class="flex items-center justify-center text-xs text-gray-500">
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+              </svg>
+              Social engagement
+            </div>
+          </div>
+        </div>
+
+        <!-- Instagram -->
+        <div class="platform-card bg-white rounded-2xl shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-lg hover:border-indigo-300 transition-all duration-300 transform hover:scale-105" data-platform="instagram" data-action="click->platform-selector#selectPlatform">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-gradient-to-r from-pink-400 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Instagram</h3>
+            <p class="text-sm text-gray-600 mb-4">Monitor posts, stories, and visual content</p>
+            <div class="flex items-center justify-center text-xs text-gray-500">
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              Visual content
+            </div>
+          </div>
+        </div>
+
+        <!-- TikTok -->
+        <div class="platform-card bg-white rounded-2xl shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-lg hover:border-indigo-300 transition-all duration-300 transform hover:scale-105" data-platform="tiktok" data-action="click->platform-selector#selectPlatform">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-gradient-to-r from-black to-gray-800 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">TikTok</h3>
+            <p class="text-sm text-gray-600 mb-4">Track viral videos and trending content</p>
+            <div class="flex items-center justify-center text-xs text-gray-500">
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+              </svg>
+              Video content
+            </div>
+          </div>
+        </div>
+
+        <!-- Salesforce -->
+        <div class="platform-card bg-white rounded-2xl shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-lg hover:border-indigo-300 transition-all duration-300 transform hover:scale-105" data-platform="salesforce" data-action="click->platform-selector#selectPlatform">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-gradient-to-r from-blue-400 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987 6.62 0 11.987-5.367 11.987-11.987C24.004 5.367 18.637.001 12.017.001zM8.449 7.988c.397-.024.79.113 1.122.39.332.277.564.655.66 1.073.027.118.04.24.04.36 0 .51-.21.998-.584 1.354-.373.357-.88.557-1.408.557-.528 0-1.035-.2-1.408-.557-.374-.356-.584-.844-.584-1.354 0-.51.21-.998.584-1.354.373-.357.88-.557 1.408-.557.057 0 .113.003.17.008zm7.424 1.748c.057-.005.113-.008.17-.008.528 0 1.035.2 1.408.557.374.356.584.844.584 1.354 0 .51-.21.998-.584 1.354-.373.357-.88.557-1.408.557-.528 0-1.035-.2-1.408-.557-.374-.356-.584-.844-.584-1.354 0-.12.013-.242.04-.36.096-.418.328-.796.66-1.073.332-.277.725-.414 1.122-.39zm-3.877 1.355c.528 0 1.035.2 1.408.557.374.356.584.844.584 1.354 0 .51-.21.998-.584 1.354-.373.357-.88.557-1.408.557-.528 0-1.035-.2-1.408-.557-.374-.356-.584-.844-.584-1.354 0-.51.21-.998.584-1.354.373-.357.88-.557 1.408-.557z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Salesforce</h3>
+            <p class="text-sm text-gray-600 mb-4">Export leads to Salesforce CRM</p>
+            <div class="flex items-center justify-center text-xs text-gray-500">
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+              CRM integration
+            </div>
+          </div>
+        </div>
+
+        <!-- HubSpot -->
+        <div class="platform-card bg-white rounded-2xl shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-lg hover:border-indigo-300 transition-all duration-300 transform hover:scale-105" data-platform="hubspot" data-action="click->platform-selector#selectPlatform">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-gradient-to-r from-orange-400 to-orange-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18.164 7.931V4.5a.5.5 0 00-1 0v3.431a3.5 3.5 0 11-6.328 0V4.5a.5.5 0 00-1 0v3.431a3.5 3.5 0 11-6.328 0V4.5a.5.5 0 00-1 0v3.431a4.5 4.5 0 108.328 0 4.5 4.5 0 108.328 0zM12 21a9 9 0 100-18 9 9 0 000 18z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">HubSpot</h3>
+            <p class="text-sm text-gray-600 mb-4">Sync contacts and deals with HubSpot</p>
+            <div class="flex items-center justify-center text-xs text-gray-500">
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+              Contact management
+            </div>
+          </div>
+        </div>
+
+        <!-- Pipedrive -->
+        <div class="platform-card bg-white rounded-2xl shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-lg hover:border-indigo-300 transition-all duration-300 transform hover:scale-105" data-platform="pipedrive" data-action="click->platform-selector#selectPlatform">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-gradient-to-r from-green-400 to-green-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Pipedrive</h3>
+            <p class="text-sm text-gray-600 mb-4">Manage sales pipeline and deals</p>
+            <div class="flex items-center justify-center text-xs text-gray-500">
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+              Sales pipeline
             </div>
           </div>
         </div>
       </div>
-    <% end %>
+    </div>
 
-    <!-- Form -->
-    <%= render 'form', integration: @integration %>
+    <!-- Integration Setup Form -->
+    <div class="max-w-4xl mx-auto">
+      <%= form_with(model: @integration, local: true, data: { controller: "integration-form" }, class: "integration-form") do |form| %>
+
+        <!-- Error Messages -->
+        <% if @integration.errors.any? %>
+          <div class="bg-red-50 border-l-4 border-red-400 p-6 mb-8 rounded-lg" role="alert">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <svg class="h-6 w-6 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-lg font-medium text-red-800">
+                  Please fix the following <%= pluralize(@integration.errors.count, "error") %>:
+                </h3>
+                <div class="mt-3 text-sm text-red-700">
+                  <ul class="list-disc list-inside space-y-1">
+                    <% @integration.errors.full_messages.each do |message| %>
+                      <li><%= message %></li>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Step 1: Platform Configuration -->
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden mb-8">
+          <div class="px-8 py-6 border-b border-gray-200 bg-gradient-to-r from-indigo-50 to-purple-50">
+            <div class="flex items-center">
+              <div class="flex-shrink-0">
+                <div class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
+                  <span class="text-lg font-bold text-white">1</span>
+                </div>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-xl font-bold text-gray-900">Platform Configuration</h3>
+                <p class="text-sm text-gray-600 mt-1">Select and configure your integration platform</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- Platform Selection -->
+              <div>
+                <%= form.label :platform_name, class: "block text-sm font-bold text-gray-900 mb-3" do %>
+                  Platform <span class="text-red-500">*</span>
+                <% end %>
+                <%= form.select :platform_name,
+                    options_for_select(Integration::SUPPORTED_PLATFORMS.map { |p| [p.capitalize, p] }, @integration.platform_name),
+                    { prompt: "Choose your platform" },
+                    {
+                      class: "block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-base",
+                      data: { action: "change->integration-form#platformChanged" }
+                    } %>
+                <p class="mt-2 text-sm text-gray-500">Select the social media platform you want to connect</p>
+              </div>
+
+              <!-- Provider -->
+              <div>
+                <%= form.label :provider, class: "block text-sm font-bold text-gray-900 mb-3" do %>
+                  API Provider <span class="text-red-500">*</span>
+                <% end %>
+                <%= form.text_field :provider,
+                    placeholder: "e.g., twitter_api_v2, linkedin_api",
+                    class: "block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-base" %>
+                <p class="mt-2 text-sm text-gray-500">Specific API provider identifier for this platform</p>
+              </div>
+            </div>
+
+            <!-- Platform-specific Help -->
+            <div class="mt-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200" data-target="integration-form.helpSection">
+              <div class="flex items-start">
+                <div class="flex-shrink-0">
+                  <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <div class="ml-3">
+                  <h4 class="text-lg font-semibold text-blue-900">Setup Instructions</h4>
+                  <div class="mt-2 text-sm text-blue-800" data-target="integration-form.platformInstructions">
+                    <p>Select a platform above to see specific setup instructions and requirements.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Authentication Credentials -->
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden mb-8">
+          <div class="px-8 py-6 border-b border-gray-200 bg-gradient-to-r from-indigo-50 to-purple-50">
+            <div class="flex items-center">
+              <div class="flex-shrink-0">
+                <div class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
+                  <span class="text-lg font-bold text-white">2</span>
+                </div>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-xl font-bold text-gray-900">Authentication Credentials</h3>
+                <p class="text-sm text-gray-600 mt-1">Securely connect your account with API credentials</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- API Key -->
+              <div>
+                <%= form.label :api_key, class: "block text-sm font-bold text-gray-900 mb-3" do %>
+                  API Key / Client ID <span class="text-red-500">*</span>
+                <% end %>
+                <%= form.text_field :api_key,
+                    placeholder: "Enter your API key or Client ID",
+                    class: "block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-base" %>
+                <p class="mt-2 text-sm text-gray-500">Your primary API key or application client ID</p>
+              </div>
+
+              <!-- API Secret -->
+              <div>
+                <%= form.label :api_secret, class: "block text-sm font-bold text-gray-900 mb-3" do %>
+                  API Secret / Client Secret <span class="text-red-500">*</span>
+                <% end %>
+                <%= form.password_field :api_secret,
+                    placeholder: "Enter your API secret",
+                    class: "block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-base" %>
+                <p class="mt-2 text-sm text-gray-500">Your API secret or application client secret</p>
+              </div>
+
+              <!-- Access Token -->
+              <div>
+                <%= form.label :access_token, class: "block text-sm font-bold text-gray-900 mb-3" %>
+                <%= form.text_field :access_token,
+                    placeholder: "Enter access token (if available)",
+                    class: "block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-base" %>
+                <p class="mt-2 text-sm text-gray-500">OAuth access token for authenticated requests</p>
+              </div>
+
+              <!-- Refresh Token -->
+              <div>
+                <%= form.label :refresh_token, class: "block text-sm font-bold text-gray-900 mb-3" %>
+                <%= form.text_field :refresh_token,
+                    placeholder: "Enter refresh token (if available)",
+                    class: "block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-base" %>
+                <p class="mt-2 text-sm text-gray-500">OAuth refresh token for automatic token renewal</p>
+              </div>
+            </div>
+
+            <!-- Security Notice -->
+            <div class="mt-8 p-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
+              <div class="flex items-start">
+                <div class="flex-shrink-0">
+                  <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                  </svg>
+                </div>
+                <div class="ml-3">
+                  <h4 class="text-lg font-semibold text-green-900">Security & Privacy</h4>
+                  <p class="mt-2 text-sm text-green-800">
+                    All credentials are encrypted using industry-standard AES-256 encryption before being stored in our secure database.
+                    Your API keys and tokens are never transmitted in plain text and are only decrypted when needed for API calls.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Sync Configuration -->
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden mb-8">
+          <div class="px-8 py-6 border-b border-gray-200 bg-gradient-to-r from-indigo-50 to-purple-50">
+            <div class="flex items-center">
+              <div class="flex-shrink-0">
+                <div class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
+                  <span class="text-lg font-bold text-white">3</span>
+                </div>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-xl font-bold text-gray-900">Sync Settings</h3>
+                <p class="text-sm text-gray-600 mt-1">Configure how often data should be synchronized</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- Sync Frequency -->
+              <div>
+                <%= form.label :sync_frequency, class: "block text-sm font-bold text-gray-900 mb-3" do %>
+                  Sync Frequency <span class="text-red-500">*</span>
+                <% end %>
+                <%= form.select :sync_frequency,
+                    options_for_select([
+                      ['Real-time', 'realtime'],
+                      ['Every 5 minutes', 'five_minutes'],
+                      ['Every 15 minutes', 'fifteen_minutes'],
+                      ['Every 30 minutes', 'thirty_minutes'],
+                      ['Hourly', 'hourly'],
+                      ['Every 6 hours', 'six_hours'],
+                      ['Daily', 'daily'],
+                      ['Weekly', 'weekly'],
+                      ['Manual only', 'manual']
+                    ], @integration.sync_frequency),
+                    { prompt: "Choose sync frequency" },
+                    { class: "block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-base" } %>
+                <p class="mt-2 text-sm text-gray-500">How often should we check for new mentions and data</p>
+              </div>
+
+              <!-- Enable Integration -->
+              <div>
+                <%= form.label :enabled, class: "block text-sm font-bold text-gray-900 mb-3" %>
+                <div class="mt-4">
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <%= form.check_box :enabled,
+                        class: "sr-only peer",
+                        checked: @integration.enabled.nil? ? true : @integration.enabled %>
+                    <div class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-indigo-600"></div>
+                    <span class="ml-3 text-sm font-medium text-gray-700">Enable automatic syncing</span>
+                  </label>
+                </div>
+                <p class="mt-2 text-sm text-gray-500">When enabled, this integration will sync automatically based on the frequency</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Webhook Configuration (Optional) -->
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden mb-8">
+          <div class="px-8 py-6 border-b border-gray-200 bg-gradient-to-r from-indigo-50 to-purple-50">
+            <div class="flex items-center">
+              <div class="flex-shrink-0">
+                <div class="w-10 h-10 bg-gradient-to-r from-gray-400 to-gray-600 rounded-full flex items-center justify-center">
+                  <span class="text-lg font-bold text-white">4</span>
+                </div>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-xl font-bold text-gray-900">Webhook Configuration</h3>
+                <p class="text-sm text-gray-600 mt-1">Optional: Set up real-time webhooks for instant updates</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- Webhook URL -->
+              <div>
+                <%= form.label :webhook_url, class: "block text-sm font-bold text-gray-900 mb-3" %>
+                <%= form.url_field :webhook_url,
+                    placeholder: "https://your-domain.com/webhook",
+                    class: "block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-base" %>
+                <p class="mt-2 text-sm text-gray-500">URL where the platform will send webhook events</p>
+              </div>
+
+              <!-- Webhook Secret -->
+              <div>
+                <%= form.label :webhook_secret, class: "block text-sm font-bold text-gray-900 mb-3" %>
+                <%= form.password_field :webhook_secret,
+                    placeholder: "Webhook signing secret",
+                    class: "block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-base" %>
+                <p class="mt-2 text-sm text-gray-500">Secret for webhook signature verification</p>
+              </div>
+            </div>
+
+            <!-- Webhook Info -->
+            <div class="mt-8 p-6 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl border border-yellow-200">
+              <div class="flex items-start">
+                <div class="flex-shrink-0">
+                  <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <div class="ml-3">
+                  <h4 class="text-lg font-semibold text-yellow-900">Webhook Information</h4>
+                  <p class="mt-2 text-sm text-yellow-800">
+                    Webhooks provide real-time updates when new mentions or events occur on the platform.
+                    This is optional but recommended for the fastest response times. Leave blank to use polling-based sync only.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+          <div class="px-8 py-6 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-lg font-bold text-gray-900">Ready to Connect?</h3>
+                <p class="text-sm text-gray-600 mt-1">Review your settings and create the integration</p>
+              </div>
+              <div class="flex items-center space-x-2">
+                <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="text-sm font-medium text-green-700">All fields validated</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="px-8 py-6">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0 sm:space-x-4">
+              <!-- Cancel Button -->
+              <%= link_to integrations_path,
+                  class: "inline-flex items-center justify-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200" do %>
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Cancel
+              <% end %>
+
+              <!-- Test Connection Button -->
+              <button type="button"
+                      class="inline-flex items-center justify-center px-6 py-3 border border-indigo-300 shadow-sm text-base font-medium rounded-xl text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"
+                      data-action="click->integration-form#testConnection">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                </svg>
+                Test Connection
+              </button>
+
+              <!-- Submit Button -->
+              <%= form.submit "Create Integration",
+                  class: "inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105",
+                  data: {
+                    turbo_confirm: "This will create a new integration with the provided credentials. Continue?",
+                    disable_with: "Creating Integration..."
+                  } %>
+            </div>
+
+            <!-- Additional Help -->
+            <div class="mt-6 pt-6 border-t border-gray-200">
+              <div class="flex items-center justify-center space-x-6 text-sm text-gray-500">
+                <a href="#" class="hover:text-indigo-600 transition-colors duration-200">
+                  <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  Setup Guide
+                </a>
+                <span>•</span>
+                <a href="#" class="hover:text-indigo-600 transition-colors duration-200">
+                  <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                  </svg>
+                  API Documentation
+                </a>
+                <span>•</span>
+                <a href="#" class="hover:text-indigo-600 transition-colors duration-200">
+                  <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                  </svg>
+                  Support
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <% end %>
+    </div>
   </div>
 </div>

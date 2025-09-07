@@ -75,6 +75,7 @@ created_keywords.each do |keyword|
       content: "Looking for help with #{keyword.keyword.downcase}. Anyone have recommendations?",
       author: "user_#{rand(1000..9999)}",
       posted_at: rand(30.days).seconds.ago,
+      engagement_score: rand(0.1..1.0).round(2),  # Add engagement_score
       raw_payload: {
         id: "mention_#{rand(100000..999999)}",
         platform: [ 'twitter', 'linkedin', 'reddit' ].sample,
@@ -88,7 +89,9 @@ created_keywords.each do |keyword|
       lead_status = [ 'new', 'contacted', 'converted', 'rejected' ].sample
       contacted_at = lead_status.in?([ 'contacted', 'converted' ]) ? rand(1..5).days.ago : nil
 
-      lead = mention.leads.create!(
+      lead = Lead.create!(
+        user: user,  # Add user association
+        mention: mention,
         priority_score: rand(0.1..1.0).round(2),
         status: lead_status,
         last_contacted_at: contacted_at,
