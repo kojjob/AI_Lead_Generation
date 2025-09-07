@@ -19,38 +19,38 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
       url: "https://example.com/discussion",
       platform: "reddit"
     )
-    
+
     # Step 2: Analyze the mention with AI
     mock_analysis = {
       success: true,
       analysis: {
         sentiment: { score: 0.85, label: "positive" },
-        entities: ["software solution", "company"],
+        entities: [ "software solution", "company" ],
         intent: "purchase_inquiry",
         relevance_score: 0.9
       }
     }
-    
+
     AI::EnhancedAnalysisService.any_instance.stub :analyze_mention, mock_analysis do
       post analyze_mention_ai_intelligence_index_url, params: {
         mention_id: mention.id
       }
-      
+
       assert_response :success
       json_response = JSON.parse(response.body)
       assert json_response["success"]
       assert_equal 0.9, json_response["analysis"]["relevance_score"]
     end
-    
+
     # Step 3: Create an analysis result
     analysis_result = AnalysisResult.create!(
       mention: mention,
       sentiment_score: 0.85,
       relevance_score: 0.9,
-      entities: ["software solution", "company"],
-      key_phrases: ["budget approved", "looking for solution"]
+      entities: [ "software solution", "company" ],
+      key_phrases: [ "budget approved", "looking for solution" ]
     )
-    
+
     # Step 4: Generate a lead from the analyzed mention
     lead = Lead.create!(
       mention: mention,
@@ -59,7 +59,7 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
       company: "Example Corp",
       score: 0.0  # Will be updated by ML scoring
     )
-    
+
     # Step 5: Score the lead with ML
     mock_scoring = {
       success: true,
@@ -74,25 +74,25 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
         }
       }
     }
-    
+
     AI::EnhancedAnalysisService.any_instance.stub :score_lead, mock_scoring do
       post score_lead_ai_intelligence_index_url, params: {
         lead_id: lead.id
       }
-      
+
       assert_response :success
       json_response = JSON.parse(response.body)
       assert json_response["success"]
       assert_equal 0.88, json_response["scoring"]["lead_score"]
       assert_equal "high_priority", json_response["scoring"]["recommendation"]
     end
-    
+
     # Step 6: Verify ML score was created
     assert lead.ml_scores.exists?
     ml_score = lead.ml_scores.first
     assert_not_nil ml_score
     assert ml_score.high_confidence? if ml_score.confidence
-    
+
     # Step 7: Verify the complete workflow chain
     assert_equal @keyword, mention.keyword
     assert_equal mention, analysis_result.mention
@@ -111,9 +111,9 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
         platform: "twitter"
       )
     end
-    
+
     mention_ids = mentions.map(&:id)
-    
+
     # Mock batch analysis results
     mock_results = mentions.map do |mention|
       {
@@ -125,17 +125,17 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
         }
       }
     end
-    
+
     AI::EnhancedAnalysisService.any_instance.stub :batch_analyze_mentions, mock_results do
       post batch_analyze_ai_intelligence_index_url, params: {
         mention_ids: mention_ids
       }
-      
+
       assert_response :success
       json_response = JSON.parse(response.body)
       assert json_response["success"]
       assert_equal 3, json_response["results"].length
-      
+
       json_response["results"].each do |result|
         assert result["success"]
         assert result["analysis"]
@@ -148,7 +148,7 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
     # Get multiple AI models
     gpt_model = @ai_model
     claude_model = ai_models(:claude_test)
-    
+
     # Analyze with first model
     mock_gpt_result = {
       success: true,
@@ -157,18 +157,18 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
         relevance_score: 0.88
       }
     }
-    
+
     AI::EnhancedAnalysisService.any_instance.stub :analyze_mention, mock_gpt_result do
       post analyze_mention_ai_intelligence_index_url, params: {
         mention_id: @mention.id,
         ai_model_id: gpt_model.id
       }
-      
+
       assert_response :success
       json_response = JSON.parse(response.body)
       assert_equal 0.82, json_response["analysis"]["sentiment"]["score"]
     end
-    
+
     # Analyze with second model
     mock_claude_result = {
       success: true,
@@ -177,18 +177,18 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
         relevance_score: 0.85
       }
     }
-    
+
     AI::EnhancedAnalysisService.any_instance.stub :analyze_mention, mock_claude_result do
       post analyze_mention_ai_intelligence_index_url, params: {
         mention_id: @mention.id,
         ai_model_id: claude_model.id
       }
-      
+
       assert_response :success
       json_response = JSON.parse(response.body)
       assert_equal 0.78, json_response["analysis"]["sentiment"]["score"]
     end
-    
+
     # Compare scores
     mock_comparison = {
       success: true,
@@ -198,7 +198,7 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
       ],
       best_score: { model_id: gpt_model.id, score: 0.88 }
     }
-    
+
     AI::MlScoringService.any_instance.stub :compare_model_scores, mock_comparison do
       # This would typically be a custom endpoint
       # For now, we'll verify the service can handle multiple scores
@@ -214,7 +214,7 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
       index_type: "mentions",
       status: "active"
     )
-    
+
     # Mock search results
     mock_search_results = {
       results: [
@@ -223,22 +223,22 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
       ],
       total: 2
     }
-    
+
     SearchIndex.any_instance.stub :search, mock_search_results do
       get search_ai_intelligence_index_url, params: {
         query: "software purchase",
         index_type: "mentions"
       }
-      
+
       assert_response :success
       json_response = JSON.parse(response.body)
       assert_equal 2, json_response["results"].length
-      
+
       # Get high-scoring results
       high_score_mentions = json_response["results"].select { |r| r["score"] > 0.9 }
       assert_equal 1, high_score_mentions.length
     end
-    
+
     # Analyze high-relevance mention
     mock_analysis = {
       success: true,
@@ -248,12 +248,12 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
         relevance_score: 0.95
       }
     }
-    
+
     AI::EnhancedAnalysisService.any_instance.stub :analyze_mention, mock_analysis do
       post analyze_mention_ai_intelligence_index_url, params: {
         mention_id: @mention.id
       }
-      
+
       assert_response :success
       json_response = JSON.parse(response.body)
       assert_equal "purchase_ready", json_response["analysis"]["intent"]
@@ -267,15 +267,15 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
       post analyze_mention_ai_intelligence_index_url, params: {
         mention_id: @mention.id
       }
-      
+
       assert_response :unprocessable_entity
       json_response = JSON.parse(response.body)
       assert_not json_response["success"]
     end
-    
+
     # Switch to different model and retry
     alternative_model = ai_models(:claude_test)
-    
+
     mock_success = {
       success: true,
       analysis: {
@@ -283,13 +283,13 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
         relevance_score: 0.8
       }
     }
-    
+
     AI::EnhancedAnalysisService.any_instance.stub :analyze_mention, mock_success do
       post analyze_mention_ai_intelligence_index_url, params: {
         mention_id: @mention.id,
         ai_model_id: alternative_model.id
       }
-      
+
       assert_response :success
       json_response = JSON.parse(response.body)
       assert json_response["success"]
@@ -303,14 +303,14 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
     assert_response :success
     initial_stats = JSON.parse(response.body)
     initial_scores = initial_stats["total_scores"] || 0
-    
+
     # Perform multiple AI operations
     mock_analysis = {
       success: true,
       analysis: { sentiment: { score: 0.8 }, relevance_score: 0.85 },
       usage: { total_tokens: 150 }
     }
-    
+
     AI::EnhancedAnalysisService.any_instance.stub :analyze_mention, mock_analysis do
       3.times do |i|
         mention = Mention.create!(
@@ -319,19 +319,19 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
           url: "https://example.com/#{i}",
           platform: "reddit"
         )
-        
+
         post analyze_mention_ai_intelligence_index_url, params: {
           mention_id: mention.id
         }
         assert_response :success
       end
     end
-    
+
     # Check updated stats
     get stats_ai_intelligence_index_url
     assert_response :success
     final_stats = JSON.parse(response.body)
-    
+
     # Verify metrics were tracked
     assert final_stats["total_scores"] >= initial_scores
     assert final_stats["models_used"]
@@ -341,28 +341,28 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
   # Entity Extraction and Lead Creation Workflow
   test "extract entities and create leads from mentions" do
     mention_text = "John Smith from TechCorp is looking for enterprise software. Contact: john@techcorp.com"
-    
+
     # Extract entities
     mock_entities = {
       success: true,
       entities: {
-        people: ["John Smith"],
-        organizations: ["TechCorp"],
-        email: ["john@techcorp.com"],
+        people: [ "John Smith" ],
+        organizations: [ "TechCorp" ],
+        email: [ "john@techcorp.com" ],
         intent: "enterprise_purchase"
       }
     }
-    
+
     AI::EnhancedAnalysisService.any_instance.stub :extract_entities, mock_entities do
       post extract_entities_ai_intelligence_index_url, params: {
         text: mention_text
       }
-      
+
       assert_response :success
       json_response = JSON.parse(response.body)
       assert_includes json_response["entities"]["people"], "John Smith"
       assert_includes json_response["entities"]["organizations"], "TechCorp"
-      
+
       # Create lead from extracted entities
       lead = Lead.create!(
         mention: @mention,
@@ -371,7 +371,7 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
         email: json_response["entities"]["email"].first,
         score: 0.0
       )
-      
+
       assert_equal "John Smith", lead.name
       assert_equal "TechCorp", lead.company
       assert_equal "john@techcorp.com", lead.email
@@ -387,7 +387,7 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
       priority: "high",
       notification_frequency: "immediate"
     )
-    
+
     mention = Mention.create!(
       keyword: keyword,
       content: "Our company needs a CRM system. Budget is $50k annually. Decision by Q2.",
@@ -395,35 +395,35 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
       platform: "forum",
       author: "decision_maker_123"
     )
-    
+
     # Step 2: Analyze mention for sentiment and intent
     mock_analysis = {
       success: true,
       analysis: {
         sentiment: { score: 0.9, label: "positive" },
-        entities: ["CRM system", "$50k", "Q2"],
+        entities: [ "CRM system", "$50k", "Q2" ],
         intent: "purchase_decision",
-        topics: ["enterprise_software", "crm", "budget_allocated"],
+        topics: [ "enterprise_software", "crm", "budget_allocated" ],
         relevance_score: 0.95
       }
     }
-    
+
     AI::EnhancedAnalysisService.any_instance.stub :analyze_mention, mock_analysis do
       post analyze_mention_ai_intelligence_index_url, params: {
         mention_id: mention.id
       }
       assert_response :success
     end
-    
+
     # Step 3: Create analysis result
     analysis = AnalysisResult.create!(
       mention: mention,
       sentiment_score: 0.9,
       relevance_score: 0.95,
-      entities: ["CRM system", "$50k", "Q2"],
-      key_phrases: ["needs CRM", "budget allocated", "decision timeline"]
+      entities: [ "CRM system", "$50k", "Q2" ],
+      key_phrases: [ "needs CRM", "budget allocated", "decision timeline" ]
     )
-    
+
     # Step 4: Generate lead
     lead = Lead.create!(
       mention: mention,
@@ -432,7 +432,7 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
       score: 0.0,
       notes: "High-intent CRM buyer with budget"
     )
-    
+
     # Step 5: ML scoring
     mock_scoring = {
       success: true,
@@ -446,7 +446,7 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
         high_intent: 0.98
       }
     }
-    
+
     AI::MlScoringService.any_instance.stub :calculate_lead_score, mock_scoring do
       post calculate_score_ai_intelligence_index_url, params: {
         entity_type: "Lead",
@@ -454,18 +454,18 @@ class AiWorkflowIntegrationTest < ActionDispatch::IntegrationTest
         ai_model_id: @ai_model.id
       }
       assert_response :success
-      
+
       json_response = JSON.parse(response.body)
       assert_equal 0.92, json_response["score"]
       assert_equal "hot_lead", json_response["prediction"]
     end
-    
+
     # Step 6: Verify complete pipeline
     assert_equal keyword, mention.keyword
     assert_equal mention, analysis.mention
     assert_equal mention, lead.mention
     assert lead.ml_scores.exists?
-    
+
     # Step 7: Check lead qualification
     ml_score = lead.ml_scores.first
     assert ml_score.high_confidence?

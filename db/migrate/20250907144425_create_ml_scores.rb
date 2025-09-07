@@ -16,7 +16,7 @@ class CreateMlScores < ActiveRecord::Migration[8.0]
     add_index :ml_scores, :ml_model_name
     add_index :ml_scores, :score
     add_index :ml_scores, :ai_model_id
-    add_index :ml_scores, [ :scoreable_type, :scoreable_id, :ml_model_name ], 
+    add_index :ml_scores, [ :scoreable_type, :scoreable_id, :ml_model_name ],
               unique: true, name: 'idx_ml_scores_unique_model_per_scoreable'
     add_index :ml_scores, :created_at
   end

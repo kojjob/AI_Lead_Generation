@@ -83,7 +83,7 @@ class AiModelTest < ActiveSupport::TestCase
       score: 0.85,
       confidence: 0.9
     )
-    
+
     assert_difference "MlScore.count", -1 do
       @ai_model.destroy
     end
@@ -112,7 +112,7 @@ class AiModelTest < ActiveSupport::TestCase
   test "should check if model supports streaming" do
     @ai_model.supports_streaming = true
     assert @ai_model.supports_streaming?
-    
+
     @ai_model.supports_streaming = false
     assert_not @ai_model.supports_streaming?
   end
@@ -120,14 +120,14 @@ class AiModelTest < ActiveSupport::TestCase
   test "should check if model supports function calling" do
     @ai_model.supports_functions = true
     assert @ai_model.supports_functions?
-    
+
     @ai_model.supports_functions = false
     assert_not @ai_model.supports_functions?
   end
 
   test "should return configuration as hash" do
     config = @ai_model.configuration
-    
+
     assert_kind_of Hash, config
     assert_equal @ai_model.provider, config[:provider]
     assert_equal @ai_model.model_name, config[:model_name]
@@ -138,7 +138,7 @@ class AiModelTest < ActiveSupport::TestCase
   test "should merge settings correctly" do
     @ai_model.settings = { custom_option: "value", api_base: "https://custom.api" }
     config = @ai_model.configuration
-    
+
     assert_equal "value", config[:custom_option]
     assert_equal "https://custom.api", config[:api_base]
   end

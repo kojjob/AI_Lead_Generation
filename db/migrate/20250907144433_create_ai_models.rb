@@ -17,7 +17,7 @@ class CreateAiModels < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
-    
+
     add_index :ai_models, :enabled
     add_index :ai_models, :model_type
     add_index :ai_models, :provider

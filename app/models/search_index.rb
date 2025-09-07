@@ -3,12 +3,12 @@ class SearchIndex < ApplicationRecord
   validates :index_type, presence: true, inclusion: { in: %w[mentions leads analysis_results keywords users] }
   validates :documents_count, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
-  scope :active, -> { where(status: 'active') }
+  scope :active, -> { where(status: "active") }
   scope :auto_sync_enabled, -> { where(auto_sync: true) }
-  scope :needs_sync, -> { where('last_synced_at < ?', 1.hour.ago).or(where(last_synced_at: nil)) }
+  scope :needs_sync, -> { where("last_synced_at < ?", 1.hour.ago).or(where(last_synced_at: nil)) }
   scope :by_type, ->(type) { where(index_type: type) }
-  scope :with_documents, -> { where('documents_count > 0') }
-  scope :stale, -> { where('last_indexed_at < ? OR last_indexed_at IS NULL', 24.hours.ago) }
+  scope :with_documents, -> { where("documents_count > 0") }
+  scope :stale, -> { where("last_indexed_at < ? OR last_indexed_at IS NULL", 24.hours.ago) }
 
   INDEX_TYPES = %w[mentions leads analysis_results keywords integrations].freeze
   STATUSES = %w[pending creating active inactive error].freeze
@@ -38,7 +38,7 @@ class SearchIndex < ApplicationRecord
     end
 
     event :mark_error do
-      transitions from: [:pending, :creating, :active, :inactive], to: :error
+      transitions from: [ :pending, :creating, :active, :inactive ], to: :error
     end
 
     event :reactivate do
@@ -46,82 +46,82 @@ class SearchIndex < ApplicationRecord
     end
 
     event :mark_failed do
-      transitions from: [:creating], to: :error
+      transitions from: [ :creating ], to: :error
     end
   end
 
   def self.default_indices
     [
       {
-        name: 'mentions_index',
-        index_type: 'mentions',
+        name: "mentions_index",
+        index_type: "mentions",
         configuration: {
           shards: 2,
           replicas: 1,
-          refresh_interval: '1s'
+          refresh_interval: "1s"
         },
         mapping: {
           properties: {
-            content: { type: 'text', analyzer: 'standard' },
-            source_url: { type: 'keyword' },
-            platform: { type: 'keyword' },
-            author: { type: 'keyword' },
-            created_at: { type: 'date' },
-            sentiment_score: { type: 'float' },
-            relevance_score: { type: 'float' },
-            keyword_id: { type: 'integer' },
-            user_id: { type: 'integer' },
-            location: { type: 'geo_point' },
-            tags: { type: 'keyword' },
-            embeddings: { type: 'dense_vector', dims: 1536 }
+            content: { type: "text", analyzer: "standard" },
+            source_url: { type: "keyword" },
+            platform: { type: "keyword" },
+            author: { type: "keyword" },
+            created_at: { type: "date" },
+            sentiment_score: { type: "float" },
+            relevance_score: { type: "float" },
+            keyword_id: { type: "integer" },
+            user_id: { type: "integer" },
+            location: { type: "geo_point" },
+            tags: { type: "keyword" },
+            embeddings: { type: "dense_vector", dims: 1536 }
           }
         }
       },
       {
-        name: 'leads_index',
-        index_type: 'leads',
+        name: "leads_index",
+        index_type: "leads",
         configuration: {
           shards: 1,
           replicas: 1,
-          refresh_interval: '5s'
+          refresh_interval: "5s"
         },
         mapping: {
           properties: {
-            name: { type: 'text' },
-            email: { type: 'keyword' },
-            company: { type: 'text' },
-            score: { type: 'float' },
-            status: { type: 'keyword' },
-            source: { type: 'keyword' },
-            tags: { type: 'keyword' },
-            created_at: { type: 'date' },
-            updated_at: { type: 'date' },
-            custom_fields: { type: 'object', enabled: false },
-            interaction_count: { type: 'integer' },
-            last_interaction: { type: 'date' }
+            name: { type: "text" },
+            email: { type: "keyword" },
+            company: { type: "text" },
+            score: { type: "float" },
+            status: { type: "keyword" },
+            source: { type: "keyword" },
+            tags: { type: "keyword" },
+            created_at: { type: "date" },
+            updated_at: { type: "date" },
+            custom_fields: { type: "object", enabled: false },
+            interaction_count: { type: "integer" },
+            last_interaction: { type: "date" }
           }
         }
       },
       {
-        name: 'analysis_results_index',
-        index_type: 'analysis_results',
+        name: "analysis_results_index",
+        index_type: "analysis_results",
         configuration: {
           shards: 2,
           replicas: 1,
-          refresh_interval: '10s'
+          refresh_interval: "10s"
         },
         mapping: {
           properties: {
-            summary: { type: 'text', analyzer: 'english' },
-            sentiment: { type: 'keyword' },
-            entities: { type: 'nested' },
-            topics: { type: 'keyword' },
-            intent: { type: 'keyword' },
-            relevance_score: { type: 'float' },
-            confidence_score: { type: 'float' },
-            analyzed_at: { type: 'date' },
-            ai_model: { type: 'keyword' },
-            processing_time: { type: 'float' }
+            summary: { type: "text", analyzer: "english" },
+            sentiment: { type: "keyword" },
+            entities: { type: "nested" },
+            topics: { type: "keyword" },
+            intent: { type: "keyword" },
+            relevance_score: { type: "float" },
+            confidence_score: { type: "float" },
+            analyzed_at: { type: "date" },
+            ai_model: { type: "keyword" },
+            processing_time: { type: "float" }
           }
         }
       }
@@ -138,7 +138,7 @@ class SearchIndex < ApplicationRecord
 
   def elasticsearch_client
     @elasticsearch_client ||= Elasticsearch::Client.new(
-      host: ENV.fetch('ELASTICSEARCH_HOST', 'localhost:9200'),
+      host: ENV.fetch("ELASTICSEARCH_HOST", "localhost:9200"),
       log: Rails.env.development?
     )
   end
@@ -147,7 +147,7 @@ class SearchIndex < ApplicationRecord
     return false if index_exists?
 
     start_creation!
-    
+
     elasticsearch_client.indices.create(
       index: elasticsearch_index_name || name,
       body: {
@@ -155,7 +155,7 @@ class SearchIndex < ApplicationRecord
         mappings: mapping
       }
     )
-    
+
     activate!
     true
   rescue => e
@@ -185,14 +185,14 @@ class SearchIndex < ApplicationRecord
 
   def document_count
     response = elasticsearch_client.count(index: elasticsearch_index_name || name)
-    response['count']
+    response["count"]
   rescue
     0
   end
 
   def index_stats
     response = elasticsearch_client.indices.stats(index: elasticsearch_index_name || name)
-    response['indices'][elasticsearch_index_name || name]
+    response["indices"][elasticsearch_index_name || name]
   rescue
     {}
   end
@@ -201,11 +201,11 @@ class SearchIndex < ApplicationRecord
     return unless auto_sync? && needs_sync?
 
     case index_type
-    when 'mentions'
+    when "mentions"
       sync_mentions
-    when 'leads'
+    when "leads"
       sync_leads
-    when 'analysis_results'
+    when "analysis_results"
       sync_analysis_results
     end
 
@@ -218,16 +218,16 @@ class SearchIndex < ApplicationRecord
 
   def search(query, options = {})
     body = build_search_body(query, options)
-    
+
     response = elasticsearch_client.search(
       index: elasticsearch_index_name || name,
       body: body
     )
-    
+
     {
-      total: response['hits']['total']['value'],
-      hits: response['hits']['hits'],
-      aggregations: response['aggregations']
+      total: response["hits"]["total"]["value"],
+      hits: response["hits"]["hits"],
+      aggregations: response["aggregations"]
     }
   end
 
@@ -269,7 +269,7 @@ class SearchIndex < ApplicationRecord
         multi_match: {
           query: query,
           fields: search_fields_for_type,
-          type: 'best_fields'
+          type: "best_fields"
         }
       }
     }
@@ -293,11 +293,11 @@ class SearchIndex < ApplicationRecord
 
   def search_fields_for_type
     case index_type
-    when 'mentions'
+    when "mentions"
       %w[content^2 author platform tags]
-    when 'leads'
+    when "leads"
       %w[name^2 email company tags]
-    when 'analysis_results'
+    when "analysis_results"
       %w[summary^2 topics entities.name]
     else
       %w[_all]

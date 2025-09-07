@@ -5,7 +5,7 @@ class AnalysisCompleteNotification < Notification
   rescue ActiveRecord::RecordNotFound
     "Analysis complete"
   end
-  
+
   def url
     mention = Mention.find(params["mention_id"])
     Rails.application.routes.url_helpers.mention_path(mention)

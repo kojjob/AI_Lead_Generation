@@ -30,9 +30,9 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
   # Provider Support Tests
   test "should support all major providers" do
     providers = %w[openai anthropic google_gemini cohere ollama huggingface replicate]
-    
+
     providers.each do |provider|
-      assert AI::ModelAgnosticService.supported_provider?(provider), 
+      assert AI::ModelAgnosticService.supported_provider?(provider),
              "#{provider} should be supported"
     end
   end
@@ -65,16 +65,16 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
       { role: "system", content: "You are a helpful assistant" },
       { role: "user", content: "Hello" }
     ]
-    
+
     # Mock the LLM response
     mock_response = OpenStruct.new(
       completion: "Hello! How can I help you today?",
       raw_response: { "usage" => { "total_tokens" => 50 } }
     )
-    
+
     @service.stub :chat_completion, mock_response do
       response = @service.chat(messages: messages)
-      
+
       assert_not_nil response
       assert_equal "Hello! How can I help you today?", response[:content]
       assert_equal 50, response[:usage][:total_tokens]
@@ -82,12 +82,12 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
   end
 
   test "should handle chat errors gracefully" do
-    messages = [{ role: "user", content: "Test" }]
-    
+    messages = [ { role: "user", content: "Test" } ]
+
     # Simulate an error
     @service.stub :chat_completion, ->(_) { raise StandardError, "API Error" } do
       response = @service.chat(messages: messages)
-      
+
       assert response[:error]
       assert_match /API Error/, response[:error]
     end
@@ -96,15 +96,15 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
   # Completion Tests (Mocked)
   test "should handle text completion" do
     prompt = "Complete this sentence: The weather today is"
-    
+
     mock_response = OpenStruct.new(
       completion: " sunny and warm.",
       raw_response: { "usage" => { "total_tokens" => 30 } }
     )
-    
+
     @service.stub :text_completion, mock_response do
       response = @service.complete(prompt: prompt)
-      
+
       assert_not_nil response
       assert_equal " sunny and warm.", response[:content]
     end
@@ -112,10 +112,10 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
 
   test "should handle completion errors gracefully" do
     prompt = "Test prompt"
-    
+
     @service.stub :text_completion, ->(_) { raise StandardError, "API Error" } do
       response = @service.complete(prompt: prompt)
-      
+
       assert response[:error]
       assert_match /API Error/, response[:error]
     end
@@ -124,15 +124,15 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
   # Embedding Tests (Mocked)
   test "should generate embeddings" do
     text = "This is a test sentence for embedding"
-    
+
     mock_response = OpenStruct.new(
       embedding: Array.new(1536) { rand },
       raw_response: { "usage" => { "total_tokens" => 10 } }
     )
-    
+
     @service.stub :generate_embedding, mock_response do
       response = @service.embed(text: text)
-      
+
       assert_not_nil response
       assert_kind_of Array, response[:embedding]
       assert_equal 1536, response[:embedding].length
@@ -141,10 +141,10 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
 
   test "should handle embedding errors gracefully" do
     text = "Test text"
-    
+
     @service.stub :generate_embedding, ->(_) { raise StandardError, "API Error" } do
       response = @service.embed(text: text)
-      
+
       assert response[:error]
       assert_match /API Error/, response[:error]
     end
@@ -154,7 +154,7 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
   test "should estimate token count" do
     text = "This is a test sentence with several words in it."
     tokens = @service.count_tokens(text)
-    
+
     assert_kind_of Integer, tokens
     assert tokens > 0
     assert tokens < 100
@@ -170,7 +170,7 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
     # Most providers support streaming
     service = AI::ModelAgnosticService.new(provider: "openai")
     assert service.supports_streaming?
-    
+
     service = AI::ModelAgnosticService.new(provider: "anthropic")
     assert service.supports_streaming?
   end
@@ -179,7 +179,7 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
   test "should check function calling support" do
     service = AI::ModelAgnosticService.new(provider: "openai")
     assert service.supports_functions?
-    
+
     service = AI::ModelAgnosticService.new(provider: "anthropic")
     assert service.supports_functions?
   end
@@ -191,15 +191,15 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
       "Second prompt",
       "Third prompt"
     ]
-    
+
     mock_response = OpenStruct.new(
       completion: "Response",
       raw_response: { "usage" => { "total_tokens" => 20 } }
     )
-    
+
     @service.stub :text_completion, mock_response do
       responses = @service.batch_complete(prompts: prompts)
-      
+
       assert_kind_of Array, responses
       assert_equal 3, responses.length
       responses.each do |response|
@@ -209,9 +209,9 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
   end
 
   test "should handle batch processing with partial failures" do
-    prompts = ["First", "Second", "Third"]
+    prompts = [ "First", "Second", "Third" ]
     call_count = 0
-    
+
     mock_proc = lambda do |_|
       call_count += 1
       if call_count == 2
@@ -223,10 +223,10 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
         )
       end
     end
-    
+
     @service.stub :text_completion, mock_proc do
       responses = @service.batch_complete(prompts: prompts)
-      
+
       assert_equal 3, responses.length
       assert responses[0][:content]
       assert responses[1][:error]
@@ -240,7 +240,7 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
       provider: "openai",
       options: { temperature: 0.5, max_tokens: 500 }
     )
-    
+
     # Verify options are accessible (implementation specific)
     assert_not_nil service
   end
@@ -248,8 +248,8 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
   # Error Handling Tests
   test "should handle network errors gracefully" do
     @service.stub :chat_completion, ->(_) { raise Net::ReadTimeout } do
-      response = @service.chat(messages: [{ role: "user", content: "Test" }])
-      
+      response = @service.chat(messages: [ { role: "user", content: "Test" } ])
+
       assert response[:error]
       assert_kind_of String, response[:error]
     end
@@ -257,8 +257,8 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
 
   test "should handle authentication errors" do
     @service.stub :chat_completion, ->(_) { raise StandardError, "Unauthorized" } do
-      response = @service.chat(messages: [{ role: "user", content: "Test" }])
-      
+      response = @service.chat(messages: [ { role: "user", content: "Test" } ])
+
       assert response[:error]
       assert_match /Unauthorized/, response[:error]
     end
@@ -266,8 +266,8 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
 
   test "should handle rate limit errors" do
     @service.stub :chat_completion, ->(_) { raise StandardError, "Rate limit exceeded" } do
-      response = @service.chat(messages: [{ role: "user", content: "Test" }])
-      
+      response = @service.chat(messages: [ { role: "user", content: "Test" } ])
+
       assert response[:error]
       assert_match /Rate limit/, response[:error]
     end
@@ -277,7 +277,7 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
   test "should switch models dynamically" do
     service = AI::ModelAgnosticService.new(provider: "openai", model: "gpt-3.5-turbo")
     assert_not_nil service
-    
+
     # Create new instance with different model
     service = AI::ModelAgnosticService.new(provider: "openai", model: "gpt-4")
     assert_not_nil service
@@ -286,7 +286,7 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
   test "should switch providers dynamically" do
     service = AI::ModelAgnosticService.new(provider: "openai")
     assert_not_nil service
-    
+
     # Create new instance with different provider
     service = AI::ModelAgnosticService.new(provider: "anthropic")
     assert_not_nil service
@@ -302,7 +302,7 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
     @ai_model.temperature = 0.3
     @ai_model.max_tokens = 2000
     @ai_model.save!
-    
+
     service = AI::ModelAgnosticService.new(ai_model: @ai_model)
     assert_not_nil service
   end
@@ -316,8 +316,8 @@ class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
     else
       OpenStruct.new(
         completion: content,
-        raw_response: { 
-          "usage" => { 
+        raw_response: {
+          "usage" => {
             "total_tokens" => tokens,
             "prompt_tokens" => tokens / 2,
             "completion_tokens" => tokens / 2

@@ -205,7 +205,7 @@ class IntegrationsTest < ApplicationSystemTestCase
 
     assert_text "Total Mentions"
     assert_text "0" # No mentions created in test
-    assert_text "Generated Leads" 
+    assert_text "Generated Leads"
     assert_text "0" # No leads created in test
     assert_text "Total Synced Items"
     assert_text "150"

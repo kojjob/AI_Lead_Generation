@@ -238,7 +238,7 @@ class MlScoreTest < ActiveSupport::TestCase
     features = {
       "sentiment" => 0.8,
       "relevance" => 0.9,
-      "entities" => ["Company A", "Product B"]
+      "entities" => [ "Company A", "Product B" ]
     }
     @ml_score.features = features
     @ml_score.save!
@@ -252,7 +252,7 @@ class MlScoreTest < ActiveSupport::TestCase
     predictions = {
       "lead_quality" => "high",
       "conversion_probability" => 0.75,
-      "recommended_actions" => ["follow_up", "send_proposal"]
+      "recommended_actions" => [ "follow_up", "send_proposal" ]
     }
     @ml_score.predictions = predictions
     @ml_score.save!
@@ -281,7 +281,7 @@ class MlScoreTest < ActiveSupport::TestCase
     @ml_score.features = nil
     @ml_score.predictions = nil
     @ml_score.metadata = nil
-    
+
     assert @ml_score.valid?
     assert @ml_score.save
   end
@@ -290,7 +290,7 @@ class MlScoreTest < ActiveSupport::TestCase
     @ml_score.features = {}
     @ml_score.predictions = {}
     @ml_score.metadata = {}
-    
+
     assert @ml_score.valid?
     assert @ml_score.save
   end

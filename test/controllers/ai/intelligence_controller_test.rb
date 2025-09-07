@@ -30,17 +30,17 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       success: true,
       analysis: {
         sentiment: { score: 0.8, label: "positive" },
-        entities: ["Company A"],
+        entities: [ "Company A" ],
         intent: "purchase_inquiry",
         relevance_score: 0.85
       }
     }
-    
+
     AI::EnhancedAnalysisService.any_instance.stub :analyze_mention, mock_result do
       post analyze_mention_ai_intelligence_index_url, params: {
         mention_id: @mention.id
       }
-      
+
       assert_response :success
       json_response = JSON.parse(response.body)
       assert json_response["success"]
@@ -54,12 +54,12 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       success: false,
       error: "API rate limit exceeded"
     }
-    
+
     AI::EnhancedAnalysisService.any_instance.stub :analyze_mention, mock_result do
       post analyze_mention_ai_intelligence_index_url, params: {
         mention_id: @mention.id
       }
-      
+
       assert_response :unprocessable_entity
       json_response = JSON.parse(response.body)
       assert_not json_response["success"]
@@ -71,7 +71,7 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
     post analyze_mention_ai_intelligence_index_url, params: {
       mention_id: 999999
     }
-    
+
     assert_response :not_found
     json_response = JSON.parse(response.body)
     assert json_response["error"]
@@ -87,12 +87,12 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
         recommendation: "high_priority"
       }
     }
-    
+
     AI::EnhancedAnalysisService.any_instance.stub :score_lead, mock_result do
       post score_lead_ai_intelligence_index_url, params: {
         lead_id: @lead.id
       }
-      
+
       assert_response :success
       json_response = JSON.parse(response.body)
       assert json_response["success"]
@@ -106,12 +106,12 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       success: false,
       error: "Model unavailable"
     }
-    
+
     AI::EnhancedAnalysisService.any_instance.stub :score_lead, mock_result do
       post score_lead_ai_intelligence_index_url, params: {
         lead_id: @lead.id
       }
-      
+
       assert_response :unprocessable_entity
       json_response = JSON.parse(response.body)
       assert_not json_response["success"]
@@ -121,18 +121,18 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
 
   # Batch Analyze Tests
   test "should batch analyze mentions" do
-    mention_ids = [@mention.id, mentions(:two).id]
-    
+    mention_ids = [ @mention.id, mentions(:two).id ]
+
     mock_results = [
       { success: true, analysis: { sentiment: { score: 0.7 } } },
       { success: true, analysis: { sentiment: { score: 0.8 } } }
     ]
-    
+
     AI::EnhancedAnalysisService.any_instance.stub :batch_analyze_mentions, mock_results do
       post batch_analyze_ai_intelligence_index_url, params: {
         mention_ids: mention_ids
       }
-      
+
       assert_response :success
       json_response = JSON.parse(response.body)
       assert json_response["success"]
@@ -141,18 +141,18 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should handle partial batch failures" do
-    mention_ids = [@mention.id, mentions(:two).id]
-    
+    mention_ids = [ @mention.id, mentions(:two).id ]
+
     mock_results = [
       { success: true, analysis: { sentiment: { score: 0.7 } } },
       { success: false, error: "Processing failed" }
     ]
-    
+
     AI::EnhancedAnalysisService.any_instance.stub :batch_analyze_mentions, mock_results do
       post batch_analyze_ai_intelligence_index_url, params: {
         mention_ids: mention_ids
       }
-      
+
       assert_response :multi_status
       json_response = JSON.parse(response.body)
       assert json_response["partial_success"]
@@ -163,11 +163,11 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
 
   test "should validate batch size limit" do
     mention_ids = (1..101).to_a  # Exceeds limit of 100
-    
+
     post batch_analyze_ai_intelligence_index_url, params: {
       mention_ids: mention_ids
     }
-    
+
     assert_response :bad_request
     json_response = JSON.parse(response.body)
     assert json_response["error"]
@@ -184,13 +184,13 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
         confidence: 0.9
       }
     }
-    
+
     AI::EnhancedAnalysisService.any_instance.stub :analyze_sentiment, mock_result do
       post analyze_sentiment_ai_intelligence_index_url, params: {
         text: "I love this product! It's amazing!",
         ai_model_id: @ai_model.id
       }
-      
+
       assert_response :success
       json_response = JSON.parse(response.body)
       assert json_response["success"]
@@ -204,7 +204,7 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       text: "",
       ai_model_id: @ai_model.id
     }
-    
+
     assert_response :bad_request
     json_response = JSON.parse(response.body)
     assert json_response["error"]
@@ -216,18 +216,18 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
     mock_result = {
       success: true,
       entities: {
-        people: ["John Smith"],
-        organizations: ["Apple Inc."],
-        locations: ["San Francisco"]
+        people: [ "John Smith" ],
+        organizations: [ "Apple Inc." ],
+        locations: [ "San Francisco" ]
       }
     }
-    
+
     AI::EnhancedAnalysisService.any_instance.stub :extract_entities, mock_result do
       post extract_entities_ai_intelligence_index_url, params: {
         text: "John Smith from Apple Inc. in San Francisco",
         ai_model_id: @ai_model.id
       }
-      
+
       assert_response :success
       json_response = JSON.parse(response.body)
       assert json_response["success"]
@@ -244,14 +244,14 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       confidence: 0.88,
       prediction: "high_value"
     }
-    
+
     AI::MlScoringService.any_instance.stub :calculate_lead_score, mock_result do
       post calculate_score_ai_intelligence_index_url, params: {
         entity_type: "Lead",
         entity_id: @lead.id,
         ai_model_id: @ai_model.id
       }
-      
+
       assert_response :success
       json_response = JSON.parse(response.body)
       assert json_response["success"]
@@ -266,7 +266,7 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       entity_id: 1,
       ai_model_id: @ai_model.id
     }
-    
+
     assert_response :bad_request
     json_response = JSON.parse(response.body)
     assert json_response["error"]
@@ -282,13 +282,13 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       ],
       total: 2
     }
-    
+
     SearchIndex.any_instance.stub :search, mock_results do
       get search_ai_intelligence_index_url, params: {
         query: "test query",
         index_type: "mentions"
       }
-      
+
       assert_response :success
       json_response = JSON.parse(response.body)
       assert_equal 2, json_response["results"].length
@@ -301,7 +301,7 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       query: "",
       index_type: "mentions"
     }
-    
+
     assert_response :bad_request
     json_response = JSON.parse(response.body)
     assert json_response["error"]
@@ -311,12 +311,12 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
   # Sync Index Tests
   test "should sync search index" do
     search_index = search_indices(:one)
-    
+
     SearchIndex.any_instance.stub :sync!, true do
       post sync_index_ai_intelligence_index_url, params: {
         index_id: search_index.id
       }
-      
+
       assert_response :success
       json_response = JSON.parse(response.body)
       assert json_response["success"]
@@ -326,12 +326,12 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
 
   test "should handle sync failures" do
     search_index = search_indices(:one)
-    
-    SearchIndex.any_instance.stub :sync!, ->{ raise StandardError, "Sync failed" } do
+
+    SearchIndex.any_instance.stub :sync!, -> { raise StandardError, "Sync failed" } do
       post sync_index_ai_intelligence_index_url, params: {
         index_id: search_index.id
       }
-      
+
       assert_response :internal_server_error
       json_response = JSON.parse(response.body)
       assert_not json_response["success"]
@@ -342,12 +342,12 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
   # Model Management Tests
   test "should list available AI models" do
     get models_ai_intelligence_index_url
-    
+
     assert_response :success
     json_response = JSON.parse(response.body)
     assert json_response["models"]
     assert json_response["models"].length > 0
-    
+
     first_model = json_response["models"].first
     assert first_model["id"]
     assert first_model["name"]
@@ -356,7 +356,7 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
 
   test "should get model details" do
     get model_ai_intelligence_url(@ai_model)
-    
+
     assert_response :success
     json_response = JSON.parse(response.body)
     assert_equal @ai_model.id, json_response["id"]
@@ -366,7 +366,7 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
 
   test "should handle non-existent model" do
     get model_ai_intelligence_url(id: 999999)
-    
+
     assert_response :not_found
     json_response = JSON.parse(response.body)
     assert json_response["error"]
@@ -375,7 +375,7 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
   # Stats Tests
   test "should get AI intelligence stats" do
     get stats_ai_intelligence_index_url
-    
+
     assert_response :success
     json_response = JSON.parse(response.body)
     assert json_response["total_scores"]
@@ -387,21 +387,21 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
   # Authorization Tests
   test "should not allow unauthenticated access to analyze" do
     sign_out @user
-    
+
     post analyze_mention_ai_intelligence_index_url, params: {
       mention_id: @mention.id
     }
-    
+
     assert_redirected_to new_user_session_url
   end
 
   test "should not allow unauthenticated access to score" do
     sign_out @user
-    
+
     post score_lead_ai_intelligence_index_url, params: {
       lead_id: @lead.id
     }
-    
+
     assert_redirected_to new_user_session_url
   end
 
@@ -411,7 +411,7 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       text: "Test text",
       ai_model_id: 999999  # Non-existent model
     }
-    
+
     assert_response :not_found
     json_response = JSON.parse(response.body)
     assert json_response["error"]
@@ -423,13 +423,13 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       success: true,
       sentiment: { sentiment: "neutral", score: 0.5 }
     }
-    
+
     AI::EnhancedAnalysisService.any_instance.stub :analyze_sentiment, mock_result do
       post analyze_sentiment_ai_intelligence_index_url, params: {
         text: "Test text"
         # No ai_model_id specified
       }
-      
+
       assert_response :success
       json_response = JSON.parse(response.body)
       assert json_response["success"]

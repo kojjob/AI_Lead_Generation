@@ -5,7 +5,7 @@ class MentionFoundNotification < Notification
   rescue ActiveRecord::RecordNotFound
     "New mention found"
   end
-  
+
   def url
     mention = Mention.find(params["mention_id"])
     Rails.application.routes.url_helpers.mention_path(mention)

@@ -67,7 +67,7 @@ class SearchIndexTest < ActiveSupport::TestCase
   test "should transition from pending to creating" do
     @search_index.status = "pending"
     assert @search_index.may_start_creation?
-    
+
     @search_index.start_creation!
     assert_equal "creating", @search_index.status
     assert @search_index.creating?
@@ -76,7 +76,7 @@ class SearchIndexTest < ActiveSupport::TestCase
   test "should transition from creating to active" do
     @search_index.status = "creating"
     assert @search_index.may_activate?
-    
+
     @search_index.activate!
     assert_equal "active", @search_index.status
     assert @search_index.active?
@@ -85,7 +85,7 @@ class SearchIndexTest < ActiveSupport::TestCase
   test "should transition from active to inactive" do
     @search_index.status = "active"
     assert @search_index.may_deactivate?
-    
+
     @search_index.deactivate!
     assert_equal "inactive", @search_index.status
     assert @search_index.inactive?
@@ -94,7 +94,7 @@ class SearchIndexTest < ActiveSupport::TestCase
   test "should transition from inactive to active" do
     @search_index.status = "inactive"
     assert @search_index.may_reactivate?
-    
+
     @search_index.reactivate!
     assert_equal "active", @search_index.status
     assert @search_index.active?
@@ -103,7 +103,7 @@ class SearchIndexTest < ActiveSupport::TestCase
   test "should transition to error state from creating" do
     @search_index.status = "creating"
     assert @search_index.may_mark_failed?
-    
+
     @search_index.mark_failed!
     assert_equal "error", @search_index.status
     assert @search_index.error?
@@ -112,7 +112,7 @@ class SearchIndexTest < ActiveSupport::TestCase
   test "should not allow invalid state transitions" do
     @search_index.status = "pending"
     assert_not @search_index.may_activate?
-    
+
     assert_raises(AASM::InvalidTransition) do
       @search_index.activate!
     end
@@ -210,7 +210,7 @@ class SearchIndexTest < ActiveSupport::TestCase
   test "should update indexed timestamp" do
     original_time = @search_index.last_indexed_at
     @search_index.update_indexed!
-    
+
     assert_not_equal original_time, @search_index.last_indexed_at
     assert @search_index.last_indexed_at > 1.second.ago
   end
@@ -218,21 +218,21 @@ class SearchIndexTest < ActiveSupport::TestCase
   test "should increment document count" do
     original_count = @search_index.documents_count
     @search_index.increment_documents(5)
-    
+
     assert_equal original_count + 5, @search_index.documents_count
   end
 
   test "should decrement document count" do
     @search_index.documents_count = 10
     @search_index.decrement_documents(3)
-    
+
     assert_equal 7, @search_index.documents_count
   end
 
   test "should not allow negative document count when decrementing" do
     @search_index.documents_count = 2
     @search_index.decrement_documents(5)
-    
+
     assert_equal 0, @search_index.documents_count
   end
 
@@ -306,7 +306,7 @@ class SearchIndexTest < ActiveSupport::TestCase
   test "should handle nil JSON fields gracefully" do
     @search_index.configuration = nil
     @search_index.mapping = nil
-    
+
     assert @search_index.valid?
     assert @search_index.save
   end

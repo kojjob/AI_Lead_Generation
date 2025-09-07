@@ -34,13 +34,13 @@ module Ai
 
     def analyze_content(content, analysis_type)
       prompt = build_analysis_prompt(content, analysis_type)
-      
+
       messages = [
         { role: "system", content: system_prompt_for(analysis_type) },
         { role: "user", content: prompt }
       ]
 
-      response = chat(messages, 
+      response = chat(messages,
         temperature: 0.3,
         max_tokens: 2000
       )
@@ -50,7 +50,7 @@ module Ai
 
     def score_lead(lead_data)
       prompt = build_lead_scoring_prompt(lead_data)
-      
+
       messages = [
         { role: "system", content: lead_scoring_system_prompt },
         { role: "user", content: prompt }
@@ -66,7 +66,7 @@ module Ai
 
     def extract_entities(text)
       prompt = "Extract all entities (people, companies, emails, phones, locations) from the following text:\n\n#{text}"
-      
+
       messages = [
         { role: "system", content: "You are an entity extraction specialist. Extract and categorize all entities found in the text. Return as JSON." },
         { role: "user", content: prompt }
@@ -82,7 +82,7 @@ module Ai
 
     def summarize(text, max_length: 200)
       prompt = "Summarize the following text in #{max_length} characters or less:\n\n#{text}"
-      
+
       messages = [
         { role: "system", content: "You are a concise summarization expert. Create clear, informative summaries." },
         { role: "user", content: prompt }
@@ -102,16 +102,16 @@ module Ai
 
     def self.provider_configured?(provider)
       case provider
-      when 'openai'
-        ENV['OPENAI_API_KEY'].present?
-      when 'anthropic'
-        ENV['ANTHROPIC_API_KEY'].present?
-      when 'google_gemini'
-        ENV['GOOGLE_GEMINI_API_KEY'].present?
-      when 'cohere'
-        ENV['COHERE_API_KEY'].present?
-      when 'ollama'
-        ENV['OLLAMA_URL'].present?
+      when "openai"
+        ENV["OPENAI_API_KEY"].present?
+      when "anthropic"
+        ENV["ANTHROPIC_API_KEY"].present?
+      when "google_gemini"
+        ENV["GOOGLE_GEMINI_API_KEY"].present?
+      when "cohere"
+        ENV["COHERE_API_KEY"].present?
+      when "ollama"
+        ENV["OLLAMA_URL"].present?
       else
         false
       end
@@ -121,15 +121,15 @@ module Ai
 
     def initialize_llm
       case provider
-      when 'openai'
+      when "openai"
         initialize_openai_llm
-      when 'anthropic'
+      when "anthropic"
         initialize_anthropic_llm
-      when 'google_gemini'
+      when "google_gemini"
         initialize_gemini_llm
-      when 'cohere'
+      when "cohere"
         initialize_cohere_llm
-      when 'ollama'
+      when "ollama"
         initialize_ollama_llm
       else
         raise "Unsupported provider: #{provider}"
@@ -137,10 +137,10 @@ module Ai
     end
 
     def initialize_openai_llm
-      require 'langchain/llm/openai'
-      
+      require "langchain/llm/openai"
+
       Langchain::LLM::OpenAI.new(
-        api_key: ENV['OPENAI_API_KEY'],
+        api_key: ENV["OPENAI_API_KEY"],
         llm_options: {
           model: model_name,
           temperature: options[:temperature] || 0.3,
@@ -151,10 +151,10 @@ module Ai
     end
 
     def initialize_anthropic_llm
-      require 'langchain/llm/anthropic'
-      
+      require "langchain/llm/anthropic"
+
       Langchain::LLM::Anthropic.new(
-        api_key: ENV['ANTHROPIC_API_KEY'],
+        api_key: ENV["ANTHROPIC_API_KEY"],
         llm_options: {
           model: model_name,
           temperature: options[:temperature] || 0.3,
@@ -165,10 +165,10 @@ module Ai
     end
 
     def initialize_gemini_llm
-      require 'langchain/llm/google_gemini'
-      
+      require "langchain/llm/google_gemini"
+
       Langchain::LLM::GoogleGemini.new(
-        api_key: ENV['GOOGLE_GEMINI_API_KEY'],
+        api_key: ENV["GOOGLE_GEMINI_API_KEY"],
         default_options: {
           model: model_name,
           temperature: options[:temperature] || 0.3,
@@ -178,10 +178,10 @@ module Ai
     end
 
     def initialize_cohere_llm
-      require 'langchain/llm/cohere'
-      
+      require "langchain/llm/cohere"
+
       Langchain::LLM::Cohere.new(
-        api_key: ENV['COHERE_API_KEY'],
+        api_key: ENV["COHERE_API_KEY"],
         default_options: {
           model: model_name,
           temperature: options[:temperature] || 0.3,
@@ -191,10 +191,10 @@ module Ai
     end
 
     def initialize_ollama_llm
-      require 'langchain/llm/ollama'
-      
+      require "langchain/llm/ollama"
+
       Langchain::LLM::Ollama.new(
-        url: ENV['OLLAMA_URL'] || 'http://localhost:11434',
+        url: ENV["OLLAMA_URL"] || "http://localhost:11434",
         default_options: {
           model: model_name,
           temperature: options[:temperature] || 0.3,
@@ -205,23 +205,23 @@ module Ai
 
     def default_provider
       # Return first configured provider
-      self.class.available_providers.first || 'openai'
+      self.class.available_providers.first || "openai"
     end
 
     def default_model_for(provider)
       case provider
-      when 'openai'
-        'gpt-4-turbo-preview'
-      when 'anthropic'
-        'claude-3-opus-20240229'
-      when 'google_gemini'
-        'gemini-pro'
-      when 'cohere'
-        'command'
-      when 'ollama'
-        'llama2'
+      when "openai"
+        "gpt-4-turbo-preview"
+      when "anthropic"
+        "claude-3-opus-20240229"
+      when "google_gemini"
+        "gemini-pro"
+      when "cohere"
+        "command"
+      when "ollama"
+        "llama2"
       else
-        'gpt-3.5-turbo'
+        "gpt-3.5-turbo"
       end
     end
 
@@ -246,7 +246,7 @@ module Ai
 
     def handle_error(error)
       Rails.logger.error "AI Service Error (#{provider}): #{error.message}"
-      
+
       {
         error: true,
         message: error.message,
@@ -279,7 +279,7 @@ module Ai
         2. Confidence (0-1): Confidence in assessment
         3. Factors: Key scoring factors
         4. Recommendations: Next steps
-        
+
         Return as JSON with keys: score, confidence, factors, recommendations
       PROMPT
     end
@@ -287,9 +287,9 @@ module Ai
     def build_analysis_prompt(content, analysis_type)
       <<~PROMPT
         Analyze the following content for #{analysis_type}:
-        
+
         #{content}
-        
+
         Provide detailed analysis in JSON format.
       PROMPT
     end
@@ -297,19 +297,19 @@ module Ai
     def build_lead_scoring_prompt(lead_data)
       <<~PROMPT
         Score the following lead:
-        
+
         #{lead_data.to_json}
-        
+
         Consider all factors and provide comprehensive scoring.
       PROMPT
     end
 
     def parse_analysis_response(response, analysis_type)
       return response if response[:error]
-      
+
       begin
         content = response[:content].to_s
-        
+
         # Try to extract JSON from the response
         json_match = content.match(/\{.*\}/m)
         if json_match
@@ -326,18 +326,18 @@ module Ai
 
     def parse_scoring_response(response)
       return response if response[:error]
-      
+
       begin
         content = response[:content].to_s
         json_match = content.match(/\{.*\}/m)
-        
+
         if json_match
           data = JSON.parse(json_match[0])
           {
-            score: data['score'].to_f.clamp(0, 1),
-            confidence: data['confidence'].to_f.clamp(0, 1),
-            factors: data['factors'] || [],
-            recommendations: data['recommendations'] || []
+            score: data["score"].to_f.clamp(0, 1),
+            confidence: data["confidence"].to_f.clamp(0, 1),
+            factors: data["factors"] || [],
+            recommendations: data["recommendations"] || []
           }
         else
           # Fallback scoring
@@ -351,14 +351,14 @@ module Ai
 
     def parse_entity_response(response)
       return [] if response[:error]
-      
+
       begin
         content = response[:content].to_s
         json_match = content.match(/\{.*\}/m)
-        
+
         if json_match
           data = JSON.parse(json_match[0])
-          data['entities'] || []
+          data["entities"] || []
         else
           []
         end
@@ -373,16 +373,16 @@ module Ai
       case analysis_type
       when :sentiment
         sentiment = case content.downcase
-                   when /positive|good|great|excellent/ then 'positive'
-                   when /negative|bad|poor|terrible/ then 'negative'
-                   when /mixed|both|neutral/ then 'mixed'
-                   else 'neutral'
-                   end
+        when /positive|good|great|excellent/ then "positive"
+        when /negative|bad|poor|terrible/ then "negative"
+        when /mixed|both|neutral/ then "mixed"
+        else "neutral"
+        end
         { sentiment: sentiment, confidence: 0.6 }
       when :entities
         { entities: [] }
       when :intent
-        { intent: 'unknown', confidence: 0.5 }
+        { intent: "unknown", confidence: 0.5 }
       when :relevance
         { score: 0.5, factors: [] }
       when :quality

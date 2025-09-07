@@ -1,17 +1,17 @@
 module Ai
   class IntelligenceController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_resource, only: [:analyze, :score, :search]
+  before_action :set_resource, only: [ :analyze, :score, :search ]
 
   def index
     @ai_models = AiModel.enabled.ordered_by_priority
     @search_indices = SearchIndex.active
     @recent_scores = current_user.leads
                                  .joins(:ml_scores)
-                                 .select('leads.*, ml_scores.*')
-                                 .order('ml_scores.created_at DESC')
+                                 .select("leads.*, ml_scores.*")
+                                 .order("ml_scores.created_at DESC")
                                  .limit(10)
-    
+
     @statistics = {
       total_analyses: current_user.mentions.joins(:analysis_result).count,
       total_scores: MlScore.joins("INNER JOIN leads ON leads.id = ml_scores.scoreable_id AND ml_scores.scoreable_type = 'Lead'")
@@ -31,24 +31,24 @@ module Ai
     )
 
     result = case @resource
-             when Mention
+    when Mention
                analyze_mention(service)
-             when Lead
+    when Lead
                analyze_lead(service)
-             else
-               { error: 'Unsupported resource type' }
-             end
+    else
+               { error: "Unsupported resource type" }
+    end
 
     respond_to do |format|
       format.json { render json: result }
-      format.html { redirect_back(fallback_location: root_path, notice: 'Analysis completed') }
+      format.html { redirect_back(fallback_location: root_path, notice: "Analysis completed") }
     end
   end
 
   def score
     scoring_service = Ai::MlScoringService.new(
       @resource,
-      params[:model_type] || 'lead_scoring',
+      params[:model_type] || "lead_scoring",
       threshold: params[:threshold]&.to_f || 0.5
     )
 
@@ -68,8 +68,8 @@ module Ai
 
   def search
     index = SearchIndex.find_by(name: params[:index_name]) || SearchIndex.active.first
-    
-    return render json: { error: 'No active search index' } unless index
+
+    return render json: { error: "No active search index" } unless index
 
     results = index.search(
       params[:query],
@@ -120,9 +120,9 @@ module Ai
                        .limit(params[:batch_size] || 10)
 
     results = []
-    
+
     leads.find_each do |lead|
-      scoring_service = Ai::MlScoringService.new(lead, 'lead_scoring')
+      scoring_service = Ai::MlScoringService.new(lead, "lead_scoring")
       result = scoring_service.perform
       results << {
         lead_id: lead.id,
@@ -141,7 +141,7 @@ module Ai
 
   def configure_model
     ai_model = AiModel.find(params[:id])
-    
+
     if ai_model.update(model_params)
       render json: { success: true, model: ai_model }
     else
@@ -161,8 +161,8 @@ module Ai
     if result[:error]
       render json: { success: false, error: result[:message] }
     else
-      render json: { 
-        success: true, 
+      render json: {
+        success: true,
         response: result[:content],
         provider: result[:provider],
         model: result[:model]
@@ -197,8 +197,8 @@ module Ai
   end
 
   def analyze_mention(service)
-    analysis_types = params[:analysis_types] || [:sentiment, :entities, :intent, :relevance]
-    
+    analysis_types = params[:analysis_types] || [ :sentiment, :entities, :intent, :relevance ]
+
     results = {}
     analysis_types.each do |type|
       results[type] = service.analyze_content(@resource.content, type)
@@ -207,7 +207,7 @@ module Ai
     # Save to database
     analysis = @resource.analysis_result || @resource.build_analysis_result
     analysis.update!(
-      sentiment: results.dig(:sentiment, :sentiment) || 'neutral',
+      sentiment: results.dig(:sentiment, :sentiment) || "neutral",
       entities: results.dig(:entities) || [],
       intent: results.dig(:intent, :primary_intent),
       relevance_score: results.dig(:relevance, :score) || 0.5,
@@ -235,7 +235,7 @@ module Ai
     }
 
     scoring_result = service.score_lead(lead_data)
-    
+
     # Create ML score
     ml_score = @resource.ml_scores.create!(
       ml_model_name: "#{service.provider}_lead_scorer",
@@ -280,16 +280,16 @@ module Ai
 
   def available_models_for(provider)
     case provider
-    when 'openai'
-      ['gpt-4-turbo-preview', 'gpt-4', 'gpt-3.5-turbo', 'text-embedding-3-small']
-    when 'anthropic'
-      ['claude-3-opus-20240229', 'claude-3-sonnet-20240229', 'claude-3-haiku-20240307']
-    when 'google_gemini'
-      ['gemini-pro', 'gemini-pro-vision']
-    when 'cohere'
-      ['command', 'command-light', 'embed-english-v3.0']
-    when 'ollama'
-      ['llama2', 'mistral', 'codellama', 'phi']
+    when "openai"
+      [ "gpt-4-turbo-preview", "gpt-4", "gpt-3.5-turbo", "text-embedding-3-small" ]
+    when "anthropic"
+      [ "claude-3-opus-20240229", "claude-3-sonnet-20240229", "claude-3-haiku-20240307" ]
+    when "google_gemini"
+      [ "gemini-pro", "gemini-pro-vision" ]
+    when "cohere"
+      [ "command", "command-light", "embed-english-v3.0" ]
+    when "ollama"
+      [ "llama2", "mistral", "codellama", "phi" ]
     else
       []
     end

@@ -11,7 +11,7 @@ class AiModel < ApplicationRecord
   scope :ordered_by_priority, -> { order(priority: :desc, created_at: :desc) }
 
   PROVIDERS = %w[openai anthropic gemini huggingface cohere custom].freeze
-  
+
   MODEL_TYPES = %w[
     text_classification
     sentiment_analysis
@@ -60,10 +60,10 @@ class AiModel < ApplicationRecord
     return 0.5 unless performance_metrics.present?
 
     weights = {
-      'accuracy' => 0.3,
-      'speed' => 0.2,
-      'cost_efficiency' => 0.2,
-      'reliability' => 0.3
+      "accuracy" => 0.3,
+      "speed" => 0.2,
+      "cost_efficiency" => 0.2,
+      "reliability" => 0.3
     }
 
     score = weights.sum do |metric, weight|
@@ -75,20 +75,20 @@ class AiModel < ApplicationRecord
 
   def update_performance_metrics(new_metrics)
     merged_metrics = performance_metrics.merge(new_metrics)
-    merged_metrics['last_updated'] = Time.current
-    merged_metrics['performance_score'] = calculate_performance_score
-    
+    merged_metrics["last_updated"] = Time.current
+    merged_metrics["performance_score"] = calculate_performance_score
+
     update(performance_metrics: merged_metrics)
   end
 
   def cost_per_request
-    return 0 unless pricing['per_request'].present?
-    pricing['per_request'].to_f
+    return 0 unless pricing["per_request"].present?
+    pricing["per_request"].to_f
   end
 
   def cost_per_token
-    return 0 unless pricing['per_token'].present?
-    pricing['per_token'].to_f
+    return 0 unless pricing["per_token"].present?
+    pricing["per_token"].to_f
   end
 
   def supports_capability?(capability)
@@ -110,11 +110,11 @@ class AiModel < ApplicationRecord
   def self.default_models
     [
       {
-        name: 'gpt-4-turbo-preview',
-        model_type: 'text_classification',
-        provider: 'openai',
-        version: '2024-01',
-        description: 'Advanced text classification with GPT-4',
+        name: "gpt-4-turbo-preview",
+        model_type: "text_classification",
+        provider: "openai",
+        version: "2024-01",
+        description: "Advanced text classification with GPT-4",
         enabled: true,
         priority: 100,
         configuration: {
@@ -126,42 +126,42 @@ class AiModel < ApplicationRecord
         pricing: { per_request: 0.03, per_token: 0.00003 }
       },
       {
-        name: 'gpt-4-turbo-preview',
-        model_type: 'lead_scoring',
-        provider: 'openai',
-        version: '2024-01',
-        description: 'Intelligent lead scoring with GPT-4',
+        name: "gpt-4-turbo-preview",
+        model_type: "lead_scoring",
+        provider: "openai",
+        version: "2024-01",
+        description: "Intelligent lead scoring with GPT-4",
         enabled: true,
         priority: 100,
         configuration: {
           temperature: 0.2,
           max_tokens: 1500,
-          functions: ['score_lead', 'extract_signals']
+          functions: [ "score_lead", "extract_signals" ]
         },
         capabilities: CAPABILITIES[:lead_scoring],
         pricing: { per_request: 0.03, per_token: 0.00003 }
       },
       {
-        name: 'text-embedding-3-small',
-        model_type: 'embedding',
-        provider: 'openai',
-        version: '3',
-        description: 'Fast and efficient text embeddings',
+        name: "text-embedding-3-small",
+        model_type: "embedding",
+        provider: "openai",
+        version: "3",
+        description: "Fast and efficient text embeddings",
         enabled: true,
         priority: 90,
         configuration: {
           dimensions: 1536,
-          encoding_format: 'float'
+          encoding_format: "float"
         },
         capabilities: CAPABILITIES[:embedding],
         pricing: { per_token: 0.00002 }
       },
       {
-        name: 'claude-3-opus',
-        model_type: 'sentiment_analysis',
-        provider: 'anthropic',
-        version: '3',
-        description: 'Deep sentiment analysis with Claude',
+        name: "claude-3-opus",
+        model_type: "sentiment_analysis",
+        provider: "anthropic",
+        version: "3",
+        description: "Deep sentiment analysis with Claude",
         enabled: false,
         priority: 95,
         configuration: {
@@ -172,11 +172,11 @@ class AiModel < ApplicationRecord
         pricing: { per_request: 0.015, per_token: 0.000015 }
       },
       {
-        name: 'gemini-pro',
-        model_type: 'entity_extraction',
-        provider: 'gemini',
-        version: '1.0',
-        description: 'Entity extraction with Gemini',
+        name: "gemini-pro",
+        model_type: "entity_extraction",
+        provider: "gemini",
+        version: "1.0",
+        description: "Entity extraction with Gemini",
         enabled: false,
         priority: 85,
         configuration: {

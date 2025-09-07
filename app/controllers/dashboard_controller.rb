@@ -10,7 +10,7 @@ class DashboardController < ApplicationController
   def analytics
     # Detailed analytics view
     set_dashboard_data
-    
+
     respond_to do |format|
       format.html
       format.json { render json: @analytics_data }
@@ -20,7 +20,7 @@ class DashboardController < ApplicationController
   def widgets
     # Return widget data for AJAX updates
     set_dashboard_data
-    
+
     render json: {
       recent_leads: @recent_leads,
       keyword_performance: @keyword_performance,
