@@ -53,10 +53,11 @@
       %>
 
       <% funnel_data.each_with_index do |stage, index| %>
-        <% 
+        <%
           percentage = max_count > 0 ? (stage[:count].to_f / max_count * 100) : 0
-          conversion_rate = index > 0 ? (stage[:count].to_f / funnel_data[index - 1][:count] * 100).round(1) : 100
-          drop_off = index > 0 ? funnel_data[index - 1][:count] - stage[:count] : 0
+          prev_count = index > 0 ? funnel_data[index - 1][:count] : 1
+          conversion_rate = index > 0 && prev_count > 0 ? (stage[:count].to_f / prev_count * 100).round(1) : 100
+          drop_off = index > 0 ? [funnel_data[index - 1][:count] - stage[:count], 0].max : 0
         %>
         
         <div class="relative">
@@ -150,11 +151,13 @@
             <div>
               <p class="text-sm font-medium text-green-900">Best Stage</p>
               <p class="text-lg font-bold text-green-900">
-                <% 
+                <%
                   best_conversion = funnel_data.each_with_index.map do |stage, i|
                     next if i == 0
-                    { stage: stage[:name], rate: (stage[:count].to_f / funnel_data[i-1][:count] * 100).round(1) }
-                  end.compact.max_by { |s| s[:rate] }
+                    prev_count = funnel_data[i-1][:count]
+                    rate = prev_count > 0 ? (stage[:count].to_f / prev_count * 100).round(1) : 0
+                    { stage: stage[:name], rate: rate }
+                  end.compact.select { |s| s[:rate] > 0 }.max_by { |s| s[:rate] }
                 %>
                 <%= best_conversion ? "#{best_conversion[:rate]}%" : "N/A" %>
               </p>
@@ -174,11 +177,12 @@
             <div>
               <p class="text-sm font-medium text-red-900">Biggest Drop-off</p>
               <p class="text-lg font-bold text-red-900">
-                <% 
+                <%
                   biggest_dropoff = funnel_data.each_with_index.map do |stage, i|
                     next if i == 0
-                    { stage: stage[:name], count: funnel_data[i-1][:count] - stage[:count] }
-                  end.compact.max_by { |s| s[:count] }
+                    dropoff_count = [funnel_data[i-1][:count] - stage[:count], 0].max
+                    { stage: stage[:name], count: dropoff_count }
+                  end.compact.select { |s| s[:count] > 0 }.max_by { |s| s[:count] }
                 %>
                 <%= biggest_dropoff ? number_with_delimiter(biggest_dropoff[:count]) : "0" %>
               </p>
@@ -198,11 +202,13 @@
             <div>
               <p class="text-sm font-medium text-yellow-900">Focus Area</p>
               <p class="text-lg font-bold text-yellow-900">
-                <% 
+                <%
                   worst_conversion = funnel_data.each_with_index.map do |stage, i|
                     next if i == 0
-                    { stage: stage[:name], rate: (stage[:count].to_f / funnel_data[i-1][:count] * 100).round(1) }
-                  end.compact.min_by { |s| s[:rate] }
+                    prev_count = funnel_data[i-1][:count]
+                    rate = prev_count > 0 ? (stage[:count].to_f / prev_count * 100).round(1) : 0
+                    { stage: stage[:name], rate: rate }
+                  end.compact.select { |s| s[:rate] >= 0 }.min_by { |s| s[:rate] }
                 %>
                 <%= worst_conversion ? "#{worst_conversion[:rate]}%" : "N/A" %>
               </p>

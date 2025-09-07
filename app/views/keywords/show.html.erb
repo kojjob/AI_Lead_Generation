@@ -137,8 +137,8 @@
         <div>
           <dt class="text-sm font-medium text-gray-500">Platforms</dt>
           <dd class="mt-1 text-sm text-gray-900">
-            <% if @keyword.platforms.present? %>
-              <%= @keyword.platforms %>
+            <% if @keyword.platforms.present? && @keyword.platforms.any? %>
+              <%= @keyword.platforms.join(', ').capitalize %>
             <% else %>
               All platforms
             <% end %>

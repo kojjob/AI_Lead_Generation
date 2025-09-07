@@ -1,0 +1,370 @@
+/* Dashboard Responsive Styles */
+
+/* Mobile-first approach with progressive enhancement */
+.dashboard-container {
+  @apply min-h-screen bg-gray-50;
+}
+
+/* Dashboard Header Responsive */
+.dashboard-header {
+  @apply bg-white border-b border-gray-200;
+}
+
+.dashboard-header-content {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.dashboard-header-inner {
+  @apply flex items-center justify-between h-16;
+}
+
+/* Mobile: Stack header elements */
+@media (max-width: 640px) {
+  .dashboard-header-inner {
+    @apply flex-col h-auto py-4 space-y-4;
+  }
+  
+  .dashboard-title {
+    @apply text-xl;
+  }
+  
+  .dashboard-actions {
+    @apply flex flex-col w-full space-y-2;
+  }
+  
+  .dashboard-actions button {
+    @apply w-full justify-center;
+  }
+}
+
+/* Tablet: Adjust spacing */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .dashboard-header-inner {
+    @apply h-14;
+  }
+  
+  .dashboard-title {
+    @apply text-xl;
+  }
+}
+
+/* Key Metrics Cards Responsive */
+.metrics-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8;
+}
+
+/* Mobile: Single column */
+@media (max-width: 768px) {
+  .metrics-grid {
+    @apply grid-cols-1 gap-4 mb-6;
+  }
+  
+  .metric-card {
+    @apply p-4;
+  }
+  
+  .metric-value {
+    @apply text-xl;
+  }
+}
+
+/* Tablet: Two columns */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .metrics-grid {
+    @apply grid-cols-2 gap-4;
+  }
+}
+
+/* Main Content Grid Responsive */
+.main-content-grid {
+  @apply grid grid-cols-1 lg:grid-cols-3 gap-8;
+}
+
+/* Mobile: Single column layout */
+@media (max-width: 1024px) {
+  .main-content-grid {
+    @apply grid-cols-1 gap-6;
+  }
+  
+  .analytics-column {
+    @apply order-1;
+  }
+  
+  .widgets-column {
+    @apply order-2;
+  }
+}
+
+/* Chart Container Responsive */
+.chart-container {
+  @apply h-64;
+}
+
+@media (max-width: 640px) {
+  .chart-container {
+    @apply h-48;
+  }
+}
+
+@media (min-width: 1280px) {
+  .chart-container {
+    @apply h-80;
+  }
+}
+
+/* Widget Cards Responsive */
+.widget-card {
+  @apply bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden;
+}
+
+.widget-header {
+  @apply px-6 py-4 border-b border-gray-200;
+}
+
+.widget-content {
+  @apply p-6;
+}
+
+/* Mobile: Reduce padding */
+@media (max-width: 640px) {
+  .widget-header {
+    @apply px-4 py-3;
+  }
+  
+  .widget-content {
+    @apply p-4;
+  }
+  
+  .widget-title {
+    @apply text-base;
+  }
+}
+
+/* Conversion Funnel Responsive */
+.funnel-stage {
+  @apply flex items-center space-x-6;
+}
+
+@media (max-width: 640px) {
+  .funnel-stage {
+    @apply flex-col space-x-0 space-y-4 text-center;
+  }
+  
+  .funnel-icon {
+    @apply w-10 h-10;
+  }
+  
+  .funnel-content {
+    @apply w-full;
+  }
+  
+  .funnel-metrics {
+    @apply flex-col space-x-0 space-y-2;
+  }
+}
+
+/* Integration Status Responsive */
+.integration-item {
+  @apply bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors duration-200;
+}
+
+@media (max-width: 640px) {
+  .integration-item {
+    @apply p-3;
+  }
+  
+  .integration-details {
+    @apply flex-col space-x-0 space-y-3;
+  }
+  
+  .integration-actions {
+    @apply flex-col space-x-0 space-y-2 w-full;
+  }
+  
+  .integration-health {
+    @apply w-full;
+  }
+}
+
+/* Notification Center Responsive */
+.notification-item {
+  @apply p-6 hover:bg-gray-50 transition-colors duration-200;
+}
+
+@media (max-width: 640px) {
+  .notification-item {
+    @apply p-4;
+  }
+  
+  .notification-header {
+    @apply flex-col space-x-0 space-y-2;
+  }
+  
+  .notification-actions {
+    @apply flex-col space-x-0 space-y-2 w-full;
+  }
+  
+  .notification-meta {
+    @apply flex-col space-x-0 space-y-1;
+  }
+}
+
+/* Quick Actions Responsive */
+.quick-actions {
+  @apply space-y-4;
+}
+
+@media (max-width: 640px) {
+  .quick-actions {
+    @apply space-y-3;
+  }
+  
+  .quick-action-btn {
+    @apply py-2 text-sm;
+  }
+}
+
+/* Table Responsive */
+.responsive-table {
+  @apply overflow-x-auto;
+}
+
+.responsive-table table {
+  @apply min-w-full;
+}
+
+@media (max-width: 640px) {
+  .responsive-table {
+    @apply -mx-4;
+  }
+  
+  .table-cell {
+    @apply px-3 py-2 text-sm;
+  }
+  
+  .table-header {
+    @apply px-3 py-2 text-xs;
+  }
+}
+
+/* Modal Responsive */
+.modal-content {
+  @apply inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full;
+}
+
+@media (max-width: 640px) {
+  .modal-content {
+    @apply w-full mx-4 max-w-none;
+  }
+  
+  .modal-header {
+    @apply px-4 py-3;
+  }
+  
+  .modal-body {
+    @apply px-4 py-3;
+  }
+  
+  .modal-footer {
+    @apply px-4 py-3 flex-col space-x-0 space-y-2;
+  }
+  
+  .modal-footer button {
+    @apply w-full;
+  }
+}
+
+/* Loading States */
+.loading-skeleton {
+  @apply animate-pulse bg-gray-200 rounded;
+}
+
+.loading-card {
+  @apply bg-white shadow-sm rounded-xl border border-gray-200 p-6;
+}
+
+.loading-bar {
+  @apply h-4 bg-gray-200 rounded mb-4;
+}
+
+.loading-circle {
+  @apply w-10 h-10 bg-gray-200 rounded-full;
+}
+
+/* Accessibility Improvements */
+.sr-only {
+  @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+}
+
+/* Focus styles for keyboard navigation */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .widget-card {
+    @apply border-2 border-gray-900;
+  }
+  
+  .metric-card {
+    @apply border-2 border-gray-900;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .transition-all {
+    @apply transition-none;
+  }
+  
+  .animate-pulse {
+    @apply animate-none;
+  }
+  
+  .hover\:scale-105:hover {
+    @apply scale-100;
+  }
+}
+
+/* Dark mode support (if needed in future) */
+@media (prefers-color-scheme: dark) {
+  .dashboard-container {
+    @apply bg-gray-900;
+  }
+  
+  .widget-card {
+    @apply bg-gray-800 border-gray-700;
+  }
+  
+  .widget-title {
+    @apply text-gray-100;
+  }
+  
+  .widget-text {
+    @apply text-gray-300;
+  }
+}
+
+/* Print styles */
+@media print {
+  .dashboard-header {
+    @apply hidden;
+  }
+  
+  .quick-actions {
+    @apply hidden;
+  }
+  
+  .notification-center {
+    @apply hidden;
+  }
+  
+  .widget-card {
+    @apply shadow-none border border-gray-400;
+  }
+  
+  .main-content-grid {
+    @apply grid-cols-1;
+  }
+}

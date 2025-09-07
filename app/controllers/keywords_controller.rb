@@ -56,6 +56,6 @@ class KeywordsController < ApplicationController
   end
 
   def keyword_params
-    params.require(:keyword).permit(:keyword, :type, :status, :platforms, :search_parameters)
+    params.require(:keyword).permit(:keyword, :type, :status, :search_parameters, platforms: [])
   end
 end

@@ -16,11 +16,39 @@ export default class extends Controller {
 
   connect() {
     console.log("Dashboard controller connected")
+    this.animateInitialLoad()
     this.loadInitialData()
-    
+
     if (this.autoRefreshValue) {
       this.startAutoRefresh()
     }
+  }
+
+  // Animate initial dashboard load
+  animateInitialLoad() {
+    // Add stagger animation to metric cards
+    const metricCards = this.element.querySelectorAll('.metric-card')
+    metricCards.forEach((card, index) => {
+      card.style.opacity = '0'
+      card.style.transform = 'translateY(20px)'
+      setTimeout(() => {
+        card.style.transition = 'all 0.5s ease-out'
+        card.style.opacity = '1'
+        card.style.transform = 'translateY(0)'
+      }, index * 100)
+    })
+
+    // Add fade-in animation to widgets
+    const widgets = this.element.querySelectorAll('.widget-card')
+    widgets.forEach((widget, index) => {
+      widget.style.opacity = '0'
+      widget.style.transform = 'translateY(30px)'
+      setTimeout(() => {
+        widget.style.transition = 'all 0.6s ease-out'
+        widget.style.opacity = '1'
+        widget.style.transform = 'translateY(0)'
+      }, 200 + index * 150)
+    })
   }
 
   disconnect() {
@@ -275,38 +303,88 @@ export default class extends Controller {
     `
   }
 
-  // Update key metrics
+  // Update key metrics with animation
   updateMetrics(metrics) {
     if (this.hasTotalLeadsTarget && metrics.total_leads !== undefined) {
-      this.totalLeadsTarget.textContent = metrics.total_leads
+      this.animateCounter(this.totalLeadsTarget, metrics.total_leads)
     }
-    
+
     if (this.hasConversionRateTarget && metrics.conversion_rate !== undefined) {
-      this.conversionRateTarget.textContent = `${metrics.conversion_rate}%`
+      this.animateCounter(this.conversionRateTarget, metrics.conversion_rate, '%')
     }
   }
 
-  // Show loading state
+  // Animate counter from current value to new value
+  animateCounter(element, targetValue, suffix = '') {
+    const currentValue = parseInt(element.textContent) || 0
+    const increment = (targetValue - currentValue) / 30
+    let current = currentValue
+
+    const timer = setInterval(() => {
+      current += increment
+      if ((increment > 0 && current >= targetValue) || (increment < 0 && current <= targetValue)) {
+        current = targetValue
+        clearInterval(timer)
+      }
+      element.textContent = Math.round(current) + suffix
+    }, 50)
+
+    // Add bounce animation
+    element.style.transform = 'scale(1.1)'
+    setTimeout(() => {
+      element.style.transform = 'scale(1)'
+    }, 200)
+  }
+
+  // Show loading state with animations
   showLoadingState() {
     // Add loading indicators to widgets
     const widgets = [this.recentLeadsTarget, this.keywordPerformanceTarget, this.integrationStatusTarget]
     widgets.forEach(widget => {
       if (widget) {
+        widget.style.transition = 'all 0.3s ease-in-out'
         widget.style.opacity = '0.6'
         widget.style.pointerEvents = 'none'
+        widget.style.transform = 'scale(0.98)'
+
+        // Add shimmer effect
+        widget.classList.add('shimmer')
       }
     })
+
+    // Show loading spinner on refresh button
+    const refreshBtn = this.element.querySelector('[data-action*="refreshData"]')
+    if (refreshBtn) {
+      const icon = refreshBtn.querySelector('svg')
+      if (icon) {
+        icon.classList.add('icon-spin')
+      }
+    }
   }
 
-  // Hide loading state
+  // Hide loading state with animations
   hideLoadingState() {
     const widgets = [this.recentLeadsTarget, this.keywordPerformanceTarget, this.integrationStatusTarget]
     widgets.forEach(widget => {
       if (widget) {
+        widget.style.transition = 'all 0.3s ease-in-out'
         widget.style.opacity = '1'
         widget.style.pointerEvents = 'auto'
+        widget.style.transform = 'scale(1)'
+
+        // Remove shimmer effect
+        widget.classList.remove('shimmer')
       }
     })
+
+    // Remove loading spinner from refresh button
+    const refreshBtn = this.element.querySelector('[data-action*="refreshData"]')
+    if (refreshBtn) {
+      const icon = refreshBtn.querySelector('svg')
+      if (icon) {
+        icon.classList.remove('icon-spin')
+      }
+    }
   }
 
   // Handle errors

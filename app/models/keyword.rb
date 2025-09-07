@@ -5,6 +5,9 @@ class Keyword < ApplicationRecord
   has_many :mentions, dependent: :destroy
   has_many :leads, through: :mentions
 
+  # Serialize platforms as an array
+  serialize :platforms, Array
+
   # Validations
   validates :keyword, presence: true, uniqueness: { scope: :user_id }
   validates :user, presence: true
