@@ -2,11 +2,12 @@ class Lead < ApplicationRecord
   self.inheritance_column = nil # Disable single-table inheritance
 
   # Associations
-  belongs_to :mention
+  belongs_to :user
+  belongs_to :mention, optional: true
   has_one :keyword, through: :mention
-  has_one :user, through: :keyword
 
   # Validations
+  validates :user, presence: true
   validates :status, inclusion: { in: %w[new contacted qualified converted rejected archived] }
   validates :priority, inclusion: { in: %w[low medium high urgent] }
   validates :lead_stage, inclusion: { in: %w[prospect qualified opportunity proposal negotiation closed] }
@@ -21,30 +22,30 @@ class Lead < ApplicationRecord
   after_update :track_status_changes
 
   # Scopes
-  scope :new_leads, -> { where(status: "new") }
-  scope :contacted, -> { where(status: "contacted") }
-  scope :qualified, -> { where(status: "qualified") }
-  scope :converted, -> { where(status: "converted") }
-  scope :rejected, -> { where(status: "rejected") }
-  scope :archived, -> { where(status: "archived") }
-  scope :recent, -> { order(created_at: :desc) }
-  scope :by_priority, -> { order(Arel.sql("CASE priority WHEN 'urgent' THEN 1 WHEN 'high' THEN 2 WHEN 'medium' THEN 3 WHEN 'low' THEN 4 END")) }
-  scope :high_value, -> { where("qualification_score >= ?", 70) }
-  scope :needs_follow_up, -> { where("next_follow_up <= ? AND status NOT IN (?)", Time.current, %w[converted rejected archived]) }
-  scope :hot_leads, -> { where(temperature: "hot") }
-  scope :warm_leads, -> { where(temperature: "warm") }
-  scope :cold_leads, -> { where(temperature: "cold") }
-  scope :by_stage, ->(stage) { where(lead_stage: stage) }
-  scope :by_platform, ->(platform) { where(source_platform: platform) }
-  scope :assigned_to, ->(user) { where(assigned_to: user) }
-  scope :unassigned, -> { where(assigned_to: [ nil, "" ]) }
+  scope :new_leads, -> { where(leads: { status: "new" }) }
+  scope :contacted, -> { where(leads: { status: "contacted" }) }
+  scope :qualified, -> { where(leads: { status: "qualified" }) }
+  scope :converted, -> { where(leads: { status: "converted" }) }
+  scope :rejected, -> { where(leads: { status: "rejected" }) }
+  scope :archived, -> { where(leads: { status: "archived" }) }
+  scope :recent, -> { order("leads.created_at DESC") }
+  scope :by_priority, -> { order(Arel.sql("CASE leads.priority WHEN 'urgent' THEN 1 WHEN 'high' THEN 2 WHEN 'medium' THEN 3 WHEN 'low' THEN 4 END")) }
+  scope :high_value, -> { where("leads.qualification_score >= ?", 70) }
+  scope :needs_follow_up, -> { where("leads.next_follow_up <= ? AND leads.status NOT IN (?)", Time.current, %w[converted rejected archived]) }
+  scope :hot_leads, -> { where(leads: { temperature: "hot" }) }
+  scope :warm_leads, -> { where(leads: { temperature: "warm" }) }
+  scope :cold_leads, -> { where(leads: { temperature: "cold" }) }
+  scope :by_stage, ->(stage) { where(leads: { lead_stage: stage }) }
+  scope :by_platform, ->(platform) { where(leads: { source_platform: platform }) }
+  scope :assigned_to, ->(user) { where(leads: { assigned_to: user }) }
+  scope :unassigned, -> { where(leads: { assigned_to: [ nil, "" ] }) }
 
   # Search scope
   scope :search, ->(query) {
     return all if query.blank?
 
     where(
-      "name ILIKE ? OR email ILIKE ? OR company ILIKE ? OR position ILIKE ? OR notes ILIKE ?",
+      "leads.name ILIKE ? OR leads.email ILIKE ? OR leads.company ILIKE ? OR leads.position ILIKE ? OR leads.notes ILIKE ?",
       "%#{query}%", "%#{query}%", "%#{query}%", "%#{query}%", "%#{query}%"
     )
   }

@@ -1,0 +1,101 @@
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="mb-8">
+      <div class="flex items-center">
+        <%= link_to integration_path(@integration), class: "mr-4 text-gray-400 hover:text-gray-500" do %>
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+        <% end %>
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900">
+            Edit <%= @integration.platform_name&.capitalize || @integration.provider %> Integration
+          </h1>
+          <p class="mt-1 text-sm text-gray-500">
+            Update your integration settings and credentials
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Current Status -->
+    <div class="mb-6 bg-white overflow-hidden shadow rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+              Current Status
+            </h3>
+            <div class="mt-2 flex items-center space-x-4">
+              <div class="flex items-center">
+                <span class="text-sm text-gray-500 mr-2">Connection:</span>
+                <% if @integration.connected? %>
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    Connected
+                  </span>
+                <% elsif @integration.error? %>
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                    Error
+                  </span>
+                <% else %>
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                    <%= @integration.connection_status&.humanize %>
+                  </span>
+                <% end %>
+              </div>
+              <div class="flex items-center">
+                <span class="text-sm text-gray-500 mr-2">Last Sync:</span>
+                <span class="text-sm text-gray-900">
+                  <%= @integration.last_sync_at ? time_ago_in_words(@integration.last_sync_at) + " ago" : "Never" %>
+                </span>
+              </div>
+              <div class="flex items-center">
+                <span class="text-sm text-gray-500 mr-2">Health:</span>
+                <span class="text-sm font-medium text-gray-900">
+                  <%= @integration.health_score %>%
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="flex space-x-2">
+            <% if @integration.connected? %>
+              <%= button_to "Test Connection", sync_integration_path(@integration), 
+                  method: :post,
+                  class: "inline-flex items-center px-3 py-1 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Message (if any) -->
+    <% if @integration.error_message.present? %>
+      <div class="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-red-800">
+              Last Error
+            </h3>
+            <div class="mt-2 text-sm text-red-700">
+              <p><%= @integration.error_message %></p>
+              <% if @integration.last_error_at %>
+                <p class="mt-1 text-xs">
+                  <%= time_ago_in_words(@integration.last_error_at) %> ago
+                </p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Form -->
+    <%= render 'form', integration: @integration %>
+  </div>
+</div>

@@ -18,8 +18,16 @@ class LeadsController < ApplicationController
     # Apply sorting
     @leads = apply_sorting(@leads)
 
-    # Pagination
-    @leads = @leads.page(params[:page]).per(25)
+    # Pagination - handle gracefully if Kaminari is not available
+    begin
+      @leads = @leads.page(params[:page]).per(25)
+    rescue NoMethodError
+      # Fallback to limit/offset if Kaminari is not working
+      page = (params[:page] || 1).to_i
+      per_page = 25
+      offset = (page - 1) * per_page
+      @leads = @leads.limit(per_page).offset(offset)
+    end
 
     # Analytics for dashboard widgets
     @analytics = calculate_lead_analytics
@@ -43,7 +51,7 @@ class LeadsController < ApplicationController
 
   # GET /leads/new
   def new
-    @lead = current_user.leads.build
+    @lead = Lead.new(user: current_user)
     @mentions = current_user.mentions.includes(:keyword).recent.limit(50)
   end
 
@@ -53,7 +61,8 @@ class LeadsController < ApplicationController
 
   # POST /leads
   def create
-    @lead = current_user.leads.build(lead_params)
+    @lead = Lead.new(lead_params)
+    @lead.user = current_user
 
     if @lead.save
       track_lead_creation
@@ -195,18 +204,18 @@ class LeadsController < ApplicationController
   end
 
   def apply_filters(leads)
-    leads = leads.where(status: params[:status]) if params[:status].present?
-    leads = leads.where(priority: params[:priority]) if params[:priority].present?
-    leads = leads.where(lead_stage: params[:stage]) if params[:stage].present?
-    leads = leads.where(temperature: params[:temperature]) if params[:temperature].present?
-    leads = leads.where(source_platform: params[:platform]) if params[:platform].present?
-    leads = leads.where(assigned_to: params[:assigned_to]) if params[:assigned_to].present?
+    leads = leads.where(leads: { status: params[:status] }) if params[:status].present?
+    leads = leads.where(leads: { priority: params[:priority] }) if params[:priority].present?
+    leads = leads.where(leads: { lead_stage: params[:stage] }) if params[:stage].present?
+    leads = leads.where(leads: { temperature: params[:temperature] }) if params[:temperature].present?
+    leads = leads.where(leads: { source_platform: params[:platform] }) if params[:platform].present?
+    leads = leads.where(leads: { assigned_to: params[:assigned_to] }) if params[:assigned_to].present?
 
     if params[:qualification_score].present?
       case params[:qualification_score]
-      when "high" then leads = leads.where("qualification_score >= ?", 70)
-      when "medium" then leads = leads.where("qualification_score BETWEEN ? AND ?", 40, 69)
-      when "low" then leads = leads.where("qualification_score < ?", 40)
+      when "high" then leads = leads.where("leads.qualification_score >= ?", 70)
+      when "medium" then leads = leads.where("leads.qualification_score BETWEEN ? AND ?", 40, 69)
+      when "low" then leads = leads.where("leads.qualification_score < ?", 40)
       end
     end
 
@@ -337,17 +346,77 @@ class LeadsController < ApplicationController
   end
 
   def detailed_lead_analytics
-    # Detailed analytics for the analytics page
-    calculate_lead_analytics
+    # Enhanced analytics for the analytics page
+    base_analytics = calculate_lead_analytics
+
+    # Add source breakdown
+    source_breakdown = current_user.leads.group(:source_platform).count
+
+    # Add recent activity
+    recent_leads = current_user.leads.order(created_at: :desc).limit(5)
+    recent_activity = recent_leads.map do |lead|
+      {
+        description: "New lead: #{lead.name} from #{lead.company || 'Unknown Company'}",
+        timestamp: lead.created_at
+      }
+    end
+
+    base_analytics.merge(
+      source_breakdown: source_breakdown,
+      recent_activity: recent_activity
+    )
   end
 
   def build_conversion_funnel
-    # Conversion funnel data
-    {}
+    # Build conversion funnel showing lead progression
+    stages = %w[new contacted qualified converted]
+    total_leads = current_user.leads.count
+
+    return {} if total_leads.zero?
+
+    funnel_data = {}
+    stages.each do |stage|
+      count = current_user.leads.where(status: stage).count
+      percentage = (count.to_f / total_leads * 100).round(1)
+      funnel_data[stage] = {
+        count: count,
+        percentage: percentage
+      }
+    end
+
+    funnel_data
   end
 
   def calculate_performance_metrics
-    # Performance metrics calculation
-    {}
+    # Calculate detailed performance metrics
+    leads = current_user.leads
+
+    # Average qualification score
+    avg_qualification_score = leads.average(:qualification_score)&.round(1) || 0
+
+    # Average days to convert (for converted leads)
+    converted_leads = leads.where(status: "converted")
+    avg_days_to_convert = if converted_leads.any?
+      total_days = converted_leads.sum do |lead|
+        (lead.updated_at.to_date - lead.created_at.to_date).to_i
+      end
+      (total_days.to_f / converted_leads.count).round(1)
+    else
+      0
+    end
+
+    # Response rate (contacted vs total)
+    contacted_leads = leads.where.not(status: "new").count
+    response_rate = if leads.count > 0
+      (contacted_leads.to_f / leads.count * 100).round(1)
+    else
+      0
+    end
+
+    {
+      avg_qualification_score: avg_qualification_score,
+      avg_days_to_convert: avg_days_to_convert,
+      response_rate: response_rate
+    }
   end
 end

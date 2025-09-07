@@ -1,0 +1,196 @@
+<%= form_with(model: integration, local: true) do |form| %>
+  <% if integration.errors.any? %>
+    <div class="rounded-md bg-red-50 p-4 mb-6">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">
+            There were <%= pluralize(integration.errors.count, "error") %> with your submission
+          </h3>
+          <div class="mt-2 text-sm text-red-700">
+            <ul class="list-disc pl-5 space-y-1">
+              <% integration.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="space-y-6">
+    <!-- Platform Selection -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Platform Configuration
+        </h3>
+        <p class="mt-1 text-sm text-gray-500">
+          Select the platform you want to integrate with
+        </p>
+      </div>
+      <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+        <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+          <div>
+            <%= form.label :platform_name, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.select :platform_name, 
+                options_for_select(Integration::SUPPORTED_PLATFORMS, integration.platform_name),
+                { prompt: "Select a platform" },
+                class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          </div>
+
+          <div>
+            <%= form.label :provider, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :provider, 
+                placeholder: "e.g., twitter_api_v2",
+                class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+            <p class="mt-1 text-xs text-gray-500">API provider identifier</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Authentication Credentials -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Authentication Credentials
+        </h3>
+        <p class="mt-1 text-sm text-gray-500">
+          Enter your API credentials for the selected platform. These will be encrypted and stored securely.
+        </p>
+      </div>
+      <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+        <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+          <div>
+            <%= form.label :api_key, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :api_key, 
+                placeholder: "Enter API key",
+                class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+            <p class="mt-1 text-xs text-gray-500">Primary API key or client ID</p>
+          </div>
+
+          <div>
+            <%= form.label :api_secret, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.password_field :api_secret, 
+                placeholder: "Enter API secret",
+                class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+            <p class="mt-1 text-xs text-gray-500">API secret or client secret</p>
+          </div>
+
+          <div>
+            <%= form.label :access_token, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :access_token, 
+                placeholder: "Enter access token (if available)",
+                class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+            <p class="mt-1 text-xs text-gray-500">OAuth access token</p>
+          </div>
+
+          <div>
+            <%= form.label :refresh_token, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :refresh_token, 
+                placeholder: "Enter refresh token (if available)",
+                class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+            <p class="mt-1 text-xs text-gray-500">OAuth refresh token</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sync Configuration -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Sync Settings
+        </h3>
+        <p class="mt-1 text-sm text-gray-500">
+          Configure how often this integration should sync data
+        </p>
+      </div>
+      <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+        <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+          <div>
+            <%= form.label :sync_frequency, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.select :sync_frequency, 
+                options_for_select([
+                  ['Real-time', 'realtime'],
+                  ['Every 5 minutes', 'five_minutes'],
+                  ['Every 15 minutes', 'fifteen_minutes'],
+                  ['Every 30 minutes', 'thirty_minutes'],
+                  ['Hourly', 'hourly'],
+                  ['Every 6 hours', 'six_hours'],
+                  ['Daily', 'daily'],
+                  ['Weekly', 'weekly'],
+                  ['Manual', 'manual']
+                ], integration.sync_frequency),
+                {},
+                class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          </div>
+
+          <div>
+            <%= form.label :enabled, class: "block text-sm font-medium text-gray-700" %>
+            <div class="mt-2">
+              <label class="inline-flex items-center">
+                <%= form.check_box :enabled, class: "rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+                <span class="ml-2 text-sm text-gray-600">Enable automatic syncing</span>
+              </label>
+            </div>
+            <p class="mt-1 text-xs text-gray-500">When enabled, this integration will sync automatically based on the frequency</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Webhook Configuration (Optional) -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Webhook Configuration
+          <span class="ml-2 text-sm font-normal text-gray-500">(Optional)</span>
+        </h3>
+        <p class="mt-1 text-sm text-gray-500">
+          Configure webhooks to receive real-time updates from the platform
+        </p>
+      </div>
+      <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+        <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+          <div>
+            <%= form.label :webhook_url, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :webhook_url, 
+                placeholder: "https://example.com/webhook",
+                class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+            <p class="mt-1 text-xs text-gray-500">URL where the platform will send webhook events</p>
+          </div>
+
+          <div>
+            <%= form.label :webhook_secret, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.password_field :webhook_secret, 
+                placeholder: "Webhook signing secret",
+                class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+            <p class="mt-1 text-xs text-gray-500">Secret for webhook signature verification</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="flex justify-end space-x-3">
+      <%= link_to "Cancel", integrations_path, 
+          class: "bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+      
+      <% if integration.persisted? %>
+        <%= form.submit "Update Integration", 
+            class: "bg-indigo-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+      <% else %>
+        <%= form.submit "Create Integration", 
+            data: { turbo_confirm: "This will create a new integration. Continue?" },
+            class: "bg-indigo-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,254 @@
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="mb-8">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center">
+          <%= link_to integrations_path, class: "mr-4 text-gray-400 hover:text-gray-500" do %>
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+          <% end %>
+          <div>
+            <h1 class="text-3xl font-bold text-gray-900">
+              <%= @integration.platform_name&.capitalize || @integration.provider %>
+            </h1>
+            <p class="mt-1 text-sm text-gray-500">
+              Integration ID: <%= @integration.id %>
+            </p>
+          </div>
+        </div>
+        <div class="flex space-x-3">
+          <% if @integration.connected? %>
+            <%= button_to disconnect_integration_path(@integration), method: :post, 
+                class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" do %>
+              Disconnect
+            <% end %>
+            <%= button_to sync_integration_path(@integration), method: :post, 
+                class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700" do %>
+              Sync Now
+            <% end %>
+          <% else %>
+            <%= button_to connect_integration_path(@integration), method: :post, 
+                class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700" do %>
+              Connect
+            <% end %>
+          <% end %>
+          <%= link_to "Edit", edit_integration_path(@integration), 
+              class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Main Content -->
+      <div class="lg:col-span-2 space-y-6">
+        <!-- Status Card -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+          <div class="px-4 py-5 sm:px-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+              Integration Status
+            </h3>
+          </div>
+          <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+            <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Connection Status</dt>
+                <dd class="mt-1 text-sm text-gray-900">
+                  <% if @integration.connected? %>
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                      Connected
+                    </span>
+                  <% elsif @integration.error? %>
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                      Error
+                    </span>
+                  <% else %>
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                      <%= @integration.connection_status&.humanize %>
+                    </span>
+                  <% end %>
+                </dd>
+              </div>
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Health Score</dt>
+                <dd class="mt-1">
+                  <div class="flex items-center">
+                    <div class="flex-1 bg-gray-200 rounded-full h-2 mr-2">
+                      <div class="bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 h-2 rounded-full" 
+                           style="width: <%= @integration.health_score %>%"></div>
+                    </div>
+                    <span class="text-sm font-medium text-gray-900"><%= @integration.health_score %>%</span>
+                  </div>
+                  <p class="mt-1 text-xs text-gray-500"><%= @integration.health_status&.capitalize %></p>
+                </dd>
+              </div>
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Last Sync</dt>
+                <dd class="mt-1 text-sm text-gray-900">
+                  <%= @integration.last_sync_at ? time_ago_in_words(@integration.last_sync_at) + " ago" : "Never" %>
+                </dd>
+              </div>
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Sync Frequency</dt>
+                <dd class="mt-1 text-sm text-gray-900">
+                  <%= @integration.sync_frequency&.humanize %>
+                </dd>
+              </div>
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Enabled</dt>
+                <dd class="mt-1 text-sm text-gray-900">
+                  <% if @integration.enabled? %>
+                    <span class="text-green-600">Yes</span>
+                  <% else %>
+                    <span class="text-red-600">No</span>
+                  <% end %>
+                </dd>
+              </div>
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Error Count</dt>
+                <dd class="mt-1 text-sm text-gray-900">
+                  <% if @integration.error_count > 0 %>
+                    <span class="text-red-600"><%= @integration.error_count %></span>
+                  <% else %>
+                    <span class="text-green-600">0</span>
+                  <% end %>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+          <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+              Recent Activity
+            </h3>
+            <%= link_to "View All Logs", logs_integration_path(@integration), 
+                class: "text-sm text-indigo-600 hover:text-indigo-500" %>
+          </div>
+          <div class="border-t border-gray-200">
+            <% if @recent_logs&.any? %>
+              <ul class="divide-y divide-gray-200">
+                <% @recent_logs.each do |log| %>
+                  <li class="px-4 py-3">
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center">
+                        <% if log.success? %>
+                          <div class="flex-shrink-0 h-2 w-2 rounded-full bg-green-400"></div>
+                        <% elsif log.error? %>
+                          <div class="flex-shrink-0 h-2 w-2 rounded-full bg-red-400"></div>
+                        <% else %>
+                          <div class="flex-shrink-0 h-2 w-2 rounded-full bg-gray-400"></div>
+                        <% end %>
+                        <p class="ml-3 text-sm text-gray-900">
+                          <%= log.activity_type.humanize %>
+                        </p>
+                      </div>
+                      <p class="text-sm text-gray-500">
+                        <%= time_ago_in_words(log.performed_at) %> ago
+                      </p>
+                    </div>
+                    <% if log.details.present? %>
+                      <p class="mt-1 text-sm text-gray-500 ml-5">
+                        <%= truncate(log.details, length: 100) %>
+                      </p>
+                    <% end %>
+                  </li>
+                <% end %>
+              </ul>
+            <% else %>
+              <p class="px-4 py-3 text-sm text-gray-500">No recent activity</p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="space-y-6">
+        <!-- Statistics -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+          <div class="px-4 py-5 sm:px-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+              Statistics
+            </h3>
+          </div>
+          <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+            <dl class="space-y-4">
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Total Mentions</dt>
+                <dd class="mt-1 text-2xl font-semibold text-gray-900">
+                  <%= @statistics[:mentions_count] %>
+                </dd>
+              </div>
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Generated Leads</dt>
+                <dd class="mt-1 text-2xl font-semibold text-gray-900">
+                  <%= @statistics[:leads_count] %>
+                </dd>
+              </div>
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Sync Success Rate</dt>
+                <dd class="mt-1 text-2xl font-semibold text-gray-900">
+                  <%= @statistics[:sync_success_rate] %>%
+                </dd>
+              </div>
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Total Synced Items</dt>
+                <dd class="mt-1 text-2xl font-semibold text-gray-900">
+                  <%= @integration.total_synced_items %>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+
+        <!-- Error Details (if any) -->
+        <% if @integration.error_message.present? %>
+          <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-sm font-medium text-red-800">
+                  Last Error
+                </h3>
+                <div class="mt-2 text-sm text-red-700">
+                  <p><%= @integration.error_message %></p>
+                  <% if @integration.last_error_at %>
+                    <p class="mt-1 text-xs">
+                      <%= time_ago_in_words(@integration.last_error_at) %> ago
+                    </p>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Actions -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+          <div class="px-4 py-5 sm:px-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+              Actions
+            </h3>
+          </div>
+          <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+            <div class="space-y-3">
+              <%= link_to "Edit Settings", edit_integration_path(@integration), 
+                  class: "w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" %>
+              <%= button_to "Delete Integration", integration_path(@integration), 
+                  method: :delete,
+                  data: { confirm: "Are you sure? This will permanently delete this integration and disconnect from the platform." },
+                  class: "w-full inline-flex justify-center items-center px-4 py-2 border border-red-300 shadow-sm text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
