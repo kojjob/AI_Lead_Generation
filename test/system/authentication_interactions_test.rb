@@ -55,16 +55,16 @@ class AuthenticationInteractionsTest < ApplicationSystemTestCase
     visit new_user_registration_path
 
     password_field = find('[data-password-strength-target="password"]')
-    
+
     # Wait for the password strength controller to initialize
     sleep 0.5
-    
+
     strength_bar = find('[data-password-strength-target="bar"]', visible: :all)
     strength_label = find('[data-password-strength-target="label"]')
 
     # Initially should show empty state (bar might be hidden or 0 width)
     initial_width = strength_bar.style("width")["width"] || "0%"
-    assert ["0%", "0px"].include?(initial_width)
+    assert [ "0%", "0px" ].include?(initial_width)
     assert_equal "Enter a password", strength_label.text
 
     # Weak password
