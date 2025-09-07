@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_07_055453) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_07_061100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -101,7 +101,31 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_055453) do
     t.datetime "search_deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
+    t.string "email"
+    t.string "phone"
+    t.string "company"
+    t.string "position"
+    t.integer "qualification_score", default: 0
+    t.string "priority", default: "medium"
+    t.string "contacted_by"
+    t.string "contact_method"
+    t.decimal "conversion_value", precision: 10, scale: 2
+    t.datetime "next_follow_up"
+    t.string "lead_stage", default: "prospect"
+    t.string "source_platform"
+    t.text "source_url"
+    t.integer "interaction_count", default: 0
+    t.datetime "last_interaction_at"
+    t.string "assigned_to"
+    t.string "temperature", default: "cold"
+    t.index ["created_at"], name: "index_leads_on_created_at"
+    t.index ["email"], name: "index_leads_on_email"
+    t.index ["lead_stage"], name: "index_leads_on_lead_stage"
     t.index ["mention_id"], name: "index_leads_on_mention_id"
+    t.index ["priority"], name: "index_leads_on_priority"
+    t.index ["qualification_score"], name: "index_leads_on_qualification_score"
+    t.index ["status"], name: "index_leads_on_status"
   end
 
   create_table "mentions", force: :cascade do |t|

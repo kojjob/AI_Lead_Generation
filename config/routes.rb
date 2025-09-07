@@ -16,6 +16,21 @@ Rails.application.routes.draw do
   # Keywords resource
   resources :keywords
 
+  # Leads resource with custom actions
+  resources :leads do
+    member do
+      post :qualify
+      post :contact
+      post :convert
+    end
+
+    collection do
+      post :bulk_action
+      get :analytics
+      get :export
+    end
+  end
+
   # Landing page route
   get "landing", to: "landing#index", as: :landing
 
