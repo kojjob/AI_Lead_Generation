@@ -131,6 +131,81 @@ export default class extends Controller {
             <p class="text-xs text-indigo-800"><strong>Permissions:</strong> Bot needs "Read Messages" and "Send Messages" permissions.</p>
           </div>
         </div>
+      `,
+      instagram: `
+        <div class="space-y-3">
+          <h5 class="font-semibold text-blue-900">Instagram API Setup:</h5>
+          <ol class="list-decimal list-inside space-y-2 text-sm">
+            <li>Use <a href="https://developers.facebook.com" target="_blank" class="text-indigo-600 hover:text-indigo-800 underline">Facebook for Developers</a> (Instagram is owned by Meta)</li>
+            <li>Create a Facebook app and add Instagram Basic Display product</li>
+            <li>Configure Instagram Basic Display settings</li>
+            <li>Get your Instagram App ID and App Secret</li>
+            <li>Set up OAuth redirect URIs and webhook endpoints</li>
+          </ol>
+          <div class="mt-3 p-3 bg-purple-100 rounded-lg">
+            <p class="text-xs text-purple-800"><strong>Note:</strong> Instagram API has limited public content access and requires app review.</p>
+          </div>
+        </div>
+      `,
+      tiktok: `
+        <div class="space-y-3">
+          <h5 class="font-semibold text-blue-900">TikTok API Setup:</h5>
+          <ol class="list-decimal list-inside space-y-2 text-sm">
+            <li>Visit <a href="https://developers.tiktok.com" target="_blank" class="text-indigo-600 hover:text-indigo-800 underline">TikTok for Developers</a></li>
+            <li>Create a new app in the developer console</li>
+            <li>Request access to TikTok API (approval required)</li>
+            <li>Get your Client Key and Client Secret</li>
+            <li>Configure OAuth 2.0 and webhook settings</li>
+          </ol>
+          <div class="mt-3 p-3 bg-gray-100 rounded-lg">
+            <p class="text-xs text-gray-800"><strong>Important:</strong> TikTok API access requires approval and may take several weeks.</p>
+          </div>
+        </div>
+      `,
+      salesforce: `
+        <div class="space-y-3">
+          <h5 class="font-semibold text-blue-900">Salesforce API Setup:</h5>
+          <ol class="list-decimal list-inside space-y-2 text-sm">
+            <li>Go to <a href="https://developer.salesforce.com" target="_blank" class="text-indigo-600 hover:text-indigo-800 underline">Salesforce Developer</a></li>
+            <li>Create a Connected App in Setup → App Manager</li>
+            <li>Enable OAuth settings and configure callback URL</li>
+            <li>Get Consumer Key and Consumer Secret</li>
+            <li>Configure API permissions and user access</li>
+          </ol>
+          <div class="mt-3 p-3 bg-blue-100 rounded-lg">
+            <p class="text-xs text-blue-800"><strong>Tip:</strong> Use sandbox environment for testing before production.</p>
+          </div>
+        </div>
+      `,
+      hubspot: `
+        <div class="space-y-3">
+          <h5 class="font-semibold text-blue-900">HubSpot API Setup:</h5>
+          <ol class="list-decimal list-inside space-y-2 text-sm">
+            <li>Visit <a href="https://developers.hubspot.com" target="_blank" class="text-indigo-600 hover:text-indigo-800 underline">HubSpot Developers</a></li>
+            <li>Create a new app in your developer account</li>
+            <li>Configure OAuth and required scopes</li>
+            <li>Get your Client ID and Client Secret</li>
+            <li>Set up webhook endpoints for real-time updates</li>
+          </ol>
+          <div class="mt-3 p-3 bg-orange-100 rounded-lg">
+            <p class="text-xs text-orange-800"><strong>Scopes:</strong> You'll need contacts, deals, and timeline scopes at minimum.</p>
+          </div>
+        </div>
+      `,
+      pipedrive: `
+        <div class="space-y-3">
+          <h5 class="font-semibold text-blue-900">Pipedrive API Setup:</h5>
+          <ol class="list-decimal list-inside space-y-2 text-sm">
+            <li>Go to <a href="https://developers.pipedrive.com" target="_blank" class="text-indigo-600 hover:text-indigo-800 underline">Pipedrive Developers</a></li>
+            <li>Create a new app in the Marketplace Manager</li>
+            <li>Get your API token from Personal Preferences → API</li>
+            <li>Note your company domain (e.g., yourcompany.pipedrive.com)</li>
+            <li>Configure webhook URLs for real-time synchronization</li>
+          </ol>
+          <div class="mt-3 p-3 bg-green-100 rounded-lg">
+            <p class="text-xs text-green-800"><strong>Rate Limits:</strong> Pipedrive has generous rate limits but monitor usage.</p>
+          </div>
+        </div>
       `
     }
 
@@ -153,6 +228,10 @@ export default class extends Controller {
       reddit: 'reddit_api',
       facebook: 'facebook_graph_api',
       instagram: 'instagram_basic_display',
+      tiktok: 'tiktok_api_v1',
+      salesforce: 'salesforce_rest_api',
+      hubspot: 'hubspot_api_v3',
+      pipedrive: 'pipedrive_api_v1',
       slack: 'slack_web_api',
       discord: 'discord_bot_api'
     }
