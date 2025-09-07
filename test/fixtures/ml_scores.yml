@@ -1,21 +1,21 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  scoreable: one
-  scoreable_type: Scoreable
-  ml_model_name: MyString
-  score: 1.5
-  confidence: 1.5
-  features: 
-  predictions: 
-  metadata: 
+  scoreable: one (Lead)
+  scoreable_type: Lead
+  ml_model_name: GPT-4
+  score: 0.85
+  confidence: 0.9
+  features: {}
+  predictions: {}
+  metadata: {}
 
 two:
-  scoreable: two
-  scoreable_type: Scoreable
-  ml_model_name: MyString
-  score: 1.5
-  confidence: 1.5
-  features: 
-  predictions: 
-  metadata: 
+  scoreable: one (Mention)
+  scoreable_type: Mention
+  ml_model_name: Claude 3
+  score: 0.75
+  confidence: 0.8
+  features: {}
+  predictions: {}
+  metadata: {} 

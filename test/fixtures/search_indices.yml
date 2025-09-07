@@ -1,19 +1,19 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  index_type: MyString
-  configuration: 
-  mapping: 
-  status: MyString
+  name: mentions_index
+  index_type: mentions
+  configuration: {}
+  mapping: {}
+  status: active
   last_indexed_at: 2025-09-07 15:44:41
-  documents_count: 1
+  documents_count: 10
 
 two:
-  name: MyString
-  index_type: MyString
-  configuration: 
-  mapping: 
-  status: MyString
-  last_indexed_at: 2025-09-07 15:44:41
-  documents_count: 1
+  name: leads_index
+  index_type: leads
+  configuration: {}
+  mapping: {}
+  status: pending
+  last_indexed_at: 2025-09-07 14:44:41
+  documents_count: 5

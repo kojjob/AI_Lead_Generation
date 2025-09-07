@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_07_144441) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_07_150905) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -223,6 +223,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_144441) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "platform"
+    t.float "engagement_score"
     t.index ["keyword_id", "status"], name: "index_mentions_on_keyword_id_and_status"
     t.index ["keyword_id"], name: "index_mentions_on_keyword_id"
     t.index ["posted_at"], name: "index_mentions_on_posted_at"

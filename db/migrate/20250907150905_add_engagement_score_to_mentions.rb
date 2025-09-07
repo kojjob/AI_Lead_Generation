@@ -1,0 +1,5 @@
+class AddEngagementScoreToMentions < ActiveRecord::Migration[8.0]
+  def change
+    add_column :mentions, :engagement_score, :float
+  end
+end

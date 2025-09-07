@@ -3,15 +3,13 @@ class DashboardController < ApplicationController
 
   def index
     # Main dashboard view with all widgets and analytics
-    @dashboard_data = dashboard_service.dashboard_data
-    
-    # Set the old instance variables for backwards compatibility with the view
+    # Just use the old method for now since it works
     set_dashboard_data
   end
 
   def analytics
     # Detailed analytics view
-    @analytics_data = dashboard_service.analytics_data
+    set_dashboard_data
     
     respond_to do |format|
       format.html
@@ -21,28 +19,29 @@ class DashboardController < ApplicationController
 
   def widgets
     # Return widget data for AJAX updates
-    data = dashboard_service.dashboard_data
+    set_dashboard_data
     
     render json: {
-      recent_leads: data[:recent_leads],
-      keyword_performance: data[:keyword_performance],
-      stats: data[:stats]
+      recent_leads: @recent_leads,
+      keyword_performance: @keyword_performance,
+      stats: {
+        total_keywords: @user_keywords.count,
+        total_leads: @recent_leads.count,
+        new_leads_today: @conversion_metrics[:new_leads_today],
+        conversion_rate: @conversion_metrics[:conversion_rate]
+      }
     }
   end
 
   private
-
-  def dashboard_service
-    @dashboard_service ||= DashboardService.new(current_user)
-  end
 
   # Keep the old method for backwards compatibility but deprecated
   def set_dashboard_data
     @user = current_user
 
     # Use simple queries to avoid complex joins
-    @user_keywords = current_user.keywords
-    @user_integrations = current_user.integrations
+    @user_keywords = @user.keywords
+    @user_integrations = @user.integrations
 
     # Get data through simpler approach to avoid ambiguous column errors
     keyword_ids = @user_keywords.pluck(:id)
@@ -186,8 +185,10 @@ class DashboardController < ApplicationController
   end
 
   def calculate_overall_conversion_rate
-    total_mentions = current_user.mentions.count
-    converted_leads = current_user.leads.where(status: "converted").count
+    total_mentions = @user.mentions.count if @user
+    converted_leads = @user.leads.where(status: "converted").count if @user
+    total_mentions ||= 0
+    converted_leads ||= 0
 
     return 0 if total_mentions.zero?
     (converted_leads.to_f / total_mentions * 100).round(2)

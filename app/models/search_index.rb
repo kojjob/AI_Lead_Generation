@@ -1,10 +1,14 @@
 class SearchIndex < ApplicationRecord
   validates :name, presence: true, uniqueness: true
-  validates :index_type, presence: true
+  validates :index_type, presence: true, inclusion: { in: %w[mentions leads analysis_results keywords users] }
+  validates :documents_count, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
   scope :active, -> { where(status: 'active') }
   scope :auto_sync_enabled, -> { where(auto_sync: true) }
   scope :needs_sync, -> { where('last_synced_at < ?', 1.hour.ago).or(where(last_synced_at: nil)) }
+  scope :by_type, ->(type) { where(index_type: type) }
+  scope :with_documents, -> { where('documents_count > 0') }
+  scope :stale, -> { where('last_indexed_at < ? OR last_indexed_at IS NULL', 24.hours.ago) }
 
   INDEX_TYPES = %w[mentions leads analysis_results keywords integrations].freeze
   STATUSES = %w[pending creating active inactive error].freeze
@@ -35,6 +39,14 @@ class SearchIndex < ApplicationRecord
 
     event :mark_error do
       transitions from: [:pending, :creating, :active, :inactive], to: :error
+    end
+
+    event :reactivate do
+      transitions from: :inactive, to: :active
+    end
+
+    event :mark_failed do
+      transitions from: [:creating], to: :error
     end
   end
 
@@ -217,6 +229,32 @@ class SearchIndex < ApplicationRecord
       hits: response['hits']['hits'],
       aggregations: response['aggregations']
     }
+  end
+
+  # Helper methods for tests
+  def index_name
+    "#{name}_#{Rails.env}"
+  end
+
+  def needs_refresh?
+    last_indexed_at.nil? || last_indexed_at < 24.hours.ago
+  end
+
+  def operational?
+    active?
+  end
+
+  def update_indexed!
+    update(last_indexed_at: Time.current)
+  end
+
+  def increment_documents(count = 1)
+    increment!(:documents_count, count)
+  end
+
+  def decrement_documents(count = 1)
+    decrement!(:documents_count, count)
+    update(documents_count: 0) if documents_count < 0
   end
 
   private
