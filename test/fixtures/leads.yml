@@ -1,11 +1,21 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  user: one
   mention: one
   priority_score: 1.5
-  status: MyString
+  status: new
+  priority: medium
+  lead_stage: prospect
+  temperature: warm
+  qualification_score: 75
 
 two:
+  user: two
   mention: two
   priority_score: 1.5
-  status: MyString
+  status: contacted
+  priority: high
+  lead_stage: qualified
+  temperature: hot
+  qualification_score: 85

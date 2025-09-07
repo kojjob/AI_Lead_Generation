@@ -118,6 +118,7 @@ class Integration < ApplicationRecord
         connection_status: "connected",
         error_count: 0,
         error_message: nil,
+        connected_at: Time.current,
         last_successful_sync_at: Time.current
       )
 
@@ -134,10 +135,21 @@ class Integration < ApplicationRecord
       connection_status: "disconnected",
       access_token: nil,
       refresh_token: nil,
-      token_expires_at: nil
+      token_expires_at: nil,
+      connected_at: nil
     )
 
     log_activity("disconnected", "Disconnected from platform")
+  end
+
+  def error!(message = nil)
+    increment!(:error_count)
+    update!(
+      connection_status: "error",
+      error_message: message,
+      last_error_at: Time.current
+    )
+    log_activity("error", message)
   end
 
   def check_connection!

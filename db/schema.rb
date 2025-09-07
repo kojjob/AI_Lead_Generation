@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_07_065057) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_07_065931) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -91,6 +91,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_065057) do
     t.string "connection_status", default: "disconnected"
     t.string "api_version"
     t.jsonb "metadata", default: {}
+    t.datetime "connected_at"
     t.index ["connection_status"], name: "index_integrations_on_connection_status"
     t.index ["enabled"], name: "index_integrations_on_enabled"
     t.index ["last_sync_at"], name: "index_integrations_on_last_sync_at"
