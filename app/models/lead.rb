@@ -2,7 +2,7 @@ class Lead < ApplicationRecord
   self.inheritance_column = nil # Disable single-table inheritance
 
   # Associations
-  belongs_to :user
+  belongs_to :user, counter_cache: true
   belongs_to :mention, optional: true
   has_one :keyword, through: :mention
 
@@ -20,6 +20,7 @@ class Lead < ApplicationRecord
   before_save :update_interaction_tracking
   before_save :calculate_qualification_score
   after_update :track_status_changes
+  after_create :create_notification
 
   # Scopes
   scope :new_leads, -> { where(leads: { status: "new" }) }
@@ -141,6 +142,151 @@ class Lead < ApplicationRecord
     ((current_index + 1).to_f / stages.length * 100).round
   end
 
+  # AI-Powered Features
+  def predict_quality
+    @quality_prediction ||= LeadQualityPredictionService.new(self).predict_quality
+  end
+
+  def update_quality_prediction!
+    prediction = predict_quality
+
+    update!(
+      quality_score: prediction[:quality_score],
+      conversion_probability: prediction[:conversion_probability],
+      quality_tier: prediction[:quality_tier]
+    )
+
+    prediction
+  end
+
+  def generate_response_suggestions(count: 3)
+    return [] unless mention&.content.present?
+
+    user_context = {
+      company: user.company || "our company",
+      name: user.first_name || "there"
+    }
+
+    ResponseSuggestionService.generate_for_mention(mention, user_context, count: count)
+  end
+
+  def analyze_sentiment
+    return unless mention&.content.present?
+
+    analysis_result = mention.analysis_result || mention.build_analysis_result
+    analysis_result.analyze_sentiment!
+  end
+
+  def quality_tier_color
+    case quality_tier
+    when 'high'
+      'green'
+    when 'medium'
+      'yellow'
+    when 'low'
+      'orange'
+    when 'very_low'
+      'red'
+    else
+      'gray'
+    end
+  end
+
+  def quality_tier_badge
+    case quality_tier
+    when 'high'
+      '🔥'
+    when 'medium'
+      '⭐'
+    when 'low'
+      '📊'
+    when 'very_low'
+      '❄️'
+    else
+      '❓'
+    end
+  end
+
+  def conversion_probability_percentage
+    return 0 unless conversion_probability
+    (conversion_probability * 100).round(1)
+  end
+
+  def ai_recommendations
+    prediction = predict_quality
+    prediction[:recommendations] || []
+  end
+
+  def suggested_next_action
+    prediction = predict_quality
+
+    case prediction[:quality_tier]
+    when 'high'
+      'Contact immediately - high conversion potential'
+    when 'medium'
+      'Follow up within 24 hours'
+    when 'low'
+      'Add to nurturing campaign'
+    else
+      'Monitor for additional engagement'
+    end
+  end
+
+  def sentiment_analysis
+    mention&.analysis_result
+  end
+
+  def sentiment_score
+    sentiment_analysis&.sentiment_score || 0.0
+  end
+
+  def sentiment_label
+    sentiment_analysis&.sentiment_label || 'unknown'
+  end
+
+  def sentiment_emoji
+    sentiment_analysis&.sentiment_emoji || '❓'
+  end
+
+  # Class methods for AI features
+  def self.update_quality_scores_batch(leads)
+    LeadQualityPredictionService.update_lead_scores(leads)
+  end
+
+  def self.analyze_sentiments_batch(leads)
+    mentions = leads.includes(:mention).map(&:mention).compact
+    AnalysisResult.analyze_batch(mentions)
+  end
+
+  def self.quality_distribution
+    {
+      high: where(quality_tier: 'high').count,
+      medium: where(quality_tier: 'medium').count,
+      low: where(quality_tier: 'low').count,
+      very_low: where(quality_tier: 'very_low').count,
+      unknown: where(quality_tier: [nil, '']).count
+    }
+  end
+
+  def self.average_quality_score
+    where.not(quality_score: nil).average(:quality_score) || 0.0
+  end
+
+  def self.average_conversion_probability
+    where.not(conversion_probability: nil).average(:conversion_probability) || 0.0
+  end
+
+  def self.high_quality_leads
+    where(quality_tier: 'high')
+  end
+
+  def self.needs_ai_analysis
+    joins(:mention)
+      .left_joins(mention: :analysis_result)
+      .where(analysis_results: { id: nil })
+      .or(where(quality_score: nil))
+  end
+
   private
 
   def update_interaction_tracking
@@ -201,5 +347,14 @@ class Lead < ApplicationRecord
         self.update_column(:last_interaction_at, Time.current)
       end
     end
+  end
+  
+  def create_notification
+    LeadCreatedNotification.create!(
+      user: user,
+      params: { lead_id: id }
+    )
+  rescue => e
+    Rails.logger.error "Failed to create notification: #{e.message}"
   end
 end

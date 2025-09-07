@@ -12,9 +12,22 @@ Rails.application.routes.draw do
   get "settings", to: "users#settings", as: :settings
   patch "settings", to: "users#update_settings", as: :update_settings
   get "billing", to: "users#billing", as: :billing
+  
+  # Notifications
+  resources :notifications, only: [:index] do
+    member do
+      patch :mark_as_read
+    end
+    collection do
+      patch :mark_all_as_read
+    end
+  end
 
   # Keywords resource
   resources :keywords
+  
+  # Mentions resource
+  resources :mentions, only: [:index, :show, :destroy]
 
   # Integrations resource with custom actions
   resources :integrations do
@@ -42,6 +55,22 @@ Rails.application.routes.draw do
       post :bulk_action
       get :analytics
       get :export
+    end
+  end
+
+  # Webhook endpoints
+  resources :webhooks, only: [:index] do
+    collection do
+      # Generic webhook receiver
+      post ':platform/:integration_id', to: 'webhooks#receive', as: :receive
+      get ':platform/:integration_id/verify', to: 'webhooks#verify', as: :verify
+
+      # Platform-specific webhook endpoints
+      post 'instagram/:integration_id', to: 'webhooks#instagram', as: :instagram
+      post 'tiktok/:integration_id', to: 'webhooks#tiktok', as: :tiktok
+      post 'salesforce/:integration_id', to: 'webhooks#salesforce', as: :salesforce
+      post 'hubspot/:integration_id', to: 'webhooks#hubspot', as: :hubspot
+      post 'pipedrive/:integration_id', to: 'webhooks#pipedrive', as: :pipedrive
     end
   end
 

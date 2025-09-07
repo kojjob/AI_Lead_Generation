@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_07_065931) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_07_135721) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -36,6 +36,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_065931) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["mention_id"], name: "index_analysis_results_on_mention_id"
+    t.index ["sentiment_score"], name: "index_analysis_results_on_sentiment_score"
   end
 
   create_table "integration_logs", force: :cascade do |t|
@@ -96,6 +97,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_065931) do
     t.index ["enabled"], name: "index_integrations_on_enabled"
     t.index ["last_sync_at"], name: "index_integrations_on_last_sync_at"
     t.index ["platform_name"], name: "index_integrations_on_platform_name"
+    t.index ["status"], name: "index_integrations_on_status"
     t.index ["user_id", "connection_status"], name: "idx_integrations_user_connection"
     t.index ["user_id", "provider", "enabled"], name: "idx_integrations_user_provider_enabled"
     t.index ["user_id"], name: "index_integrations_on_user_id"
@@ -119,6 +121,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_065931) do
     t.jsonb "search_parameters"
     t.string "priority", default: "medium"
     t.string "notification_frequency", default: "daily"
+    t.integer "mentions_count", default: 0, null: false
+    t.integer "leads_count", default: 0, null: false
+    t.index ["status"], name: "index_keywords_on_status"
+    t.index ["user_id", "status"], name: "index_keywords_on_user_id_and_status"
     t.index ["user_id"], name: "index_keywords_on_user_id"
   end
 
@@ -167,6 +173,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_065931) do
     t.index ["priority"], name: "index_leads_on_priority"
     t.index ["qualification_score"], name: "index_leads_on_qualification_score"
     t.index ["status"], name: "index_leads_on_status"
+    t.index ["user_id", "status"], name: "index_leads_on_user_id_and_status"
     t.index ["user_id"], name: "index_leads_on_user_id"
   end
 
@@ -193,7 +200,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_065931) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "platform"
+    t.index ["keyword_id", "status"], name: "index_mentions_on_keyword_id_and_status"
     t.index ["keyword_id"], name: "index_mentions_on_keyword_id"
+    t.index ["posted_at"], name: "index_mentions_on_posted_at"
+    t.index ["status"], name: "index_mentions_on_status"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "type"
+    t.text "params"
+    t.datetime "read_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["read_at"], name: "index_notifications_on_read_at"
+    t.index ["user_id", "read_at"], name: "index_notifications_on_user_id_and_read_at"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -223,8 +245,33 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_065931) do
     t.boolean "marketing_emails", default: false
     t.string "timezone"
     t.string "language"
+    t.integer "keywords_count", default: 0, null: false
+    t.integer "leads_count", default: 0, null: false
+    t.integer "integrations_count", default: 0, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "webhooks", force: :cascade do |t|
+    t.bigint "integration_id", null: false
+    t.string "event_type", null: false
+    t.text "payload", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "processed_at"
+    t.text "error_message"
+    t.string "signature"
+    t.string "source_ip"
+    t.string "user_agent"
+    t.json "headers"
+    t.integer "retry_count", default: 0
+    t.datetime "next_retry_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["integration_id", "event_type"], name: "index_webhooks_on_integration_id_and_event_type"
+    t.index ["integration_id"], name: "index_webhooks_on_integration_id"
+    t.index ["next_retry_at"], name: "index_webhooks_on_next_retry_at"
+    t.index ["processed_at"], name: "index_webhooks_on_processed_at"
+    t.index ["status", "created_at"], name: "index_webhooks_on_status_and_created_at"
   end
 
   add_foreign_key "analysis_results", "mentions"
@@ -234,4 +281,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_065931) do
   add_foreign_key "leads", "mentions"
   add_foreign_key "leads", "users"
   add_foreign_key "mentions", "keywords"
+  add_foreign_key "notifications", "users"
+  add_foreign_key "webhooks", "integrations"
 end

@@ -1,0 +1,25 @@
+<%= link_to notification.url || "#", 
+    class: "block px-5 py-4 hover:bg-gray-50/50 transition-colors duration-150 cursor-pointer border-b border-gray-100/50",
+    data: { 
+      turbo_method: notification.unread? ? :patch : nil,
+      turbo_frame: "_top"
+    } do %>
+  <div class="flex items-start space-x-3">
+    <div class="h-8 w-8 rounded-xl flex items-center justify-center shadow-sm <%= notification_icon_gradient(notification) %>">
+      <svg class="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= notification_icon_path(notification) %>"></path>
+      </svg>
+    </div>
+    <div class="flex-1 min-w-0">
+      <p class="text-sm font-semibold text-gray-900 <%= 'opacity-60' if notification.read? %>">
+        <%= notification.message %>
+      </p>
+      <p class="text-xs text-gray-400 mt-1">
+        <%= time_ago_in_words(notification.created_at) %> ago
+      </p>
+    </div>
+    <% if notification.unread? %>
+      <div class="h-2 w-2 bg-indigo-600 rounded-full flex-shrink-0 mt-1.5"></div>
+    <% end %>
+  </div>
+<% end %>

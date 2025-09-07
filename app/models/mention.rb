@@ -1,7 +1,7 @@
 class Mention < ApplicationRecord
   self.inheritance_column = nil # Disable single-table inheritance
 
-  belongs_to :keyword
+  belongs_to :keyword, counter_cache: true
   has_one :user, through: :keyword
   has_many :leads, dependent: :destroy
 
