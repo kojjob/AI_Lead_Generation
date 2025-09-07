@@ -4,7 +4,7 @@
   <h2 class="text-3xl font-bold text-gray-900 mb-2">Create your account</h2>
   <p class="text-gray-600 mb-8">Start your free trial and discover powerful AI-driven lead generation</p>
 
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-5", data: { turbo: false } }) do |f| %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-5", data: { turbo: false, controller: "form-validation" } }) do |f| %>
     <!-- Error Messages -->
     <% if resource.errors.any? %>
       <div class="p-4 bg-red-50 border border-red-200 rounded-lg" role="alert">
@@ -41,13 +41,17 @@
             class: "block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors",
             "aria-label": "Email address",
             "aria-required": "true",
-            "aria-describedby": "email-description" %>
+            "aria-describedby": "email-description",
+            data: { 
+              form_validation_target: "email",
+              action: "blur->form-validation#validateEmail"
+            } %>
       </div>
       <p id="email-description" class="mt-1 text-xs text-gray-500">We'll use this for your account and notifications</p>
     </div>
 
     <!-- Password Field -->
-    <div data-controller="password-strength">
+    <div data-controller="password-strength" data-action="password-strength:strengthChanged->form-validation#passwordStrengthChanged">
       <%= f.label :password, class: "block text-sm font-medium text-gray-700 mb-1" %>
       <div class="relative" data-controller="password-toggle">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -65,7 +69,9 @@
             "aria-describedby": "password-strength",
             data: { 
               password_toggle_target: "input",
-              password_strength_target: "password" 
+              password_strength_target: "password",
+              form_validation_target: "password",
+              action: "blur->form-validation#validatePassword"
             } %>
         <button type="button" 
                 class="absolute inset-y-0 right-0 pr-3 flex items-center"
@@ -88,7 +94,7 @@
           <span class="text-xs text-gray-500" data-password-strength-target="label">Enter a password</span>
         </div>
         <div class="w-full bg-gray-200 rounded-full h-1.5">
-          <div class="h-1.5 rounded-full transition-all duration-300" 
+          <div class="h-1.5 rounded-full transition-all duration-300 bg-gray-300" 
                data-password-strength-target="bar"
                style="width: 0%"></div>
         </div>
@@ -98,6 +104,15 @@
           <% end %>
           • Include numbers and symbols for better security
         </p>
+        <!-- Password Suggestions -->
+        <ul class="mt-2 space-y-1 text-gray-600 hidden" data-password-strength-target="suggestions">
+          <li class="flex items-start">
+            <svg class="w-4 h-4 text-gray-400 mr-1 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-xs">Start typing to see suggestions</span>
+          </li>
+        </ul>
       </div>
     </div>
 
@@ -116,7 +131,11 @@
             placeholder: "Confirm your password",
             class: "block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors",
             "aria-label": "Confirm password",
-            "aria-required": "true" %>
+            "aria-required": "true",
+            data: { 
+              form_validation_target: "passwordConfirmation",
+              action: "blur->form-validation#validatePasswordConfirmation"
+            } %>
       </div>
     </div>
 
@@ -149,7 +168,10 @@
     <div>
       <%= f.submit "Create account", 
           class: "w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 transform hover:scale-[1.02]",
-          data: { disable_with: "Creating account..." } %>
+          data: { 
+            disable_with: "Creating account...",
+            form_validation_target: "submit"
+          } %>
     </div>
   <% end %>
 

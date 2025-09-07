@@ -4,7 +4,7 @@
   <h2 class="text-3xl font-bold text-gray-900 mb-2">Welcome back</h2>
   <p class="text-gray-600 mb-8">Sign in to your account to continue</p>
 
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-5", data: { turbo: false } }) do |f| %>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-5", data: { turbo: false, controller: "form-validation" } }) do |f| %>
     <!-- Email Field -->
     <div>
       <%= f.label :email, class: "block text-sm font-medium text-gray-700 mb-1" %>
@@ -21,7 +21,11 @@
             placeholder: "you@example.com",
             class: "block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors",
             "aria-label": "Email address",
-            "aria-required": "true" %>
+            "aria-required": "true",
+            data: { 
+              form_validation_target: "email",
+              action: "blur->form-validation#validateEmail"
+            } %>
       </div>
     </div>
 
@@ -41,7 +45,11 @@
             class: "block w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors",
             "aria-label": "Password",
             "aria-required": "true",
-            data: { password_toggle_target: "input" } %>
+            data: { 
+              password_toggle_target: "input",
+              form_validation_target: "password",
+              action: "blur->form-validation#validatePassword"
+            } %>
         <button type="button" 
                 class="absolute inset-y-0 right-0 pr-3 flex items-center"
                 data-action="click->password-toggle#toggle"
@@ -73,7 +81,10 @@
     <div>
       <%= f.submit "Sign in", 
           class: "w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 transform hover:scale-[1.02]",
-          data: { disable_with: "Signing in..." } %>
+          data: { 
+            disable_with: "Signing in...",
+            form_validation_target: "submit"
+          } %>
     </div>
   <% end %>
 
