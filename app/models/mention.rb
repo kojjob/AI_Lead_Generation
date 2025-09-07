@@ -20,6 +20,6 @@ class Mention < ApplicationRecord
 
   def platform_icon
     # Default icon since platform column doesn't exist
-    'link'
+    "link"
   end
 end

@@ -7,20 +7,22 @@ class Keyword < ApplicationRecord
 
   # Handle platforms as comma-separated string
   def platforms_array
-    platforms.to_s.split(',').map(&:strip)
+    platforms.to_s.split(",").map(&:strip)
   end
 
   def platforms_array=(values)
-    self.platforms = values.reject(&:blank?).join(',')
+    self.platforms = values.reject(&:blank?).join(",")
   end
 
   # Validations
   validates :keyword, presence: true, uniqueness: { scope: :user_id }
   validates :user, presence: true
+  validates :priority, inclusion: { in: %w[low medium high], message: "must be low, medium, or high" }
+  validates :notification_frequency, inclusion: { in: %w[instant daily weekly none], message: "must be instant, daily, weekly, or none" }
 
   # Scopes
-  scope :active, -> { where(status: 'active') }
-  scope :by_performance, -> { joins(:leads).group('keywords.id').order('COUNT(leads.id) DESC') }
+  scope :active, -> { where(status: "active") }
+  scope :by_performance, -> { joins(:leads).group("keywords.id").order("COUNT(leads.id) DESC") }
 
   # Instance methods
   def mentions_count
@@ -39,8 +41,8 @@ class Keyword < ApplicationRecord
   def performance_score
     # Simple scoring based on conversion rate and volume
     base_score = conversion_rate
-    volume_bonus = [mentions_count / 10.0, 20].min # Max 20 points for volume
-    [base_score + volume_bonus, 100].min
+    volume_bonus = [ mentions_count / 10.0, 20 ].min # Max 20 points for volume
+    [ base_score + volume_bonus, 100 ].min
   end
 
   def last_mention_at

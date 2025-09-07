@@ -77,7 +77,7 @@ created_keywords.each do |keyword|
       posted_at: rand(30.days).seconds.ago,
       raw_payload: {
         id: "mention_#{rand(100000..999999)}",
-        platform: ['twitter', 'linkedin', 'reddit'].sample,
+        platform: [ 'twitter', 'linkedin', 'reddit' ].sample,
         engagement: rand(1..100)
       },
       status: 'active'
@@ -85,15 +85,15 @@ created_keywords.each do |keyword|
 
     # Create leads for some mentions (30-50% conversion rate)
     if rand < 0.4
-      lead_status = ['new', 'contacted', 'converted', 'rejected'].sample
-      contacted_at = lead_status.in?(['contacted', 'converted']) ? rand(1..5).days.ago : nil
+      lead_status = [ 'new', 'contacted', 'converted', 'rejected' ].sample
+      contacted_at = lead_status.in?([ 'contacted', 'converted' ]) ? rand(1..5).days.ago : nil
 
       lead = mention.leads.create!(
         priority_score: rand(0.1..1.0).round(2),
         status: lead_status,
         last_contacted_at: contacted_at,
         notes: "Generated from #{mention.author}'s mention about #{keyword.keyword}",
-        tags: ['social_media', 'inbound'].sample(rand(1..2))
+        tags: [ 'social_media', 'inbound' ].sample(rand(1..2))
       )
     end
   end
@@ -106,7 +106,7 @@ recent_leads = Lead.limit(5)
 recent_leads.each_with_index do |lead, index|
   lead.update!(
     last_contacted_at: (index + 1).hours.ago,
-    status: ['contacted', 'converted'].sample
+    status: [ 'contacted', 'converted' ].sample
   )
 end
 

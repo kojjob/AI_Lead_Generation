@@ -1,0 +1,378 @@
+/* Keyword Wizard Styles */
+
+/* Wizard Container */
+.keyword-wizard-form {
+  @apply relative;
+}
+
+/* Step Content */
+.wizard-step {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.wizard-step.hidden {
+  @apply opacity-0 pointer-events-none;
+}
+
+/* Progress Steps */
+.progress-step {
+  @apply relative flex items-center;
+}
+
+.progress-step::after {
+  @apply content-[''] absolute top-1/2 left-full w-full h-0.5 bg-gray-200 transform -translate-y-1/2;
+}
+
+.progress-step:last-child::after {
+  @apply hidden;
+}
+
+.progress-step.completed::after {
+  @apply bg-indigo-200;
+}
+
+.progress-step.active::after {
+  @apply bg-indigo-200;
+}
+
+/* Step Indicators */
+.step-indicator {
+  @apply w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-200;
+}
+
+.step-indicator.pending {
+  @apply bg-gray-100 text-gray-500;
+}
+
+.step-indicator.active {
+  @apply bg-indigo-600 text-white;
+}
+
+.step-indicator.completed {
+  @apply bg-indigo-600 text-white;
+}
+
+/* Form Fields */
+.form-field {
+  @apply space-y-2;
+}
+
+.form-label {
+  @apply block text-sm font-semibold text-gray-900;
+}
+
+.form-input {
+  @apply block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200;
+}
+
+.form-input:focus {
+  @apply transform scale-[1.02];
+}
+
+.form-input.error {
+  @apply border-red-300 focus:ring-red-500 focus:border-red-500;
+}
+
+.form-input.success {
+  @apply border-green-300 focus:ring-green-500 focus:border-green-500;
+}
+
+/* Radio and Checkbox Selections */
+.selection-card {
+  @apply relative flex cursor-pointer rounded-xl border-2 border-gray-200 bg-white p-4 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 hover:border-indigo-300 hover:shadow-md transition-all duration-200;
+}
+
+.selection-card.selected {
+  @apply border-indigo-500 bg-indigo-50;
+}
+
+.selection-card:hover {
+  @apply transform scale-[1.02];
+}
+
+/* Platform Cards */
+.platform-card {
+  @apply relative flex flex-col cursor-pointer rounded-xl border-2 border-gray-200 bg-white p-6 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 hover:border-indigo-300 hover:shadow-md transition-all duration-200 group;
+}
+
+.platform-card.selected {
+  @apply border-indigo-500 bg-indigo-50;
+}
+
+.platform-card:hover {
+  @apply transform scale-105;
+}
+
+.platform-icon {
+  @apply w-12 h-12 mx-auto mb-4 rounded-xl flex items-center justify-center transition-colors duration-200;
+}
+
+.platform-card:hover .platform-icon {
+  @apply transform scale-110;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  @apply relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
+}
+
+.toggle-switch.active {
+  @apply bg-indigo-600;
+}
+
+.toggle-switch.inactive {
+  @apply bg-gray-200;
+}
+
+.toggle-indicator {
+  @apply pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200;
+}
+
+.toggle-indicator.active {
+  @apply translate-x-5;
+}
+
+.toggle-indicator.inactive {
+  @apply translate-x-0;
+}
+
+/* Analysis Preview */
+.analysis-preview {
+  @apply bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 border border-indigo-200;
+}
+
+.analysis-metric {
+  @apply text-center;
+}
+
+.analysis-score {
+  @apply text-2xl font-bold text-gray-900 mb-1;
+}
+
+.analysis-label {
+  @apply text-sm text-gray-600;
+}
+
+.analysis-bar {
+  @apply w-full bg-gray-200 rounded-full h-2 mt-2;
+}
+
+.analysis-bar-fill {
+  @apply h-2 rounded-full transition-all duration-500;
+}
+
+/* Keyword Suggestions */
+.suggestion-tag {
+  @apply inline-flex items-center px-3 py-1.5 rounded-full text-sm bg-indigo-100 text-indigo-700 hover:bg-indigo-200 transition-colors duration-200 cursor-pointer;
+}
+
+.suggestion-tag:hover {
+  @apply transform scale-105;
+}
+
+/* Validation States */
+.validation-success {
+  @apply text-green-600;
+}
+
+.validation-error {
+  @apply text-red-600;
+}
+
+.validation-icon {
+  @apply h-5 w-5 transition-opacity duration-200;
+}
+
+.validation-icon.hidden {
+  @apply opacity-0;
+}
+
+.validation-icon.visible {
+  @apply opacity-100;
+}
+
+/* Navigation Buttons */
+.nav-button {
+  @apply inline-flex items-center px-6 py-3 border border-gray-300 shadow-sm text-sm font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200;
+}
+
+.nav-button:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+.nav-button.primary {
+  @apply border-transparent text-white bg-indigo-600 hover:bg-indigo-700;
+}
+
+.nav-button.submit {
+  @apply border-transparent text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:scale-105;
+}
+
+/* Review Cards */
+.review-card {
+  @apply rounded-xl p-6 border;
+}
+
+.review-card.keyword {
+  @apply bg-gradient-to-r from-indigo-50 to-purple-50 border-indigo-200;
+}
+
+.review-card.platform {
+  @apply bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200;
+}
+
+.review-card.settings {
+  @apply bg-gray-50 border-gray-200;
+}
+
+.review-card.results {
+  @apply bg-gradient-to-r from-green-50 to-emerald-50 border-green-200;
+}
+
+/* Platform Badges */
+.platform-badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.platform-badge.twitter {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.platform-badge.linkedin {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.platform-badge.reddit {
+  @apply bg-orange-100 text-orange-800;
+}
+
+.platform-badge.facebook {
+  @apply bg-blue-100 text-blue-800;
+}
+
+/* Status Badges */
+.status-badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.status-badge.active {
+  @apply bg-green-100 text-green-800;
+}
+
+.status-badge.inactive {
+  @apply bg-gray-100 text-gray-800;
+}
+
+/* Loading States */
+.loading-spinner {
+  @apply animate-spin h-4 w-4;
+}
+
+.loading-button {
+  @apply opacity-75 cursor-not-allowed;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.scale-in {
+  animation: scaleIn 0.2s ease-out;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .wizard-step {
+    @apply px-4 py-6;
+  }
+  
+  .platform-card {
+    @apply p-4;
+  }
+  
+  .platform-icon {
+    @apply w-10 h-10;
+  }
+  
+  .nav-button {
+    @apply px-4 py-2 text-sm;
+  }
+  
+  .review-card {
+    @apply p-4;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .wizard-step,
+  .selection-card,
+  .platform-card,
+  .toggle-switch,
+  .toggle-indicator,
+  .analysis-bar-fill,
+  .suggestion-tag,
+  .validation-icon,
+  .nav-button {
+    @apply transition-none;
+  }
+  
+  .platform-card:hover,
+  .selection-card:hover,
+  .suggestion-tag:hover,
+  .nav-button.submit:hover {
+    @apply transform-none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .selection-card,
+  .platform-card,
+  .review-card {
+    @apply border-2 border-gray-900;
+  }
+  
+  .selection-card.selected,
+  .platform-card.selected {
+    @apply border-2 border-indigo-900 bg-indigo-100;
+  }
+}

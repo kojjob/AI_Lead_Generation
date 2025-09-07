@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_07_053723) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_07_055453) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -77,6 +77,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_053723) do
     t.datetime "updated_at", null: false
     t.text "platforms"
     t.jsonb "search_parameters"
+    t.string "priority", default: "medium"
+    t.string "notification_frequency", default: "daily"
     t.index ["user_id"], name: "index_keywords_on_user_id"
   end
 

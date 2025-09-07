@@ -23,11 +23,11 @@ class User < ApplicationRecord
   end
 
   def display_name
-    full_name.present? ? full_name : email.split('@').first.humanize
+    full_name.present? ? full_name : email.split("@").first.humanize
   end
 
   def active_integrations
-    integrations.where(status: 'active')
+    integrations.where(status: "active")
   end
 
   def recent_leads(limit = 10)
@@ -36,6 +36,6 @@ class User < ApplicationRecord
 
   def conversion_rate
     return 0 if mentions.count.zero?
-    (leads.where(status: 'converted').count.to_f / mentions.count * 100).round(2)
+    (leads.where(status: "converted").count.to_f / mentions.count * 100).round(2)
   end
 end

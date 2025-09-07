@@ -1,6 +1,6 @@
 class KeywordsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_keyword, only: [:show, :edit, :update, :destroy]
+  before_action :set_keyword, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @keywords = current_user.keywords.includes(:mentions, :leads)
@@ -25,9 +25,9 @@ class KeywordsController < ApplicationController
 
   def create
     @keyword = current_user.keywords.build(keyword_params)
-    
+
     if @keyword.save
-      redirect_to @keyword, notice: 'Keyword was successfully created.'
+      redirect_to @keyword, notice: "Keyword was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -38,7 +38,7 @@ class KeywordsController < ApplicationController
 
   def update
     if @keyword.update(keyword_params)
-      redirect_to @keyword, notice: 'Keyword was successfully updated.'
+      redirect_to @keyword, notice: "Keyword was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -46,7 +46,7 @@ class KeywordsController < ApplicationController
 
   def destroy
     @keyword.destroy
-    redirect_to keywords_path, notice: 'Keyword was successfully deleted.'
+    redirect_to keywords_path, notice: "Keyword was successfully deleted."
   end
 
   private
@@ -56,13 +56,23 @@ class KeywordsController < ApplicationController
   end
 
   def keyword_params
-    permitted = params.require(:keyword).permit(:keyword, :type, :status, :search_parameters, platforms: [])
-    
+    permitted = params.require(:keyword).permit(
+      :keyword, :type, :status, :active, :notes, :priority, :notification_frequency,
+      :search_parameters, platforms: []
+    )
+
     # Convert platforms array to comma-separated string for storage
     if permitted[:platforms].present?
-      permitted[:platforms] = permitted[:platforms].reject(&:blank?).join(',')
+      permitted[:platforms] = permitted[:platforms].reject(&:blank?).join(",")
     end
-    
+
+    # Set default values
+    permitted[:active] = true if permitted[:active].nil?
+    permitted[:status] = "active" if permitted[:status].blank?
+    permitted[:type] = "standard" if permitted[:type].blank?
+    permitted[:priority] = "medium" if permitted[:priority].blank?
+    permitted[:notification_frequency] = "daily" if permitted[:notification_frequency].blank?
+
     permitted
   end
 end

@@ -9,12 +9,12 @@ class Integration < ApplicationRecord
   validates :user, presence: true
 
   # Scopes
-  scope :active, -> { where(status: 'active') }
+  scope :active, -> { where(status: "active") }
   scope :by_provider, ->(provider) { where(provider: provider) }
 
   # Instance methods
   def active?
-    status == 'active'
+    status == "active"
   end
 
   def mentions_count
@@ -31,28 +31,28 @@ class Integration < ApplicationRecord
     # Deduct points for old last sync
     if last_searched_at
       days_since_sync = (Time.current - last_searched_at) / 1.day
-      score -= [days_since_sync * 5, 50].min
+      score -= [ days_since_sync * 5, 50 ].min
     else
       score -= 50
     end
 
-    [score, 0].max.round
+    [ score, 0 ].max.round
   end
 
   def sync_status
-    return 'never' unless last_searched_at
+    return "never" unless last_searched_at
 
     hours_ago = (Time.current - last_searched_at) / 1.hour
 
     case hours_ago
     when 0..1
-      'recent'
+      "recent"
     when 1..24
-      'today'
+      "today"
     when 24..168
-      'this_week'
+      "this_week"
     else
-      'old'
+      "old"
     end
   end
 end

@@ -9,10 +9,10 @@ class Lead < ApplicationRecord
   validates :status, inclusion: { in: %w[new contacted converted rejected] }
 
   # Scopes
-  scope :new_leads, -> { where(status: 'new') }
-  scope :contacted, -> { where(status: 'contacted') }
-  scope :converted, -> { where(status: 'converted') }
-  scope :rejected, -> { where(status: 'rejected') }
+  scope :new_leads, -> { where(status: "new") }
+  scope :contacted, -> { where(status: "contacted") }
+  scope :converted, -> { where(status: "converted") }
+  scope :rejected, -> { where(status: "rejected") }
   scope :recent, -> { order(created_at: :desc) }
 
   # Instance methods
@@ -21,7 +21,7 @@ class Lead < ApplicationRecord
   end
 
   def converted?
-    status == 'converted'
+    status == "converted"
   end
 
   def response_time_hours

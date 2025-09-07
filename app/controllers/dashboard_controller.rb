@@ -111,7 +111,7 @@ class DashboardController < ApplicationController
       total_mentions = Mention.where(keyword_id: keyword_ids).count
       qualified_leads = Lead.where(mention_id: mention_ids).count
       contacted_leads = Lead.where(mention_id: mention_ids).where.not(last_contacted_at: nil).count
-      converted_leads = Lead.where(mention_id: mention_ids).where(status: 'converted').count
+      converted_leads = Lead.where(mention_id: mention_ids).where(status: "converted").count
     else
       total_mentions = 0
       qualified_leads = 0
@@ -135,7 +135,7 @@ class DashboardController < ApplicationController
       leads_count = Lead.joins(:mention).where(mentions: { keyword_id: keyword.id }).count
 
       {
-        name: keyword.keyword || 'Unknown', # Use 'keyword' column from schema
+        name: keyword.keyword || "Unknown", # Use 'keyword' column from schema
         mentions: mentions_count,
         leads: leads_count,
         conversion_rate: mentions_count > 0 ? (leads_count.to_f / mentions_count * 100).round(2) : 0
@@ -153,8 +153,8 @@ class DashboardController < ApplicationController
       mentions_count = keyword_ids.any? ? Mention.where(keyword_id: keyword_ids).count : 0
 
       {
-        platform: integration.provider || 'Unknown', # Use 'provider' column from schema
-        status: integration.status == 'active' ? 'active' : 'inactive',
+        platform: integration.provider || "Unknown", # Use 'provider' column from schema
+        status: integration.status == "active" ? "active" : "inactive",
         mentions_count: mentions_count,
         last_sync: integration.last_searched_at, # Use available column
         health_score: calculate_integration_health(integration)
@@ -178,8 +178,8 @@ class DashboardController < ApplicationController
 
   def calculate_overall_conversion_rate
     total_mentions = current_user.mentions.count
-    converted_leads = current_user.leads.where(status: 'converted').count
-    
+    converted_leads = current_user.leads.where(status: "converted").count
+
     return 0 if total_mentions.zero?
     (converted_leads.to_f / total_mentions * 100).round(2)
   end
@@ -215,14 +215,14 @@ class DashboardController < ApplicationController
     # Deduct points for old last sync
     if integration.last_searched_at
       days_since_sync = (Time.current - integration.last_searched_at) / 1.day
-      score -= [days_since_sync * 5, 50].min
+      score -= [ days_since_sync * 5, 50 ].min
     else
       score -= 50
     end
 
     # Deduct points if inactive
-    score -= 30 unless integration.status == 'active'
+    score -= 30 unless integration.status == "active"
 
-    [score, 0].max.round
+    [ score, 0 ].max.round
   end
 end
