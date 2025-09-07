@@ -5,6 +5,7 @@ export default class extends Controller {
   static targets = ["testimonial", "indicator", "prevButton", "nextButton"]
   
   connect() {
+    console.log("Testimonial-carousel controller connected with", this.testimonialTargets.length, "testimonials")
     this.currentIndex = 0
     this.testimonialCount = this.testimonialTargets.length
     

@@ -9,6 +9,7 @@ export default class extends Controller {
   }
   
   connect() {
+    console.log("Scroll-reveal controller connected with delay:", this.delayValue)
     // Set initial state
     this.element.style.opacity = "0"
     this.element.style.transform = "translateY(30px)"

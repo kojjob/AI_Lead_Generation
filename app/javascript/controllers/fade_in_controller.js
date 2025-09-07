@@ -5,6 +5,7 @@ export default class extends Controller {
   static targets = ["element"]
   
   connect() {
+    console.log("Fade-in controller connected")
     // Add initial state
     this.element.style.opacity = "0"
     this.element.style.transform = "translateY(20px)"
