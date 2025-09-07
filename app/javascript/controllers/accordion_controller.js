@@ -18,7 +18,7 @@ export default class extends Controller {
     // Find the clicked item
     const button = event.currentTarget
     const item = button.closest('[data-accordion-target="item"]')
-    const itemIndex = this.itemTargets.indexOf(item)
+    const itemIndex = Array.from(this.itemTargets).indexOf(item)
     
     if (itemIndex === -1) return
     
@@ -67,9 +67,11 @@ export default class extends Controller {
         }, 300)
       }
       
-      // Reset icon rotation
-      const icon = this.iconTargets[index]
-      icon.style.transform = "rotate(0deg)"
+      // Reset icon rotation if icon exists
+      if (this.iconTargets[index]) {
+        const icon = this.iconTargets[index]
+        icon.style.transform = "rotate(0deg)"
+      }
     })
   }
 }

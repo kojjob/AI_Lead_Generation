@@ -9,6 +9,9 @@ export default class extends Controller {
     this.currentIndex = 0
     this.testimonialCount = this.testimonialTargets.length
     
+    // Only proceed if we have testimonials
+    if (this.testimonialCount === 0) return
+    
     // Initialize display
     this.updateDisplay()
     
