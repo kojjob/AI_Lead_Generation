@@ -5,8 +5,12 @@ export default class extends Controller {
   static targets = ["testimonial", "indicator", "prevButton", "nextButton"]
   
   connect() {
+    console.log("Testimonial-carousel controller connected with", this.testimonialTargets.length, "testimonials")
     this.currentIndex = 0
     this.testimonialCount = this.testimonialTargets.length
+    
+    // Only proceed if we have testimonials
+    if (this.testimonialCount === 0) return
     
     // Initialize display
     this.updateDisplay()

@@ -5,6 +5,7 @@ export default class extends Controller {
   static targets = ["toggle", "monthlyPrice", "annualPrice", "period", "savings"]
   
   connect() {
+    console.log("Pricing-toggle controller connected")
     this.isAnnual = false
     this.updateDisplay()
   }

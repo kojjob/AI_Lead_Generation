@@ -52,202 +52,115 @@
         </a>
       </div>
 
-      <!-- Stats -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 pt-8 border-t border-white/20">
-        <div class="text-center">
-          <div class="text-4xl font-bold text-white">10M+</div>
-          <div class="text-white/70 mt-2">Mentions Analyzed Daily</div>
+      <!-- Social proof -->
+      <div class="flex flex-wrap justify-center items-center gap-6 mt-12 text-white/60 text-sm">
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+          </svg>
+          <span>10,000+ Users</span>
         </div>
-        <div class="text-center">
-          <div class="text-4xl font-bold text-white">85%</div>
-          <div class="text-white/70 mt-2">Lead Conversion Rate</div>
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+          </svg>
+          <span>500M+ Mentions Analyzed</span>
         </div>
-        <div class="text-center">
-          <div class="text-4xl font-bold text-white">500+</div>
-          <div class="text-white/70 mt-2">Happy Customers</div>
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+          </svg>
+          <span>4.9/5 Rating</span>
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Scroll indicator -->
-  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-    <svg class="w-6 h-6 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-    </svg>
   </div>
 </section>
 
 <!-- Features Section -->
 <section class="py-20 bg-gray-50" data-controller="scroll-reveal">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-16">
+    <div class="text-center mb-16" data-scroll-reveal-target="element" data-scroll-reveal-delay-value="0">
       <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-        Powerful Features for 
-        <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-          Smart Lead Generation
-        </span>
+        Powerful Features for Lead Generation
       </h2>
       <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-        Everything you need to identify, qualify, and convert leads from social media conversations
+        Everything you need to turn social media conversations into qualified leads
       </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <!-- Feature 1 -->
-      <div class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-        <div class="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity"></div>
-        <div class="relative">
-          <div class="w-14 h-14 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center mb-6">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold text-gray-900 mb-3">Real-Time Monitoring</h3>
-          <p class="text-gray-600">Monitor mentions across Twitter, Reddit, LinkedIn, and more in real-time. Never miss a potential lead.</p>
+      <div class="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow" data-scroll-reveal-target="element" data-scroll-reveal-delay-value="100">
+        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center mb-6">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+          </svg>
         </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3">Real-Time Monitoring</h3>
+        <p class="text-gray-600">Monitor social media platforms 24/7 to catch every mention and conversation about your brand or keywords.</p>
       </div>
 
       <!-- Feature 2 -->
-      <div class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-        <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity"></div>
-        <div class="relative">
-          <div class="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-6">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold text-gray-900 mb-3">AI-Powered Analysis</h3>
-          <p class="text-gray-600">Advanced AI analyzes sentiment, intent, and context to identify high-quality leads automatically.</p>
+      <div class="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow" data-scroll-reveal-target="element" data-scroll-reveal-delay-value="200">
+        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg flex items-center justify-center mb-6">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+          </svg>
         </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3">AI-Powered Analysis</h3>
+        <p class="text-gray-600">Advanced AI analyzes sentiment, intent, and context to identify high-value prospects automatically.</p>
       </div>
 
       <!-- Feature 3 -->
-      <div class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-        <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-red-500 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity"></div>
-        <div class="relative">
-          <div class="w-14 h-14 bg-gradient-to-r from-pink-500 to-red-500 rounded-xl flex items-center justify-center mb-6">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold text-gray-900 mb-3">Instant Notifications</h3>
-          <p class="text-gray-600">Get instant alerts when high-intent leads are detected. Strike while the iron is hot.</p>
+      <div class="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow" data-scroll-reveal-target="element" data-scroll-reveal-delay-value="300">
+        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-600 rounded-lg flex items-center justify-center mb-6">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
         </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3">Lead Scoring</h3>
+        <p class="text-gray-600">Automatically score and prioritize leads based on their likelihood to convert into customers.</p>
       </div>
 
       <!-- Feature 4 -->
-      <div class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-        <div class="absolute inset-0 bg-gradient-to-r from-green-500 to-teal-500 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity"></div>
-        <div class="relative">
-          <div class="w-14 h-14 bg-gradient-to-r from-green-500 to-teal-500 rounded-xl flex items-center justify-center mb-6">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold text-gray-900 mb-3">Smart Automation</h3>
-          <p class="text-gray-600">Automate responses, follow-ups, and lead nurturing with intelligent workflows.</p>
+      <div class="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow" data-scroll-reveal-target="element" data-scroll-reveal-delay-value="400">
+        <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-lg flex items-center justify-center mb-6">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+          </svg>
         </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3">Smart Engagement</h3>
+        <p class="text-gray-600">Engage with prospects at the perfect moment with AI-generated personalized responses.</p>
       </div>
 
       <!-- Feature 5 -->
-      <div class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-        <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity"></div>
-        <div class="relative">
-          <div class="w-14 h-14 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mb-6">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold text-gray-900 mb-3">Advanced Analytics</h3>
-          <p class="text-gray-600">Track performance, measure ROI, and optimize your lead generation strategy with detailed insights.</p>
+      <div class="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow" data-scroll-reveal-target="element" data-scroll-reveal-delay-value="500">
+        <div class="w-12 h-12 bg-gradient-to-r from-red-500 to-pink-600 rounded-lg flex items-center justify-center mb-6">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
         </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3">CRM Integration</h3>
+        <p class="text-gray-600">Seamlessly integrate with your existing CRM and marketing tools for streamlined workflows.</p>
       </div>
 
       <!-- Feature 6 -->
-      <div class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-        <div class="absolute inset-0 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity"></div>
-        <div class="relative">
-          <div class="w-14 h-14 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center mb-6">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold text-gray-900 mb-3">CRM Integration</h3>
-          <p class="text-gray-600">Seamlessly integrate with your favorite CRM and marketing tools for unified lead management.</p>
+      <div class="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow" data-scroll-reveal-target="element" data-scroll-reveal-delay-value="600">
+        <div class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center mb-6">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- How It Works Section -->
-<section class="py-20 bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-16">
-      <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-        How It Works
-      </h2>
-      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-        Four simple steps to transform social conversations into revenue
-      </p>
-    </div>
-
-    <div class="relative">
-      <!-- Connection line -->
-      <div class="hidden lg:block absolute top-24 left-0 right-0 h-0.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <!-- Step 1 -->
-        <div class="relative text-center">
-          <div class="relative inline-block">
-            <div class="w-20 h-20 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg">
-              1
-            </div>
-          </div>
-          <h3 class="text-xl font-bold text-gray-900 mt-6 mb-3">Set Keywords</h3>
-          <p class="text-gray-600">Define keywords and topics relevant to your business and target audience</p>
-        </div>
-
-        <!-- Step 2 -->
-        <div class="relative text-center">
-          <div class="relative inline-block">
-            <div class="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg">
-              2
-            </div>
-          </div>
-          <h3 class="text-xl font-bold text-gray-900 mt-6 mb-3">Monitor Mentions</h3>
-          <p class="text-gray-600">Our AI monitors social platforms 24/7 for relevant conversations</p>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="relative text-center">
-          <div class="relative inline-block">
-            <div class="w-20 h-20 bg-gradient-to-r from-pink-500 to-red-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg">
-              3
-            </div>
-          </div>
-          <h3 class="text-xl font-bold text-gray-900 mt-6 mb-3">Analyze & Qualify</h3>
-          <p class="text-gray-600">AI analyzes sentiment and intent to identify high-quality leads</p>
-        </div>
-
-        <!-- Step 4 -->
-        <div class="relative text-center">
-          <div class="relative inline-block">
-            <div class="w-20 h-20 bg-gradient-to-r from-green-500 to-teal-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg">
-              4
-            </div>
-          </div>
-          <h3 class="text-xl font-bold text-gray-900 mt-6 mb-3">Convert to Customers</h3>
-          <p class="text-gray-600">Engage with qualified leads at the perfect moment to maximize conversion</p>
-        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3">Analytics & Reporting</h3>
+        <p class="text-gray-600">Comprehensive analytics dashboard to track performance and optimize your lead generation strategy.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- Pricing Section -->
-<section class="py-20 bg-gray-50" id="pricing">
+<section class="py-20 bg-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16">
       <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
@@ -258,15 +171,30 @@
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8" data-controller="pricing-toggle">
+    <!-- Pricing Toggle -->
+    <div class="flex justify-center mb-12" data-controller="pricing-toggle">
+      <div class="bg-gray-100 p-1 rounded-full inline-flex">
+        <button data-action="click->pricing-toggle#toggle" class="relative flex items-center">
+          <span class="px-4 py-2 text-gray-700 font-medium">Monthly</span>
+          <div class="mx-2 w-14 h-7 bg-indigo-600 rounded-full relative" data-pricing-toggle-target="toggle">
+            <span class="absolute left-1 top-1 bg-white w-5 h-5 rounded-full shadow transition-transform duration-200"></span>
+          </div>
+          <span class="px-4 py-2 text-gray-700 font-medium">Annual</span>
+          <span data-pricing-toggle-target="savings" class="ml-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full opacity-0 transition-opacity">Save 20%</span>
+        </button>
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <!-- Starter Plan -->
       <div class="relative bg-white rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300">
         <div class="p-8">
           <h3 class="text-2xl font-bold text-gray-900 mb-2">Starter</h3>
           <p class="text-gray-600 mb-6">Perfect for small businesses</p>
           <div class="mb-6">
-            <span class="text-5xl font-bold text-gray-900">$49</span>
-            <span class="text-gray-600">/month</span>
+            <span data-pricing-toggle-target="monthlyPrice" class="text-5xl font-bold text-gray-900">$49</span>
+            <span data-pricing-toggle-target="annualPrice" class="text-5xl font-bold text-gray-900 hidden">$39</span>
+            <span data-pricing-toggle-target="period" class="text-gray-600">/month</span>
           </div>
           <ul class="space-y-4 mb-8">
             <li class="flex items-start">
@@ -294,57 +222,58 @@
               <span class="text-gray-700">Email support</span>
             </li>
           </ul>
-          <button class="w-full py-3 px-6 bg-gray-900 text-white rounded-lg font-semibold hover:bg-gray-800 transition-colors">
+          <button data-action="click->pricing-toggle#selectPlan" data-plan="starter" class="w-full py-3 px-6 bg-gray-900 text-white rounded-lg font-semibold hover:bg-gray-800 transition-colors">
             Get Started
           </button>
         </div>
       </div>
 
-      <!-- Professional Plan (Popular) -->
-      <div class="relative bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300 border-2 border-indigo-500">
-        <div class="absolute top-0 right-0 bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-1 rounded-bl-lg text-sm font-semibold">
+      <!-- Professional Plan -->
+      <div class="relative bg-gradient-to-b from-indigo-500 to-purple-600 rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
+        <div class="absolute top-0 right-0 bg-yellow-400 text-gray-900 text-xs font-bold px-3 py-1 rounded-bl-lg">
           MOST POPULAR
         </div>
-        <div class="p-8 pt-12">
-          <h3 class="text-2xl font-bold text-gray-900 mb-2">Professional</h3>
-          <p class="text-gray-600 mb-6">For growing businesses</p>
+        <div class="p-8 text-white">
+          <h3 class="text-2xl font-bold mb-2">Professional</h3>
+          <p class="text-indigo-100 mb-6">For growing teams</p>
           <div class="mb-6">
-            <span class="text-5xl font-bold text-gray-900">$149</span>
-            <span class="text-gray-600">/month</span>
+            <span data-pricing-toggle-target="monthlyPrice" class="text-5xl font-bold">$149</span>
+            <span data-pricing-toggle-target="annualPrice" class="text-5xl font-bold hidden">$119</span>
+            <span data-pricing-toggle-target="period" class="text-indigo-100">/month</span>
           </div>
           <ul class="space-y-4 mb-8">
             <li class="flex items-start">
-              <svg class="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <svg class="w-5 h-5 text-yellow-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
               </svg>
-              <span class="text-gray-700">Up to 10,000 mentions/month</span>
+              <span>Up to 10,000 mentions/month</span>
             </li>
             <li class="flex items-start">
-              <svg class="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <svg class="w-5 h-5 text-yellow-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
               </svg>
-              <span class="text-gray-700">25 keywords</span>
+              <span>25 keywords</span>
             </li>
             <li class="flex items-start">
-              <svg class="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <svg class="w-5 h-5 text-yellow-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
               </svg>
-              <span class="text-gray-700">Advanced analytics & reporting</span>
+              <span>Advanced analytics & AI insights</span>
             </li>
             <li class="flex items-start">
-              <svg class="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <svg class="w-5 h-5 text-yellow-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
               </svg>
-              <span class="text-gray-700">CRM integrations</span>
+              <span>CRM integrations</span>
             </li>
             <li class="flex items-start">
-              <svg class="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <svg class="w-5 h-5 text-yellow-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
               </svg>
-              <span class="text-gray-700">Priority support</span>
+              <span>Priority support</span>
             </li>
           </ul>
-          <button class="w-full py-3 px-6 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-lg font-semibold hover:shadow-lg transition-all">
+          <button data-action="click->pricing-toggle#selectPlan" data-plan="professional" class="w-full py-3 px-6 bg-white text-indigo-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
             Get Started
           </button>
         </div>
@@ -375,7 +304,7 @@
               <svg class="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
               </svg>
-              <span class="text-gray-700">Custom AI models</span>
+              <span class="text-gray-700">Custom AI training</span>
             </li>
             <li class="flex items-start">
               <svg class="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -387,10 +316,10 @@
               <svg class="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
               </svg>
-              <span class="text-gray-700">24/7 phone support</span>
+              <span class="text-gray-700">SLA & 24/7 support</span>
             </li>
           </ul>
-          <button class="w-full py-3 px-6 bg-gray-900 text-white rounded-lg font-semibold hover:bg-gray-800 transition-colors">
+          <button data-action="click->pricing-toggle#selectPlan" data-plan="enterprise" class="w-full py-3 px-6 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-lg font-semibold hover:shadow-lg transition-all">
             Contact Sales
           </button>
         </div>
@@ -400,110 +329,132 @@
 </section>
 
 <!-- Testimonials Section -->
-<section class="py-20 bg-white" data-controller="testimonial-carousel">
+<section class="py-20 bg-gray-50" data-controller="testimonial-carousel">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16">
       <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-        Loved by Marketing Teams Worldwide
+        What Our Customers Say
       </h2>
       <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-        See what our customers have to say about their success with AI Lead Generation
+        Join thousands of businesses that trust us with their lead generation
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <!-- Testimonial 1 -->
-      <div class="bg-gray-50 rounded-2xl p-8">
-        <div class="flex mb-4">
-          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-          </svg>
-          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-          </svg>
-          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-          </svg>
-          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-          </svg>
-          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-          </svg>
+    <div class="relative max-w-4xl mx-auto">
+      <!-- Testimonial Cards -->
+      <div class="relative">
+        <!-- Testimonial 1 -->
+        <div data-testimonial-carousel-target="testimonial" class="bg-white rounded-2xl p-8 shadow-lg">
+          <div class="flex mb-4">
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+          </div>
+          <p class="text-gray-700 mb-6 italic text-lg">"This platform transformed our lead generation process. We've seen a 300% increase in qualified leads within just 2 months!"</p>
+          <div class="flex items-center">
+            <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full mr-4"></div>
+            <div>
+              <div class="font-semibold text-gray-900">Sarah Johnson</div>
+              <div class="text-gray-600 text-sm">Marketing Director, TechCorp</div>
+            </div>
+          </div>
         </div>
-        <p class="text-gray-700 mb-6 italic">"This platform transformed our lead generation process. We've seen a 300% increase in qualified leads within the first month!"</p>
-        <div class="flex items-center">
-          <div class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full mr-4"></div>
-          <div>
-            <div class="font-semibold text-gray-900">Sarah Johnson</div>
-            <div class="text-gray-600 text-sm">Marketing Director, TechCorp</div>
+
+        <!-- Testimonial 2 -->
+        <div data-testimonial-carousel-target="testimonial" class="bg-white rounded-2xl p-8 shadow-lg hidden">
+          <div class="flex mb-4">
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+          </div>
+          <p class="text-gray-700 mb-6 italic text-lg">"The AI is incredibly accurate at identifying real opportunities. We've closed 5 major deals from leads this platform found."</p>
+          <div class="flex items-center">
+            <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-500 rounded-full mr-4"></div>
+            <div>
+              <div class="font-semibold text-gray-900">Michael Chen</div>
+              <div class="text-gray-600 text-sm">CEO, Growth Startup</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div data-testimonial-carousel-target="testimonial" class="bg-white rounded-2xl p-8 shadow-lg hidden">
+          <div class="flex mb-4">
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+          </div>
+          <p class="text-gray-700 mb-6 italic text-lg">"Best investment we've made. ROI was positive within weeks. The automation saves us countless hours."</p>
+          <div class="flex items-center">
+            <div class="w-12 h-12 bg-gradient-to-r from-pink-500 to-red-500 rounded-full mr-4"></div>
+            <div>
+              <div class="font-semibold text-gray-900">Emily Rodriguez</div>
+              <div class="text-gray-600 text-sm">Growth Manager, SaaS Pro</div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Testimonial 2 -->
-      <div class="bg-gray-50 rounded-2xl p-8">
-        <div class="flex mb-4">
-          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-          </svg>
-          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-          </svg>
-          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-          </svg>
-          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-          </svg>
-          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-          </svg>
-        </div>
-        <p class="text-gray-700 mb-6 italic">"The AI's ability to identify high-intent leads is incredible. It's like having a team of experts working 24/7."</p>
-        <div class="flex items-center">
-          <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mr-4"></div>
-          <div>
-            <div class="font-semibold text-gray-900">Michael Chen</div>
-            <div class="text-gray-600 text-sm">CEO, StartupHub</div>
-          </div>
-        </div>
+      <!-- Navigation -->
+      <div class="flex justify-center mt-8 space-x-2">
+        <button data-testimonial-carousel-target="indicator" data-action="click->testimonial-carousel#goToSlide" data-index="0" class="w-3 h-3 rounded-full bg-indigo-600"></button>
+        <button data-testimonial-carousel-target="indicator" data-action="click->testimonial-carousel#goToSlide" data-index="1" class="w-3 h-3 rounded-full bg-gray-300"></button>
+        <button data-testimonial-carousel-target="indicator" data-action="click->testimonial-carousel#goToSlide" data-index="2" class="w-3 h-3 rounded-full bg-gray-300"></button>
       </div>
 
-      <!-- Testimonial 3 -->
-      <div class="bg-gray-50 rounded-2xl p-8">
-        <div class="flex mb-4">
-          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-          </svg>
-          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-          </svg>
-          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-          </svg>
-          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-          </svg>
-          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-          </svg>
-        </div>
-        <p class="text-gray-700 mb-6 italic">"Best investment we've made. ROI was positive within weeks. The automation saves us countless hours."</p>
-        <div class="flex items-center">
-          <div class="w-12 h-12 bg-gradient-to-r from-pink-500 to-red-500 rounded-full mr-4"></div>
-          <div>
-            <div class="font-semibold text-gray-900">Emily Rodriguez</div>
-            <div class="text-gray-600 text-sm">Growth Manager, SaaS Pro</div>
-          </div>
-        </div>
-      </div>
+      <!-- Arrow Navigation -->
+      <button data-action="click->testimonial-carousel#previous" data-testimonial-carousel-target="prevButton" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow">
+        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </button>
+      <button data-action="click->testimonial-carousel#next" data-testimonial-carousel-target="nextButton" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow">
+        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
     </div>
   </div>
 </section>
 
 <!-- FAQ Section -->
-<section class="py-20 bg-gray-50" data-controller="accordion">
+<section class="py-20 bg-white" data-controller="accordion">
   <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16">
       <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
@@ -516,23 +467,23 @@
 
     <div class="space-y-4">
       <!-- FAQ Item 1 -->
-      <div class="bg-white rounded-lg shadow-md" data-accordion-target="item">
-        <button class="w-full px-6 py-4 text-left flex items-center justify-between" data-action="click->accordion#toggle">
+      <div class="bg-gray-50 rounded-lg shadow-md" data-accordion-target="item">
+        <button class="w-full px-6 py-4 text-left flex items-center justify-between" data-action="click->accordion#toggle" data-accordion-target="question">
           <span class="text-lg font-semibold text-gray-900">How does the AI identify qualified leads?</span>
-          <svg class="w-5 h-5 text-gray-500 transform transition-transform" data-accordion-target="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" data-accordion-target="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
           </svg>
         </button>
-        <div class="hidden px-6 pb-4" data-accordion-target="content">
+        <div class="px-6 pb-4" data-accordion-target="content">
           <p class="text-gray-600">Our AI analyzes multiple factors including sentiment, context, buying intent signals, and engagement patterns. It uses advanced natural language processing to understand the nuances of conversations and identify prospects who are actively looking for solutions like yours.</p>
         </div>
       </div>
 
       <!-- FAQ Item 2 -->
-      <div class="bg-white rounded-lg shadow-md" data-accordion-target="item">
-        <button class="w-full px-6 py-4 text-left flex items-center justify-between" data-action="click->accordion#toggle">
+      <div class="bg-gray-50 rounded-lg shadow-md" data-accordion-target="item">
+        <button class="w-full px-6 py-4 text-left flex items-center justify-between" data-action="click->accordion#toggle" data-accordion-target="question">
           <span class="text-lg font-semibold text-gray-900">Which social platforms do you monitor?</span>
-          <svg class="w-5 h-5 text-gray-500 transform transition-transform" data-accordion-target="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" data-accordion-target="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
           </svg>
         </button>
@@ -542,10 +493,10 @@
       </div>
 
       <!-- FAQ Item 3 -->
-      <div class="bg-white rounded-lg shadow-md" data-accordion-target="item">
-        <button class="w-full px-6 py-4 text-left flex items-center justify-between" data-action="click->accordion#toggle">
+      <div class="bg-gray-50 rounded-lg shadow-md" data-accordion-target="item">
+        <button class="w-full px-6 py-4 text-left flex items-center justify-between" data-action="click->accordion#toggle" data-accordion-target="question">
           <span class="text-lg font-semibold text-gray-900">Can I integrate with my existing CRM?</span>
-          <svg class="w-5 h-5 text-gray-500 transform transition-transform" data-accordion-target="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" data-accordion-target="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
           </svg>
         </button>
@@ -555,10 +506,10 @@
       </div>
 
       <!-- FAQ Item 4 -->
-      <div class="bg-white rounded-lg shadow-md" data-accordion-target="item">
-        <button class="w-full px-6 py-4 text-left flex items-center justify-between" data-action="click->accordion#toggle">
+      <div class="bg-gray-50 rounded-lg shadow-md" data-accordion-target="item">
+        <button class="w-full px-6 py-4 text-left flex items-center justify-between" data-action="click->accordion#toggle" data-accordion-target="question">
           <span class="text-lg font-semibold text-gray-900">How quickly can I see results?</span>
-          <svg class="w-5 h-5 text-gray-500 transform transition-transform" data-accordion-target="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" data-accordion-target="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
           </svg>
         </button>
@@ -568,15 +519,15 @@
       </div>
 
       <!-- FAQ Item 5 -->
-      <div class="bg-white rounded-lg shadow-md" data-accordion-target="item">
-        <button class="w-full px-6 py-4 text-left flex items-center justify-between" data-action="click->accordion#toggle">
-          <span class="text-lg font-semibold text-gray-900">Is there a free trial available?</span>
-          <svg class="w-5 h-5 text-gray-500 transform transition-transform" data-accordion-target="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div class="bg-gray-50 rounded-lg shadow-md" data-accordion-target="item">
+        <button class="w-full px-6 py-4 text-left flex items-center justify-between" data-action="click->accordion#toggle" data-accordion-target="question">
+          <span class="text-lg font-semibold text-gray-900">Do you offer a free trial?</span>
+          <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" data-accordion-target="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
           </svg>
         </button>
         <div class="hidden px-6 pb-4" data-accordion-target="content">
-          <p class="text-gray-600">Yes! We offer a 14-day free trial with full access to all features. No credit card required. You can monitor up to 500 mentions and test the full power of our AI lead qualification system risk-free.</p>
+          <p class="text-gray-600">Yes! We offer a 14-day free trial with full access to all features. No credit card required to start. You can explore the platform, set up your keywords, and start seeing real results before making any commitment.</p>
         </div>
       </div>
     </div>
@@ -584,96 +535,88 @@
 </section>
 
 <!-- CTA Section -->
-<section class="py-20 bg-gradient-to-r from-indigo-600 to-purple-600">
+<section class="py-20 bg-gradient-to-r from-indigo-600 to-purple-700">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
       Ready to Transform Your Lead Generation?
     </h2>
-    <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-      Join hundreds of businesses already using AI to identify and convert high-quality leads from social media.
+    <p class="text-xl text-indigo-100 mb-8">
+      Join thousands of businesses already using AI to find and convert high-quality leads.
     </p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <a href="<%= new_user_registration_path %>" 
-         class="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-indigo-600 bg-white rounded-full hover:bg-gray-100 transition-colors">
+      <a href="<%= new_user_registration_path %>" class="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-indigo-600 bg-white rounded-full hover:bg-gray-100 transition-colors">
         Start Your Free Trial
       </a>
-      <a href="#" 
-         class="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white border-2 border-white rounded-full hover:bg-white/10 transition-colors">
+      <a href="#" class="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white border-2 border-white rounded-full hover:bg-white/10 transition-colors">
         Schedule a Demo
       </a>
     </div>
-    <p class="text-white/70 mt-6 text-sm">
-      No credit card required • 14-day free trial • Cancel anytime
-    </p>
   </div>
 </section>
 
 <!-- Footer -->
-<footer class="bg-gray-900 text-white py-12">
+<footer class="bg-gray-900 text-gray-300 py-12">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
       <!-- Company -->
       <div>
-        <h3 class="text-lg font-semibold mb-4">Company</h3>
+        <h3 class="text-white font-bold text-lg mb-4">Company</h3>
         <ul class="space-y-2">
-          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">About Us</a></li>
-          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Careers</a></li>
-          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Press</a></li>
-          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Press</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
         </ul>
       </div>
 
       <!-- Product -->
       <div>
-        <h3 class="text-lg font-semibold mb-4">Product</h3>
+        <h3 class="text-white font-bold text-lg mb-4">Product</h3>
         <ul class="space-y-2">
-          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Features</a></li>
-          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Pricing</a></li>
-          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Integrations</a></li>
-          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">API</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Features</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Pricing</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Security</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Roadmap</a></li>
         </ul>
       </div>
 
       <!-- Resources -->
       <div>
-        <h3 class="text-lg font-semibold mb-4">Resources</h3>
+        <h3 class="text-white font-bold text-lg mb-4">Resources</h3>
         <ul class="space-y-2">
-          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Blog</a></li>
-          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Documentation</a></li>
-          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
-          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Community</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Documentation</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">API Reference</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Case Studies</a></li>
         </ul>
       </div>
 
       <!-- Legal -->
       <div>
-        <h3 class="text-lg font-semibold mb-4">Legal</h3>
+        <h3 class="text-white font-bold text-lg mb-4">Legal</h3>
         <ul class="space-y-2">
-          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
-          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
-          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Cookie Policy</a></li>
-          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">GDPR</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Cookie Policy</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">GDPR</a></li>
         </ul>
       </div>
     </div>
 
     <div class="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
-      <div class="text-gray-400 mb-4 md:mb-0">
-        © 2024 AI Lead Generation. All rights reserved.
-      </div>
-      <div class="flex space-x-6">
-        <!-- Social Media Icons -->
-        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+      <p class="text-sm">&copy; 2024 AI Lead Generation. All rights reserved.</p>
+      <div class="flex space-x-6 mt-4 md:mt-0">
+        <a href="#" class="hover:text-white transition-colors">
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
             <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
           </svg>
         </a>
-        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+        <a href="#" class="hover:text-white transition-colors">
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
             <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
           </svg>
         </a>
-        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+        <a href="#" class="hover:text-white transition-colors">
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
             <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
           </svg>

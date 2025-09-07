@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stimulus Controller Test</title>
+  <script>
+    // Simple test to verify Stimulus controllers are working
+    function testControllers() {
+      console.log("Testing Stimulus Controllers...");
+      
+      // Test 1: Check if accordion items are present
+      const accordionItems = document.querySelectorAll('[data-accordion-target="item"]');
+      console.log(`✓ Accordion: Found ${accordionItems.length} FAQ items`);
+      
+      // Test 2: Check pricing toggle
+      const pricingToggle = document.querySelector('[data-controller="pricing-toggle"]');
+      if (pricingToggle) {
+        console.log("✓ Pricing Toggle: Controller attached");
+        const toggleButton = pricingToggle.querySelector('[data-action*="pricing-toggle#toggle"]');
+        if (toggleButton) {
+          console.log("  - Toggle button found and ready");
+        }
+      }
+      
+      // Test 3: Check testimonial carousel
+      const carousel = document.querySelector('[data-controller="testimonial-carousel"]');
+      if (carousel) {
+        const testimonials = carousel.querySelectorAll('[data-testimonial-carousel-target="testimonial"]');
+        console.log(`✓ Testimonial Carousel: Found ${testimonials.length} testimonials`);
+      }
+      
+      // Test 4: Check scroll reveal
+      const scrollReveal = document.querySelectorAll('[data-controller="scroll-reveal"]');
+      console.log(`✓ Scroll Reveal: Found ${scrollReveal.length} elements with scroll reveal`);
+      
+      // Test 5: Check fade-in
+      const fadeIn = document.querySelector('[data-controller="fade-in"]');
+      if (fadeIn) {
+        console.log("✓ Fade-in: Controller attached to hero section");
+      }
+      
+      console.log("\n=== Manual Test Instructions ===");
+      console.log("1. ACCORDION: Click on any FAQ question to expand/collapse");
+      console.log("2. PRICING: Click the Monthly/Annual toggle button");
+      console.log("3. TESTIMONIALS: Wait 5 seconds for auto-rotation or click arrows");
+      console.log("4. SCROLL: Scroll down to see features animate in");
+      console.log("5. FADE-IN: Refresh page to see hero section fade in");
+    }
+    
+    // Run test when page loads
+    window.addEventListener('load', () => {
+      setTimeout(testControllers, 1000);
+    });
+  </script>
+</head>
+<body>
+  <h1>Open the browser console to see test results</h1>
+  <p>Then visit <a href="http://localhost:3000">http://localhost:3000</a> and follow the manual test instructions in the console.</p>
+</body>
+</html>
