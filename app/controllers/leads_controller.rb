@@ -18,8 +18,16 @@ class LeadsController < ApplicationController
     # Apply sorting
     @leads = apply_sorting(@leads)
 
-    # Pagination
-    @leads = @leads.page(params[:page]).per(25)
+    # Pagination - handle gracefully if Kaminari is not available
+    begin
+      @leads = @leads.page(params[:page]).per(25)
+    rescue NoMethodError
+      # Fallback to limit/offset if Kaminari is not working
+      page = (params[:page] || 1).to_i
+      per_page = 25
+      offset = (page - 1) * per_page
+      @leads = @leads.limit(per_page).offset(offset)
+    end
 
     # Analytics for dashboard widgets
     @analytics = calculate_lead_analytics

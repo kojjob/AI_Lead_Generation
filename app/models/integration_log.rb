@@ -27,7 +27,7 @@ class IntegrationLog < ApplicationRecord
 
   # Class methods
   def self.cleanup_old_logs(days_to_keep = 30)
-    where('performed_at < ?', days_to_keep.days.ago).destroy_all
+    where("performed_at < ?", days_to_keep.days.ago).destroy_all
   end
 
   # Instance methods
@@ -40,7 +40,7 @@ class IntegrationLog < ApplicationRecord
   end
 
   def sync_related?
-    activity_type.start_with?('sync_')
+    activity_type.start_with?("sync_")
   end
 
   private

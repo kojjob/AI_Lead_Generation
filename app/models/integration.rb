@@ -3,21 +3,21 @@ class Integration < ApplicationRecord
 
   # Constants
   SUPPORTED_PLATFORMS = %w[twitter linkedin reddit facebook instagram slack discord].freeze
-  
+
   SYNC_FREQUENCIES = {
-    'realtime' => 1.minute,
-    'every_5_minutes' => 5.minutes,
-    'every_15_minutes' => 15.minutes,
-    'every_30_minutes' => 30.minutes,
-    'hourly' => 1.hour,
-    'every_3_hours' => 3.hours,
-    'every_6_hours' => 6.hours,
-    'daily' => 1.day,
-    'weekly' => 1.week
+    "realtime" => 1.minute,
+    "every_5_minutes" => 5.minutes,
+    "every_15_minutes" => 15.minutes,
+    "every_30_minutes" => 30.minutes,
+    "hourly" => 1.hour,
+    "every_3_hours" => 3.hours,
+    "every_6_hours" => 6.hours,
+    "daily" => 1.day,
+    "weekly" => 1.week
   }.freeze
 
   CONNECTION_STATUSES = %w[connected disconnected connecting error suspended rate_limited].freeze
-  
+
   MAX_ERROR_COUNT = 5
   RATE_LIMIT_WINDOW = 15.minutes
 
@@ -30,7 +30,7 @@ class Integration < ApplicationRecord
 
   # Associations
   belongs_to :user
-  has_many :mentions, ->(integration) { where(platform: integration.platform_name) }, 
+  has_many :mentions, ->(integration) { where(platform: integration.platform_name) },
            foreign_key: :keyword_id, through: :user, source: :mentions
   has_many :integration_logs, dependent: :destroy
 
@@ -41,7 +41,7 @@ class Integration < ApplicationRecord
   validates :sync_frequency, inclusion: { in: SYNC_FREQUENCIES.keys }
   validates :connection_status, inclusion: { in: CONNECTION_STATUSES }
   validates :error_count, numericality: { greater_than_or_equal_to: 0 }
-  
+
   validate :validate_platform_credentials
   validate :validate_settings_format
 
@@ -53,13 +53,13 @@ class Integration < ApplicationRecord
   # Scopes
   scope :active, -> { where(status: "active", enabled: true) }
   scope :enabled, -> { where(enabled: true) }
-  scope :connected, -> { where(connection_status: 'connected') }
-  scope :disconnected, -> { where(connection_status: 'disconnected') }
-  scope :with_errors, -> { where('error_count > 0') }
-  scope :needs_sync, -> { where('last_sync_at < ? OR last_sync_at IS NULL', 1.hour.ago) }
+  scope :connected, -> { where(connection_status: "connected") }
+  scope :disconnected, -> { where(connection_status: "disconnected") }
+  scope :with_errors, -> { where("error_count > 0") }
+  scope :needs_sync, -> { where("last_sync_at < ? OR last_sync_at IS NULL", 1.hour.ago) }
   scope :by_provider, ->(provider) { where(provider: provider) }
   scope :by_platform, ->(platform) { where(platform_name: platform) }
-  scope :ready_for_sync, -> { active.connected.where('next_sync_at <= ? OR next_sync_at IS NULL', Time.current) }
+  scope :ready_for_sync, -> { active.connected.where("next_sync_at <= ? OR next_sync_at IS NULL", Time.current) }
 
   # Class methods
   def self.sync_all_ready
@@ -76,52 +76,52 @@ class Integration < ApplicationRecord
   end
 
   def connected?
-    connection_status == 'connected'
+    connection_status == "connected"
   end
 
   def disconnected?
-    connection_status == 'disconnected'
+    connection_status == "disconnected"
   end
 
   def error?
-    connection_status == 'error' || error_count > 0
+    connection_status == "error" || error_count > 0
   end
 
   def rate_limited?
-    connection_status == 'rate_limited' || 
+    connection_status == "rate_limited" ||
     (rate_limit_remaining.present? && rate_limit_remaining <= 0 && rate_limit_reset_at&.future?)
   end
 
   def suspended?
-    connection_status == 'suspended' || error_count >= MAX_ERROR_COUNT
+    connection_status == "suspended" || error_count >= MAX_ERROR_COUNT
   end
 
   # Connection management
   def connect!
-    update!(connection_status: 'connecting')
-    
+    update!(connection_status: "connecting")
+
     begin
       case platform_name
-      when 'twitter'
+      when "twitter"
         connect_twitter!
-      when 'linkedin'
+      when "linkedin"
         connect_linkedin!
-      when 'reddit'
+      when "reddit"
         connect_reddit!
-      when 'facebook'
+      when "facebook"
         connect_facebook!
       else
         raise NotImplementedError, "Platform #{platform_name} is not yet implemented"
       end
-      
+
       update!(
-        connection_status: 'connected',
+        connection_status: "connected",
         error_count: 0,
         error_message: nil,
         last_successful_sync_at: Time.current
       )
-      
-      log_activity('connected', 'Successfully connected to platform')
+
+      log_activity("connected", "Successfully connected to platform")
       true
     rescue StandardError => e
       handle_connection_error(e)
@@ -131,21 +131,21 @@ class Integration < ApplicationRecord
 
   def disconnect!
     update!(
-      connection_status: 'disconnected',
+      connection_status: "disconnected",
       access_token: nil,
       refresh_token: nil,
       token_expires_at: nil
     )
-    
-    log_activity('disconnected', 'Disconnected from platform')
+
+    log_activity("disconnected", "Disconnected from platform")
   end
 
   def check_connection!
     return false unless enabled?
-    
+
     begin
       validate_authentication!
-      update!(connection_status: 'connected', error_count: 0) unless connected?
+      update!(connection_status: "connected", error_count: 0) unless connected?
       true
     rescue StandardError => e
       handle_connection_error(e)
@@ -156,12 +156,12 @@ class Integration < ApplicationRecord
   # Synchronization
   def sync!
     return false unless can_sync?
-    
+
     update!(last_sync_at: Time.current)
-    
+
     begin
       IntegrationSyncJob.perform_later(self)
-      log_activity('sync_started', 'Sync initiated')
+      log_activity("sync_started", "Sync initiated")
       true
     rescue StandardError => e
       handle_sync_error(e)
@@ -171,7 +171,7 @@ class Integration < ApplicationRecord
 
   def sync_now!
     return false unless can_sync?
-    
+
     begin
       perform_sync
       update!(
@@ -179,7 +179,7 @@ class Integration < ApplicationRecord
         last_successful_sync_at: Time.current,
         error_count: 0,
         error_message: nil,
-        connection_status: 'connected'
+        connection_status: "connected"
       )
       true
     rescue StandardError => e
@@ -194,7 +194,7 @@ class Integration < ApplicationRecord
 
   def next_sync_at
     return nil unless last_sync_at.present? && sync_frequency.present?
-    
+
     last_sync_at + SYNC_FREQUENCIES[sync_frequency]
   end
 
@@ -210,36 +210,36 @@ class Integration < ApplicationRecord
 
     # Connection status (30 points)
     score -= 30 unless connected?
-    
+
     # Recent sync (25 points)
     if last_successful_sync_at
       hours_since_sync = (Time.current - last_successful_sync_at) / 1.hour
-      score -= [hours_since_sync * 2, 25].min
+      score -= [ hours_since_sync * 2, 25 ].min
     else
       score -= 25
     end
-    
+
     # Error rate (25 points)
-    score -= [error_count * 5, 25].min
-    
+    score -= [ error_count * 5, 25 ].min
+
     # Rate limiting (20 points)
     score -= 20 if rate_limited?
-    
-    [score, 0].max.round
+
+    [ score, 0 ].max.round
   end
 
   def health_status
     case health_score
     when 90..100
-      'excellent'
+      "excellent"
     when 70..89
-      'good'
+      "good"
     when 50..69
-      'fair'
+      "fair"
     when 30..49
-      'poor'
+      "poor"
     else
-      'critical'
+      "critical"
     end
   end
 
@@ -273,12 +273,12 @@ class Integration < ApplicationRecord
 
   def sync_success_rate
     return 0 if total_synced_items.zero?
-    
-    successful_syncs = integration_logs.where(activity_type: 'sync_completed').count
-    total_syncs = integration_logs.where(activity_type: ['sync_completed', 'sync_failed']).count
-    
+
+    successful_syncs = integration_logs.where(activity_type: "sync_completed").count
+    total_syncs = integration_logs.where(activity_type: [ "sync_completed", "sync_failed" ]).count
+
     return 100 if total_syncs.zero?
-    
+
     ((successful_syncs.to_f / total_syncs) * 100).round(2)
   end
 
@@ -302,13 +302,13 @@ class Integration < ApplicationRecord
   # Platform-specific methods
   def platform_client
     @platform_client ||= case platform_name
-    when 'twitter'
+    when "twitter"
       TwitterClient.new(self)
-    when 'linkedin'
+    when "linkedin"
       LinkedInClient.new(self)
-    when 'reddit'
+    when "reddit"
       RedditClient.new(self)
-    when 'facebook'
+    when "facebook"
       FacebookClient.new(self)
     else
       raise NotImplementedError, "Client for #{platform_name} is not implemented"
@@ -317,7 +317,7 @@ class Integration < ApplicationRecord
 
   def refresh_access_token!
     return false unless refresh_token.present?
-    
+
     begin
       platform_client.refresh_token!
       true
@@ -330,9 +330,9 @@ class Integration < ApplicationRecord
   private
 
   def set_default_values
-    self.status ||= 'active'
-    self.connection_status ||= 'disconnected'
-    self.sync_frequency ||= 'hourly'
+    self.status ||= "active"
+    self.connection_status ||= "disconnected"
+    self.sync_frequency ||= "hourly"
     self.error_count ||= 0
     self.total_synced_items ||= 0
     self.settings ||= {}
@@ -342,25 +342,25 @@ class Integration < ApplicationRecord
 
   def validate_platform_credentials
     return unless platform_name.present?
-    
+
     case platform_name
-    when 'twitter'
+    when "twitter"
       errors.add(:api_key, "is required for Twitter") if api_key.blank?
       errors.add(:api_secret, "is required for Twitter") if api_secret.blank?
-    when 'linkedin'
+    when "linkedin"
       errors.add(:api_key, "is required for LinkedIn") if api_key.blank?
       errors.add(:api_secret, "is required for LinkedIn") if api_secret.blank?
-    when 'reddit'
+    when "reddit"
       errors.add(:api_key, "is required for Reddit") if api_key.blank?
       errors.add(:api_secret, "is required for Reddit") if api_secret.blank?
-    when 'facebook'
+    when "facebook"
       errors.add(:access_token, "is required for Facebook") if access_token.blank?
     end
   end
 
   def validate_settings_format
     return if settings.blank?
-    
+
     unless settings.is_a?(Hash)
       errors.add(:settings, "must be a valid JSON object")
     end
@@ -368,18 +368,18 @@ class Integration < ApplicationRecord
 
   def validate_authentication!
     case platform_name
-    when 'twitter', 'linkedin', 'reddit'
+    when "twitter", "linkedin", "reddit"
       raise "Access token expired" if token_expires_at.present? && token_expires_at < Time.current
       raise "Missing access token" if access_token.blank?
-    when 'facebook'
+    when "facebook"
       raise "Missing access token" if access_token.blank?
     end
   end
 
   def check_connection_health
-    if error_count >= MAX_ERROR_COUNT && connection_status != 'suspended'
-      update_column(:connection_status, 'suspended')
-      log_activity('suspended', "Integration suspended after #{MAX_ERROR_COUNT} errors")
+    if error_count >= MAX_ERROR_COUNT && connection_status != "suspended"
+      update_column(:connection_status, "suspended")
+      log_activity("suspended", "Integration suspended after #{MAX_ERROR_COUNT} errors")
     end
   end
 
@@ -398,12 +398,12 @@ class Integration < ApplicationRecord
   def handle_connection_error(error)
     increment!(:error_count)
     update!(
-      connection_status: 'error',
+      connection_status: "error",
       error_message: error.message,
       last_error_at: Time.current
     )
-    
-    log_activity('connection_error', error.message)
+
+    log_activity("connection_error", error.message)
     Rails.logger.error "[Integration #{id}] Connection error: #{error.message}"
   end
 
@@ -413,8 +413,8 @@ class Integration < ApplicationRecord
       error_message: error.message,
       last_error_at: Time.current
     )
-    
-    log_activity('sync_failed', error.message)
+
+    log_activity("sync_failed", error.message)
     Rails.logger.error "[Integration #{id}] Sync error: #{error.message}"
   end
 

@@ -79,3 +79,6 @@ gem "pundit"
 
 # Debugging
 gem "pry-rails"
+
+# Pagination
+gem "kaminari"

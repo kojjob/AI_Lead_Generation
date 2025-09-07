@@ -16,6 +16,20 @@ Rails.application.routes.draw do
   # Keywords resource
   resources :keywords
 
+  # Integrations resource with custom actions
+  resources :integrations do
+    member do
+      post :connect
+      post :disconnect
+      post :sync
+      get :logs
+    end
+
+    collection do
+      get :health_check
+    end
+  end
+
   # Leads resource with custom actions
   resources :leads do
     member do

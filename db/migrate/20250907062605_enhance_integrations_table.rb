@@ -26,11 +26,11 @@ class EnhanceIntegrationsTable < ActiveRecord::Migration[8.0]
     add_column :integrations, :metadata, :jsonb, default: {} unless column_exists?(:integrations, :metadata)
 
     # Add indexes for performance optimization
-    add_index :integrations, [:user_id, :provider, :enabled], name: 'idx_integrations_user_provider_enabled' unless index_exists?(:integrations, [:user_id, :provider, :enabled])
+    add_index :integrations, [ :user_id, :provider, :enabled ], name: 'idx_integrations_user_provider_enabled' unless index_exists?(:integrations, [ :user_id, :provider, :enabled ])
     add_index :integrations, :platform_name unless index_exists?(:integrations, :platform_name)
     add_index :integrations, :connection_status unless index_exists?(:integrations, :connection_status)
     add_index :integrations, :last_sync_at unless index_exists?(:integrations, :last_sync_at)
     add_index :integrations, :enabled unless index_exists?(:integrations, :enabled)
-    add_index :integrations, [:user_id, :connection_status], name: 'idx_integrations_user_connection' unless index_exists?(:integrations, [:user_id, :connection_status])
+    add_index :integrations, [ :user_id, :connection_status ], name: 'idx_integrations_user_connection' unless index_exists?(:integrations, [ :user_id, :connection_status ])
   end
 end
