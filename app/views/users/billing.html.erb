@@ -1,0 +1,338 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Page Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">Billing & Subscription</h1>
+      <p class="mt-2 text-sm text-gray-600">Manage your subscription plan and payment methods</p>
+    </div>
+
+    <!-- Current Plan Section -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-8">
+      <div class="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-indigo-500 to-purple-600">
+        <h2 class="text-lg font-semibold text-white">Current Plan</h2>
+      </div>
+      <div class="p-6">
+        <div class="flex items-start justify-between">
+          <div>
+            <div class="flex items-center">
+              <h3 class="text-2xl font-bold text-gray-900"><%= @subscription.plan %></h3>
+              <span class="ml-3 inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                <span class="w-2 h-2 bg-green-400 rounded-full mr-1.5"></span>
+                <%= @subscription.status.capitalize %>
+              </span>
+            </div>
+            <p class="mt-2 text-gray-600">Perfect for growing businesses and teams</p>
+            
+            <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <p class="text-sm text-gray-500">Billing Cycle</p>
+                <p class="mt-1 text-lg font-medium text-gray-900"><%= @subscription.billing_cycle.capitalize %></p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">Next Billing Date</p>
+                <p class="mt-1 text-lg font-medium text-gray-900"><%= @subscription.next_billing_date.strftime('%B %d, %Y') %></p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">Amount</p>
+                <p class="mt-1 text-lg font-medium text-gray-900">$<%= @subscription.price %>/month</p>
+              </div>
+            </div>
+
+            <!-- Plan Features -->
+            <div class="mt-6 pt-6 border-t border-gray-200">
+              <h4 class="text-sm font-medium text-gray-900 mb-3">Plan Features</h4>
+              <ul class="space-y-2">
+                <li class="flex items-center">
+                  <svg class="h-5 w-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span class="text-sm text-gray-700">Unlimited keyword tracking</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="h-5 w-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span class="text-sm text-gray-700">AI-powered lead analysis</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="h-5 w-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span class="text-sm text-gray-700">5 team members included</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="h-5 w-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span class="text-sm text-gray-700">Advanced integrations</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="h-5 w-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span class="text-sm text-gray-700">Priority support</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="ml-6">
+            <button class="px-4 py-2 text-sm font-medium text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors duration-200">
+              Change Plan
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Available Plans -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-8">
+      <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+        <h2 class="text-lg font-semibold text-gray-900">Available Plans</h2>
+      </div>
+      <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Starter Plan -->
+          <div class="border border-gray-200 rounded-lg p-6 hover:border-indigo-500 transition-colors duration-200">
+            <h3 class="text-lg font-semibold text-gray-900">Starter</h3>
+            <p class="mt-2 text-sm text-gray-600">Perfect for individuals</p>
+            <div class="mt-4">
+              <span class="text-3xl font-bold text-gray-900">$19</span>
+              <span class="text-gray-500">/month</span>
+            </div>
+            <ul class="mt-6 space-y-3">
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-sm text-gray-700">10 keywords</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-sm text-gray-700">100 leads/month</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-sm text-gray-700">Basic integrations</span>
+              </li>
+            </ul>
+            <button class="mt-6 w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+              Downgrade
+            </button>
+          </div>
+
+          <!-- Professional Plan (Current) -->
+          <div class="border-2 border-indigo-500 rounded-lg p-6 relative">
+            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-600 text-white">
+                Current Plan
+              </span>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900">Professional</h3>
+            <p class="mt-2 text-sm text-gray-600">For growing teams</p>
+            <div class="mt-4">
+              <span class="text-3xl font-bold text-gray-900">$49</span>
+              <span class="text-gray-500">/month</span>
+            </div>
+            <ul class="mt-6 space-y-3">
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-sm text-gray-700">Unlimited keywords</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-sm text-gray-700">1,000 leads/month</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-sm text-gray-700">5 team members</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-sm text-gray-700">Advanced integrations</span>
+              </li>
+            </ul>
+            <button class="mt-6 w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg cursor-default" disabled>
+              Current Plan
+            </button>
+          </div>
+
+          <!-- Enterprise Plan -->
+          <div class="border border-gray-200 rounded-lg p-6 hover:border-indigo-500 transition-colors duration-200">
+            <h3 class="text-lg font-semibold text-gray-900">Enterprise</h3>
+            <p class="mt-2 text-sm text-gray-600">For large organizations</p>
+            <div class="mt-4">
+              <span class="text-3xl font-bold text-gray-900">$149</span>
+              <span class="text-gray-500">/month</span>
+            </div>
+            <ul class="mt-6 space-y-3">
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-sm text-gray-700">Everything in Pro</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-sm text-gray-700">Unlimited leads</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-sm text-gray-700">Unlimited team members</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-sm text-gray-700">Custom integrations</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-sm text-gray-700">Dedicated support</span>
+              </li>
+            </ul>
+            <button class="mt-6 w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors duration-200">
+              Upgrade
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Methods -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-8">
+      <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold text-gray-900">Payment Methods</h2>
+          <button class="px-4 py-2 text-sm font-medium text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors duration-200">
+            Add Payment Method
+          </button>
+        </div>
+      </div>
+      <div class="p-6">
+        <div class="space-y-4">
+          <% @payment_methods.each do |payment_method| %>
+            <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg <%= payment_method.default ? 'border-indigo-500 bg-indigo-50' : '' %>">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <% if payment_method.brand == 'Visa' %>
+                    <svg class="h-8 w-12" viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="48" height="32" rx="4" fill="#1A1F71"/>
+                      <path d="M20.5 11L17.5 21H14.5L17.5 11H20.5Z" fill="white"/>
+                      <path d="M32 11L29 18L26 11H23L27 21H31L35 11H32Z" fill="white"/>
+                    </svg>
+                  <% end %>
+                </div>
+                <div class="ml-4">
+                  <p class="text-sm font-medium text-gray-900">
+                    <%= payment_method.brand %> ending in <%= payment_method.last4 %>
+                  </p>
+                  <p class="text-sm text-gray-500">Expires <%= payment_method.expires %></p>
+                </div>
+                <% if payment_method.default %>
+                  <span class="ml-3 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-600 text-white">
+                    Default
+                  </span>
+                <% end %>
+              </div>
+              <div class="flex items-center space-x-2">
+                <% unless payment_method.default %>
+                  <button class="px-3 py-1 text-sm font-medium text-indigo-600 hover:text-indigo-700">
+                    Set as Default
+                  </button>
+                <% end %>
+                <button class="px-3 py-1 text-sm font-medium text-red-600 hover:text-red-700">
+                  Remove
+                </button>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Billing History -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+        <h2 class="text-lg font-semibold text-gray-900">Billing History</h2>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-gray-200">
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Invoice</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Dec 1, 2024</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Professional Plan - Monthly</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$49.00</td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  Paid
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm">
+                <a href="#" class="text-indigo-600 hover:text-indigo-700">Download</a>
+              </td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Nov 1, 2024</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Professional Plan - Monthly</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$49.00</td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  Paid
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm">
+                <a href="#" class="text-indigo-600 hover:text-indigo-700">Download</a>
+              </td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Oct 1, 2024</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Professional Plan - Monthly</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$49.00</td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  Paid
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm">
+                <a href="#" class="text-indigo-600 hover:text-indigo-700">Download</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="px-6 py-3 border-t border-gray-200">
+        <button class="text-sm text-indigo-600 hover:text-indigo-700 font-medium">
+          View all transactions →
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

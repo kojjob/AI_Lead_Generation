@@ -1,0 +1,203 @@
+<% content_for :title, "Dashboard - AI Lead Generation" %>
+
+<div class="min-h-screen bg-gray-50" data-controller="dashboard" data-dashboard-user-id="<%= current_user.id %>">
+  <!-- Dashboard Header -->
+  <div class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center">
+          <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
+          <div class="ml-4 flex items-center text-sm text-gray-500">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Last updated: <span data-dashboard-target="lastUpdated"><%= Time.current.strftime("%I:%M %p") %></span>
+          </div>
+        </div>
+        
+        <div class="flex items-center space-x-4">
+          <!-- Quick Actions -->
+          <div class="flex items-center space-x-2">
+            <button class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+              </svg>
+              Add Keyword
+            </button>
+            
+            <button data-action="click->dashboard#refreshData" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+              </svg>
+              Refresh
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Dashboard Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Key Metrics Row -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <!-- Total Leads Card -->
+      <div class="bg-white overflow-hidden shadow-sm rounded-xl border border-gray-200 hover:shadow-md transition-shadow duration-200">
+        <div class="p-6">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="ml-4 flex-1">
+              <p class="text-sm font-medium text-gray-500">Total Leads</p>
+              <p class="text-2xl font-bold text-gray-900" data-dashboard-target="totalLeads">
+                <%= @analytics_data[:leads][:total_leads] %>
+              </p>
+              <% if @analytics_data[:leads][:this_month] > @analytics_data[:leads][:last_month] %>
+                <p class="text-sm text-green-600 flex items-center">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
+                  </svg>
+                  +<%= ((@analytics_data[:leads][:this_month] - @analytics_data[:leads][:last_month]).to_f / [@analytics_data[:leads][:last_month], 1].max * 100).round(1) %>%
+                </p>
+              <% else %>
+                <p class="text-sm text-gray-500">This month: <%= @analytics_data[:leads][:this_month] %></p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conversion Rate Card -->
+      <div class="bg-white overflow-hidden shadow-sm rounded-xl border border-gray-200 hover:shadow-md transition-shadow duration-200">
+        <div class="p-6">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="ml-4 flex-1">
+              <p class="text-sm font-medium text-gray-500">Conversion Rate</p>
+              <p class="text-2xl font-bold text-gray-900" data-dashboard-target="conversionRate">
+                <%= @analytics_data[:conversions][:conversion_rate] %>%
+              </p>
+              <p class="text-sm text-gray-500">
+                <%= @analytics_data[:conversions][:converted] %> of <%= @analytics_data[:conversions][:mentions] %> mentions
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Keywords Card -->
+      <div class="bg-white overflow-hidden shadow-sm rounded-xl border border-gray-200 hover:shadow-md transition-shadow duration-200">
+        <div class="p-6">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="ml-4 flex-1">
+              <p class="text-sm font-medium text-gray-500">Active Keywords</p>
+              <p class="text-2xl font-bold text-gray-900" data-dashboard-target="activeKeywords">
+                <%= current_user.keywords.count %>
+              </p>
+              <p class="text-sm text-gray-500">
+                <%= @keyword_performance.count %> performing well
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Integrations Card -->
+      <div class="bg-white overflow-hidden shadow-sm rounded-xl border border-gray-200 hover:shadow-md transition-shadow duration-200">
+        <div class="p-6">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="ml-4 flex-1">
+              <p class="text-sm font-medium text-gray-500">Integrations</p>
+              <p class="text-2xl font-bold text-gray-900" data-dashboard-target="activeIntegrations">
+                <%= @integration_status.where(status: 'active').count %>
+              </p>
+              <p class="text-sm text-gray-500">
+                of <%= @integration_status.count %> connected
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Left Column - Charts and Analytics -->
+      <div class="lg:col-span-2 space-y-8">
+        <!-- Analytics Section -->
+        <%= render 'analytics_section' %>
+
+        <!-- Conversion Funnel -->
+        <div class="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden">
+          <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">Conversion Funnel</h3>
+            <p class="text-sm text-gray-500">Track your lead conversion process</p>
+          </div>
+          <div class="p-6">
+            <div class="space-y-4" data-dashboard-target="conversionFunnel">
+              <!-- Funnel stages will be rendered here -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column - Widgets and Quick Info -->
+      <div class="space-y-8">
+        <!-- Recent Leads -->
+        <div class="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden">
+          <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">Recent Leads</h3>
+          </div>
+          <div class="divide-y divide-gray-200" data-dashboard-target="recentLeads">
+            <!-- Recent leads will be rendered here -->
+          </div>
+        </div>
+
+        <!-- Keyword Performance -->
+        <div class="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden">
+          <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">Top Keywords</h3>
+          </div>
+          <div class="p-6" data-dashboard-target="keywordPerformance">
+            <!-- Keyword performance will be rendered here -->
+          </div>
+        </div>
+
+        <!-- Integration Status -->
+        <div class="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden">
+          <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">Integration Status</h3>
+          </div>
+          <div class="p-6" data-dashboard-target="integrationStatus">
+            <!-- Integration status will be rendered here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

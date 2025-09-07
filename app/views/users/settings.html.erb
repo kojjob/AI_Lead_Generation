@@ -1,0 +1,366 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Page Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">Settings</h1>
+      <p class="mt-2 text-sm text-gray-600">Manage your account preferences and configurations</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <!-- Settings Navigation Sidebar -->
+      <div class="lg:col-span-1">
+        <nav class="space-y-1" data-controller="settings-navigation">
+          <button data-action="click->settings-navigation#showSection" 
+                  data-section="notifications"
+                  class="settings-nav-item w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200">
+            <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+            </svg>
+            Notifications
+          </button>
+          
+          <button data-action="click->settings-navigation#showSection" 
+                  data-section="privacy"
+                  class="settings-nav-item w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200">
+            <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+            Privacy & Security
+          </button>
+          
+          <button data-action="click->settings-navigation#showSection" 
+                  data-section="preferences"
+                  class="settings-nav-item w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200">
+            <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+            Preferences
+          </button>
+          
+          <button data-action="click->settings-navigation#showSection" 
+                  data-section="integrations"
+                  class="settings-nav-item w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200">
+            <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+            </svg>
+            Integrations
+          </button>
+          
+          <button data-action="click->settings-navigation#showSection" 
+                  data-section="api"
+                  class="settings-nav-item w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200">
+            <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+            </svg>
+            API Keys
+          </button>
+          
+          <button data-action="click->settings-navigation#showSection" 
+                  data-section="danger"
+                  class="settings-nav-item w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-700 transition-colors duration-200">
+            <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+            Danger Zone
+          </button>
+        </nav>
+      </div>
+
+      <!-- Settings Content Area -->
+      <div class="lg:col-span-3">
+        <%= form_with model: @user, url: update_settings_path, local: true do |form| %>
+          <!-- Notifications Section -->
+          <div id="notifications-section" class="settings-section bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+              <h2 class="text-lg font-semibold text-gray-900">Notification Preferences</h2>
+              <p class="mt-1 text-sm text-gray-600">Choose how you want to be notified</p>
+            </div>
+            <div class="p-6 space-y-6">
+              <!-- Email Notifications -->
+              <div>
+                <h3 class="text-sm font-medium text-gray-900 mb-4">Email Notifications</h3>
+                <div class="space-y-4">
+                  <label class="flex items-start">
+                    <%= form.check_box :email_notifications, class: "mt-1 h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
+                    <div class="ml-3">
+                      <span class="text-sm font-medium text-gray-700">Lead Alerts</span>
+                      <p class="text-sm text-gray-500">Get notified when new leads are detected</p>
+                    </div>
+                  </label>
+                  
+                  <label class="flex items-start">
+                    <%= form.check_box :weekly_digest, class: "mt-1 h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
+                    <div class="ml-3">
+                      <span class="text-sm font-medium text-gray-700">Weekly Digest</span>
+                      <p class="text-sm text-gray-500">Receive a weekly summary of your lead generation activity</p>
+                    </div>
+                  </label>
+                  
+                  <label class="flex items-start">
+                    <%= form.check_box :marketing_emails, class: "mt-1 h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
+                    <div class="ml-3">
+                      <span class="text-sm font-medium text-gray-700">Product Updates</span>
+                      <p class="text-sm text-gray-500">Stay informed about new features and improvements</p>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Push Notifications -->
+              <div class="pt-6 border-t border-gray-200">
+                <h3 class="text-sm font-medium text-gray-900 mb-4">Push Notifications</h3>
+                <div class="space-y-4">
+                  <label class="flex items-start">
+                    <%= form.check_box :sms_notifications, class: "mt-1 h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
+                    <div class="ml-3">
+                      <span class="text-sm font-medium text-gray-700">Browser Notifications</span>
+                      <p class="text-sm text-gray-500">Show desktop notifications for important events</p>
+                    </div>
+                  </label>
+                  
+                  <label class="flex items-start">
+                    <input type="checkbox" class="mt-1 h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                    <div class="ml-3">
+                      <span class="text-sm font-medium text-gray-700">Mobile Push</span>
+                      <p class="text-sm text-gray-500">Receive notifications on your mobile device</p>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Notification Schedule -->
+              <div class="pt-6 border-t border-gray-200">
+                <h3 class="text-sm font-medium text-gray-900 mb-4">Quiet Hours</h3>
+                <div class="flex items-center space-x-4">
+                  <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">From</label>
+                    <input type="time" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent" value="22:00">
+                  </div>
+                  <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">To</label>
+                    <input type="time" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent" value="08:00">
+                  </div>
+                </div>
+                <p class="mt-2 text-sm text-gray-500">No notifications will be sent during quiet hours</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Privacy & Security Section (Hidden by default) -->
+          <div id="privacy-section" class="settings-section hidden bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+              <h2 class="text-lg font-semibold text-gray-900">Privacy & Security</h2>
+              <p class="mt-1 text-sm text-gray-600">Manage your account security and privacy settings</p>
+            </div>
+            <div class="p-6 space-y-6">
+              <!-- Two-Factor Authentication -->
+              <div>
+                <h3 class="text-sm font-medium text-gray-900 mb-4">Two-Factor Authentication</h3>
+                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                  <div class="flex items-center">
+                    <svg class="h-8 w-8 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                    <div>
+                      <p class="text-sm font-medium text-gray-900">Two-factor authentication is enabled</p>
+                      <p class="text-sm text-gray-500">Your account is secured with 2FA</p>
+                    </div>
+                  </div>
+                  <button type="button" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                    Configure
+                  </button>
+                </div>
+              </div>
+
+              <!-- Password -->
+              <div class="pt-6 border-t border-gray-200">
+                <h3 class="text-sm font-medium text-gray-900 mb-4">Password</h3>
+                <button type="button" class="px-4 py-2 text-sm font-medium text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100">
+                  Change Password
+                </button>
+                <p class="mt-2 text-sm text-gray-500">Last changed 3 months ago</p>
+              </div>
+
+              <!-- Active Sessions -->
+              <div class="pt-6 border-t border-gray-200">
+                <h3 class="text-sm font-medium text-gray-900 mb-4">Active Sessions</h3>
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-center">
+                      <svg class="h-8 w-8 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                      </svg>
+                      <div>
+                        <p class="text-sm font-medium text-gray-900">Chrome on MacOS</p>
+                        <p class="text-sm text-gray-500">Current session • San Francisco, CA</p>
+                      </div>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      Active now
+                    </span>
+                  </div>
+                  
+                  <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-center">
+                      <svg class="h-8 w-8 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                      </svg>
+                      <div>
+                        <p class="text-sm font-medium text-gray-900">Safari on iPhone</p>
+                        <p class="text-sm text-gray-500">Last active 2 hours ago • San Francisco, CA</p>
+                      </div>
+                    </div>
+                    <button type="button" class="text-sm text-red-600 hover:text-red-700">
+                      Revoke
+                    </button>
+                  </div>
+                </div>
+                <button type="button" class="mt-4 text-sm text-red-600 hover:text-red-700 font-medium">
+                  Sign out all other sessions
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preferences Section (Hidden by default) -->
+          <div id="preferences-section" class="settings-section hidden bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+              <h2 class="text-lg font-semibold text-gray-900">Preferences</h2>
+              <p class="mt-1 text-sm text-gray-600">Customize your experience</p>
+            </div>
+            <div class="p-6 space-y-6">
+              <div>
+                <%= form.label :language, class: "block text-sm font-medium text-gray-700 mb-2" %>
+                <%= form.select :language, 
+                    options_for_select([
+                      ['English', 'en'],
+                      ['Spanish', 'es'],
+                      ['French', 'fr'],
+                      ['German', 'de'],
+                      ['Japanese', 'ja']
+                    ], 'en'),
+                    {},
+                    class: "w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent" %>
+              </div>
+
+              <div>
+                <%= form.label :timezone, class: "block text-sm font-medium text-gray-700 mb-2" %>
+                <%= form.select :timezone, 
+                    options_for_select([
+                      ['Pacific Time (US & Canada)', 'America/Los_Angeles'],
+                      ['Mountain Time (US & Canada)', 'America/Denver'],
+                      ['Central Time (US & Canada)', 'America/Chicago'],
+                      ['Eastern Time (US & Canada)', 'America/New_York'],
+                      ['London', 'Europe/London'],
+                      ['Paris', 'Europe/Paris'],
+                      ['Tokyo', 'Asia/Tokyo']
+                    ], 'America/Los_Angeles'),
+                    {},
+                    class: "w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent" %>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Date Format</label>
+                <div class="space-y-2">
+                  <label class="flex items-center">
+                    <input type="radio" name="date_format" value="mm/dd/yyyy" checked class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500">
+                    <span class="ml-3 text-sm text-gray-700">MM/DD/YYYY (12/31/2024)</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="radio" name="date_format" value="dd/mm/yyyy" class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500">
+                    <span class="ml-3 text-sm text-gray-700">DD/MM/YYYY (31/12/2024)</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="radio" name="date_format" value="yyyy-mm-dd" class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500">
+                    <span class="ml-3 text-sm text-gray-700">YYYY-MM-DD (2024-12-31)</span>
+                  </label>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Theme</label>
+                <div class="grid grid-cols-3 gap-3">
+                  <label class="relative flex items-center justify-center p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-indigo-500 transition-colors">
+                    <input type="radio" name="theme" value="light" checked class="sr-only">
+                    <div class="text-center">
+                      <svg class="h-8 w-8 mx-auto mb-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                      </svg>
+                      <span class="text-sm font-medium text-gray-900">Light</span>
+                    </div>
+                  </label>
+                  <label class="relative flex items-center justify-center p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-indigo-500 transition-colors">
+                    <input type="radio" name="theme" value="dark" class="sr-only">
+                    <div class="text-center">
+                      <svg class="h-8 w-8 mx-auto mb-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                      </svg>
+                      <span class="text-sm font-medium text-gray-900">Dark</span>
+                    </div>
+                  </label>
+                  <label class="relative flex items-center justify-center p-4 border-2 border-indigo-500 rounded-lg cursor-pointer bg-indigo-50">
+                    <input type="radio" name="theme" value="auto" class="sr-only">
+                    <div class="text-center">
+                      <svg class="h-8 w-8 mx-auto mb-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                      </svg>
+                      <span class="text-sm font-medium text-indigo-600">System</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="mt-6 flex items-center justify-end space-x-3">
+            <button type="button" class="px-6 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+              Cancel
+            </button>
+            <%= form.submit "Save Settings", 
+                class: "px-6 py-2.5 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200 cursor-pointer" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Simple section switching for settings (will be replaced with Stimulus controller)
+  document.addEventListener('DOMContentLoaded', function() {
+    const sections = {
+      notifications: document.getElementById('notifications-section'),
+      privacy: document.getElementById('privacy-section'),
+      preferences: document.getElementById('preferences-section')
+    };
+    
+    const navButtons = document.querySelectorAll('[data-section]');
+    
+    navButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const section = this.dataset.section;
+        
+        // Hide all sections
+        Object.values(sections).forEach(s => {
+          if (s) s.classList.add('hidden');
+        });
+        
+        // Show selected section
+        if (sections[section]) {
+          sections[section].classList.remove('hidden');
+        }
+        
+        // Update nav styling
+        navButtons.forEach(b => {
+          b.classList.remove('bg-indigo-50', 'text-indigo-700', 'border', 'border-indigo-200');
+          b.classList.add('text-gray-700');
+        });
+        
+        this.classList.remove('text-gray-700');
+        this.classList.add('bg-indigo-50', 'text-indigo-700', 'border', 'border-indigo-200');
+      });
+    });
+  });
+</script>
