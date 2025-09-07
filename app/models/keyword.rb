@@ -1,7 +1,7 @@
 class Keyword < ApplicationRecord
   self.inheritance_column = nil # Disable single-table inheritance
 
-  belongs_to :user
+  belongs_to :user, counter_cache: true
   has_many :mentions, dependent: :destroy
   has_many :leads, through: :mentions
 
@@ -25,14 +25,6 @@ class Keyword < ApplicationRecord
   scope :by_performance, -> { joins(:leads).group("keywords.id").order("COUNT(leads.id) DESC") }
 
   # Instance methods
-  def mentions_count
-    mentions.count
-  end
-
-  def leads_count
-    leads.count
-  end
-
   def conversion_rate
     return 0 if mentions_count.zero?
     (leads_count.to_f / mentions_count * 100).round(2)

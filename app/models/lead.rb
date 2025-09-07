@@ -2,7 +2,7 @@ class Lead < ApplicationRecord
   self.inheritance_column = nil # Disable single-table inheritance
 
   # Associations
-  belongs_to :user
+  belongs_to :user, counter_cache: true
   belongs_to :mention, optional: true
   has_one :keyword, through: :mention
 
@@ -20,6 +20,7 @@ class Lead < ApplicationRecord
   before_save :update_interaction_tracking
   before_save :calculate_qualification_score
   after_update :track_status_changes
+  after_create :create_notification
 
   # Scopes
   scope :new_leads, -> { where(leads: { status: "new" }) }
@@ -201,5 +202,14 @@ class Lead < ApplicationRecord
         self.update_column(:last_interaction_at, Time.current)
       end
     end
+  end
+  
+  def create_notification
+    LeadCreatedNotification.create!(
+      user: user,
+      params: { lead_id: id }
+    )
+  rescue => e
+    Rails.logger.error "Failed to create notification: #{e.message}"
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_07_065931) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_07_135543) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -196,6 +196,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_065931) do
     t.index ["keyword_id"], name: "index_mentions_on_keyword_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "type"
+    t.text "params"
+    t.datetime "read_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -227,6 +237,28 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_065931) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "webhooks", force: :cascade do |t|
+    t.bigint "integration_id", null: false
+    t.string "event_type", null: false
+    t.text "payload", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "processed_at"
+    t.text "error_message"
+    t.string "signature"
+    t.string "source_ip"
+    t.string "user_agent"
+    t.json "headers"
+    t.integer "retry_count", default: 0
+    t.datetime "next_retry_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["integration_id", "event_type"], name: "index_webhooks_on_integration_id_and_event_type"
+    t.index ["integration_id"], name: "index_webhooks_on_integration_id"
+    t.index ["next_retry_at"], name: "index_webhooks_on_next_retry_at"
+    t.index ["processed_at"], name: "index_webhooks_on_processed_at"
+    t.index ["status", "created_at"], name: "index_webhooks_on_status_and_created_at"
+  end
+
   add_foreign_key "analysis_results", "mentions"
   add_foreign_key "integration_logs", "integrations"
   add_foreign_key "integrations", "users"
@@ -234,4 +266,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_065931) do
   add_foreign_key "leads", "mentions"
   add_foreign_key "leads", "users"
   add_foreign_key "mentions", "keywords"
+  add_foreign_key "notifications", "users"
+  add_foreign_key "webhooks", "integrations"
 end
