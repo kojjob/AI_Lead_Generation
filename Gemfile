@@ -74,8 +74,9 @@ gem "stripe"
 # API clients
 gem "httparty"
 
-# AI APIs
-gem "ruby-openai"
+# AI APIs - Model agnostic
+gem "langchainrb", "~> 0.13"
+gem "ruby-openai", "~> 6.3"  # Still needed for some langchain features
 
 # Authorization
 gem "pundit"
@@ -85,3 +86,23 @@ gem "pry-rails"
 
 # Pagination
 gem "kaminari"
+
+# Elasticsearch
+gem "elasticsearch", "~> 7.17"
+gem "elasticsearch-model", "~> 7.2"
+gem "elasticsearch-rails", "~> 7.2"
+
+# State machine
+gem "aasm", "~> 5.5"
+
+# Background processing
+gem "redis", "~> 5.0"
+gem "sidekiq", "~> 7.2"
+
+# AI/ML
+gem "tiktoken_ruby", "~> 0.0.7"
+gem "neighbor", "~> 0.3"
+
+# Data processing
+gem "parallel", "~> 1.24"
+gem "ruby-progressbar", "~> 1.13"

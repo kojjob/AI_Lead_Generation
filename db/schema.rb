@@ -10,9 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_07_135721) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_07_144441) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "ai_models", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "model_type", null: false
+    t.string "provider", null: false
+    t.string "version"
+    t.jsonb "configuration", default: {}
+    t.jsonb "performance_metrics", default: {}
+    t.boolean "enabled", default: true
+    t.text "description"
+    t.jsonb "capabilities", default: {}
+    t.jsonb "pricing", default: {}
+    t.integer "priority", default: 0
+    t.integer "usage_count", default: 0
+    t.datetime "last_used_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["enabled"], name: "index_ai_models_on_enabled"
+    t.index ["model_type"], name: "index_ai_models_on_model_type"
+    t.index ["name", "provider"], name: "index_ai_models_on_name_and_provider", unique: true
+    t.index ["priority"], name: "index_ai_models_on_priority"
+    t.index ["provider"], name: "index_ai_models_on_provider"
+  end
 
   create_table "analysis_results", force: :cascade do |t|
     t.bigint "mention_id", null: false
@@ -206,6 +229,26 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_135721) do
     t.index ["status"], name: "index_mentions_on_status"
   end
 
+  create_table "ml_scores", force: :cascade do |t|
+    t.string "scoreable_type", null: false
+    t.bigint "scoreable_id", null: false
+    t.string "ml_model_name", null: false
+    t.float "score", null: false
+    t.float "confidence"
+    t.jsonb "features", default: {}
+    t.jsonb "predictions", default: {}
+    t.jsonb "metadata", default: {}
+    t.bigint "ai_model_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ai_model_id"], name: "index_ml_scores_on_ai_model_id"
+    t.index ["created_at"], name: "index_ml_scores_on_created_at"
+    t.index ["ml_model_name"], name: "index_ml_scores_on_ml_model_name"
+    t.index ["score"], name: "index_ml_scores_on_score"
+    t.index ["scoreable_type", "scoreable_id", "ml_model_name"], name: "idx_ml_scores_unique_model_per_scoreable", unique: true
+    t.index ["scoreable_type", "scoreable_id"], name: "index_ml_scores_on_scoreable"
+  end
+
   create_table "notifications", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "type"
@@ -216,6 +259,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_135721) do
     t.index ["read_at"], name: "index_notifications_on_read_at"
     t.index ["user_id", "read_at"], name: "index_notifications_on_user_id_and_read_at"
     t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
+  create_table "search_indices", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "index_type", null: false
+    t.jsonb "configuration", default: {}
+    t.jsonb "mapping", default: {}
+    t.string "status", default: "pending"
+    t.datetime "last_indexed_at"
+    t.datetime "last_synced_at"
+    t.integer "documents_count", default: 0
+    t.jsonb "statistics", default: {}
+    t.boolean "auto_sync", default: true
+    t.integer "sync_frequency", default: 3600
+    t.string "elasticsearch_index_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["auto_sync"], name: "index_search_indices_on_auto_sync"
+    t.index ["index_type"], name: "index_search_indices_on_index_type"
+    t.index ["name"], name: "index_search_indices_on_name", unique: true
+    t.index ["status"], name: "index_search_indices_on_status"
   end
 
   create_table "users", force: :cascade do |t|

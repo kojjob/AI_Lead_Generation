@@ -4,6 +4,9 @@ class DashboardController < ApplicationController
   def index
     # Main dashboard view with all widgets and analytics
     @dashboard_data = dashboard_service.dashboard_data
+    
+    # Set the old instance variables for backwards compatibility with the view
+    set_dashboard_data
   end
 
   def analytics

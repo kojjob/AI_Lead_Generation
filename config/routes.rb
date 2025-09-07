@@ -74,6 +74,24 @@ Rails.application.routes.draw do
     end
   end
 
+  # AI Intelligence routes
+  namespace :ai do
+    get '/', to: 'intelligence#index', as: :intelligence
+    post 'analyze', to: 'intelligence#analyze'
+    post 'score', to: 'intelligence#score'
+    post 'search', to: 'intelligence#search'
+    post 'bulk_analyze', to: 'intelligence#bulk_analyze'
+    post 'bulk_score', to: 'intelligence#bulk_score'
+    get 'available_providers', to: 'intelligence#available_providers'
+    post 'test_provider', to: 'intelligence#test_provider'
+    
+    resources :models, controller: 'intelligence' do
+      member do
+        patch :configure, action: :configure_model
+      end
+    end
+  end
+
   # Landing page route
   get "landing", to: "landing#index", as: :landing
 

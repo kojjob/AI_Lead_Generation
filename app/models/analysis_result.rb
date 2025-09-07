@@ -2,6 +2,7 @@ class AnalysisResult < ApplicationRecord
   self.inheritance_column = nil # Disable single-table inheritance
 
   belongs_to :mention
+  has_many :ml_scores, as: :scoreable, dependent: :destroy
 
   # Validations
   validates :mention, presence: true

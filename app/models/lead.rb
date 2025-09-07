@@ -5,6 +5,7 @@ class Lead < ApplicationRecord
   belongs_to :user, counter_cache: true
   belongs_to :mention, optional: true
   has_one :keyword, through: :mention
+  has_many :ml_scores, as: :scoreable, dependent: :destroy
 
   # Validations
   validates :user, presence: true
