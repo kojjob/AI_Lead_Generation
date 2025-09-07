@@ -395,7 +395,7 @@ class LeadsController < ApplicationController
     avg_qualification_score = leads.average(:qualification_score)&.round(1) || 0
 
     # Average days to convert (for converted leads)
-    converted_leads = leads.where(status: 'converted')
+    converted_leads = leads.where(status: "converted")
     avg_days_to_convert = if converted_leads.any?
       total_days = converted_leads.sum do |lead|
         (lead.updated_at.to_date - lead.created_at.to_date).to_i
@@ -406,7 +406,7 @@ class LeadsController < ApplicationController
     end
 
     # Response rate (contacted vs total)
-    contacted_leads = leads.where.not(status: 'new').count
+    contacted_leads = leads.where.not(status: "new").count
     response_rate = if leads.count > 0
       (contacted_leads.to_f / leads.count * 100).round(1)
     else
