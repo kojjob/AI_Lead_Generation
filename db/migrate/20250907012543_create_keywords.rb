@@ -9,10 +9,10 @@ class CreateKeywords < ActiveRecord::Migration[8.0]
       t.string :type, default: "keyword"
       t.string :source, default: "user"
       t.string :notes, default: ""
-      t.string :tags, array: true, default: []  
+      t.string :tags, array: true, default: []
       t.datetime :last_searched_at
       t.datetime :deleted_at
-      
+
       t.timestamps
     end
   end
