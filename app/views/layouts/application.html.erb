@@ -22,9 +22,14 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="min-h-screen bg-gray-50">
+  <body class="flex flex-col min-h-screen">
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+    <%= render 'shared/navbar' %>
+    
+    <main id="main-content" class="flex-grow bg-gray-50">
       <%= yield %>
     </main>
+    
+    <%= render 'shared/footer' %>
   </body>
 </html>
