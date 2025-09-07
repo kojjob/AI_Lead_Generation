@@ -67,9 +67,9 @@ class ResponseSuggestionService
     intent = detect_intent(@mention.content)
     sentiment = get_sentiment
     context = extract_context
-    
+
     suggestions = generate_contextual_responses(intent, sentiment, context, count)
-    
+
     {
       suggestions: suggestions,
       intent: intent,
@@ -87,13 +87,13 @@ class ResponseSuggestionService
 
   def detect_intent(content)
     content_lower = content.downcase
-    
+
     INTENT_PATTERNS.each do |intent, patterns|
       if patterns.any? { |pattern| content_lower.match?(pattern) }
         return intent
       end
     end
-    
+
     :general_inquiry
   end
 
@@ -117,11 +117,11 @@ class ResponseSuggestionService
   def detect_basic_sentiment(content)
     positive_words = %w[great good love like amazing excellent wonderful fantastic happy excited]
     negative_words = %w[bad terrible awful hate dislike horrible disappointed frustrated angry]
-    
+
     words = content.downcase.split(/\W+/)
     positive_count = words.count { |word| positive_words.include?(word) }
     negative_count = words.count { |word| negative_words.include?(word) }
-    
+
     if positive_count > negative_count
       :positive
     elsif negative_count > positive_count
@@ -134,11 +134,11 @@ class ResponseSuggestionService
   def extract_context
     content = @mention.content
     keyword = @mention.keyword&.keyword
-    
+
     {
       topic: keyword || extract_topic_from_content(content),
       name: extract_name_from_content(content),
-      platform: @mention.platform || 'social media',
+      platform: @mention.platform || "social media",
       urgency: detect_urgency(content),
       specific_needs: extract_specific_needs(content)
     }
@@ -158,7 +158,7 @@ class ResponseSuggestionService
   def detect_urgency(content)
     urgent_indicators = %w[urgent asap immediately soon quickly fast now today]
     content_lower = content.downcase
-    
+
     if urgent_indicators.any? { |indicator| content_lower.include?(indicator) }
       :high
     elsif content_lower.match?(/\b(this week|soon|quickly)\b/)
@@ -171,37 +171,37 @@ class ResponseSuggestionService
   def extract_specific_needs(content)
     # Extract specific requirements or pain points
     needs = []
-    
+
     # Budget indicators
     needs << "budget-conscious" if content.downcase.match?(/\b(cheap|affordable|budget|low cost)\b/)
-    
+
     # Quality indicators
     needs << "quality-focused" if content.downcase.match?(/\b(quality|premium|best|top)\b/)
-    
+
     # Speed indicators
     needs << "time-sensitive" if content.downcase.match?(/\b(fast|quick|urgent|asap)\b/)
-    
+
     needs
   end
 
   def generate_contextual_responses(intent, sentiment, context, count)
     # Determine response category
     response_category = determine_response_category(intent, sentiment)
-    
+
     # Get base templates
     templates = RESPONSE_TEMPLATES[response_category] || RESPONSE_TEMPLATES[:neutral_inquiry]
-    
+
     # Generate personalized responses
     responses = templates.first(count).map do |template|
       personalize_template(template, context)
     end
-    
+
     # Add AI-generated response if available
     if responses.length < count
       ai_response = generate_ai_response(intent, sentiment, context)
       responses << ai_response if ai_response
     end
-    
+
     responses.first(count).map.with_index do |response, index|
       {
         text: response,
@@ -235,19 +235,19 @@ class ResponseSuggestionService
 
   def personalize_template(template, context)
     personalized = template.dup
-    
+
     # Replace placeholders
-    personalized.gsub!('{name}', context[:name] || 'there')
-    personalized.gsub!('{topic}', context[:topic] || 'your inquiry')
-    personalized.gsub!('{company}', @company)
-    
+    personalized.gsub!("{name}", context[:name] || "there")
+    personalized.gsub!("{topic}", context[:topic] || "your inquiry")
+    personalized.gsub!("{company}", @company)
+
     # Add context-specific elements
-    personalized.gsub!('{unique_value}', generate_unique_value_prop(context))
-    personalized.gsub!('{social_proof}', generate_social_proof)
-    personalized.gsub!('{key_benefit}', generate_key_benefit(context))
-    personalized.gsub!('{unique_differentiator}', generate_differentiator)
-    personalized.gsub!('{competitive_advantage}', generate_competitive_advantage)
-    
+    personalized.gsub!("{unique_value}", generate_unique_value_prop(context))
+    personalized.gsub!("{social_proof}", generate_social_proof)
+    personalized.gsub!("{key_benefit}", generate_key_benefit(context))
+    personalized.gsub!("{unique_differentiator}", generate_differentiator)
+    personalized.gsub!("{competitive_advantage}", generate_competitive_advantage)
+
     personalized
   end
 
@@ -312,33 +312,33 @@ class ResponseSuggestionService
   def determine_tone(category, sentiment)
     case category
     when :buying_intent
-      'enthusiastic'
+      "enthusiastic"
     when :negative_sentiment
-      'empathetic'
+      "empathetic"
     when :positive_inquiry
-      'friendly'
+      "friendly"
     else
-      'professional'
+      "professional"
     end
   end
 
   def calculate_priority(intent, sentiment, index)
     base_priority = case intent
     when :buying_intent
-      'high'
+      "high"
     when :comparison_request
-      'medium'
+      "medium"
     else
-      'low'
+      "low"
     end
-    
+
     # Adjust for sentiment
-    if sentiment == :positive && base_priority != 'high'
-      base_priority = 'medium'
+    if sentiment == :positive && base_priority != "high"
+      base_priority = "medium"
     end
-    
+
     # First suggestion gets higher priority
-    index == 0 ? base_priority : 'low'
+    index == 0 ? base_priority : "low"
   end
 
   def calculate_personalization_level(context)
@@ -347,37 +347,37 @@ class ResponseSuggestionService
     level += 1 if context[:topic] != "your inquiry"
     level += 1 if context[:specific_needs].any?
     level += 1 if context[:urgency] != :low
-    
+
     case level
     when 0..1
-      'low'
+      "low"
     when 2..3
-      'medium'
+      "medium"
     else
-      'high'
+      "high"
     end
   end
 
   def suggest_timing(urgency)
     case urgency
     when :high
-      'within 1 hour'
+      "within 1 hour"
     when :medium
-      'within 4 hours'
+      "within 4 hours"
     else
-      'within 24 hours'
+      "within 24 hours"
     end
   end
 
   def calculate_confidence(intent, sentiment, context)
     confidence = 0.5
-    
+
     confidence += 0.2 if intent != :general_inquiry
     confidence += 0.1 if sentiment != :neutral
     confidence += 0.1 if context[:topic] != "your inquiry"
     confidence += 0.1 if context[:specific_needs].any?
-    
-    [confidence, 1.0].min
+
+    [ confidence, 1.0 ].min
   end
 
   def default_suggestions
@@ -385,10 +385,10 @@ class ResponseSuggestionService
       suggestions: [
         {
           text: "Thank you for your interest! I'd be happy to help you learn more about our solutions. Would you like to schedule a brief call to discuss your needs?",
-          tone: 'professional',
-          priority: 'medium',
-          personalization_level: 'low',
-          suggested_timing: 'within 24 hours'
+          tone: "professional",
+          priority: "medium",
+          personalization_level: "low",
+          suggested_timing: "within 24 hours"
         }
       ],
       intent: :general_inquiry,

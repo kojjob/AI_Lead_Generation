@@ -15,32 +15,32 @@ class Integration < ApplicationRecord
 
   # Platform-specific configuration
   PLATFORM_CONFIGS = {
-    'instagram' => {
-      api_version: 'v18.0',
+    "instagram" => {
+      api_version: "v18.0",
       required_fields: %w[access_token],
       optional_fields: %w[page_id],
       webhook_events: %w[mentions comments stories]
     },
-    'tiktok' => {
-      api_version: 'v1.3',
+    "tiktok" => {
+      api_version: "v1.3",
       required_fields: %w[access_token],
       optional_fields: %w[advertiser_id],
       webhook_events: %w[mentions comments videos]
     },
-    'salesforce' => {
-      api_version: 'v58.0',
+    "salesforce" => {
+      api_version: "v58.0",
       required_fields: %w[client_id client_secret username password security_token],
       optional_fields: %w[sandbox_mode],
       webhook_events: %w[lead_created lead_updated]
     },
-    'hubspot' => {
-      api_version: 'v3',
+    "hubspot" => {
+      api_version: "v3",
       required_fields: %w[access_token],
       optional_fields: %w[portal_id],
       webhook_events: %w[contact_created contact_updated deal_created]
     },
-    'pipedrive' => {
-      api_version: 'v1',
+    "pipedrive" => {
+      api_version: "v1",
       required_fields: %w[api_token company_domain],
       optional_fields: %w[],
       webhook_events: %w[person_added person_updated deal_added]
@@ -569,11 +569,11 @@ class Integration < ApplicationRecord
     return unless crm_platform?
 
     case platform_name
-    when 'salesforce'
+    when "salesforce"
       export_to_salesforce(lead)
-    when 'hubspot'
+    when "hubspot"
       export_to_hubspot(lead)
-    when 'pipedrive'
+    when "pipedrive"
       export_to_pipedrive(lead)
     else
       raise NotImplementedError, "CRM export not implemented for #{platform_name}"
@@ -584,11 +584,11 @@ class Integration < ApplicationRecord
     return unless crm_platform?
 
     case platform_name
-    when 'salesforce'
+    when "salesforce"
       sync_from_salesforce
-    when 'hubspot'
+    when "hubspot"
       sync_from_hubspot
-    when 'pipedrive'
+    when "pipedrive"
       sync_from_pipedrive
     else
       raise NotImplementedError, "CRM sync not implemented for #{platform_name}"

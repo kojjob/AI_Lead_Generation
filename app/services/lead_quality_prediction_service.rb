@@ -69,7 +69,7 @@ class LeadQualityPredictionService
 
     # Convert sentiment score (-1 to 1) to quality factor (0 to 1)
     sentiment = @mention.analysis_result.sentiment_score
-    [(sentiment + 1) / 2, 1.0].min
+    [ (sentiment + 1) / 2, 1.0 ].min
   end
 
   def calculate_engagement_factor
@@ -77,7 +77,7 @@ class LeadQualityPredictionService
     engagement_indicators = extract_engagement_metrics
 
     base_score = 0.3 # Default for having any mention
-    
+
     # Add points for various engagement types
     base_score += 0.2 if engagement_indicators[:has_comments]
     base_score += 0.2 if engagement_indicators[:has_likes]
@@ -85,7 +85,7 @@ class LeadQualityPredictionService
     base_score += 0.1 if engagement_indicators[:is_reply]
     base_score += 0.1 if engagement_indicators[:mentions_brand]
 
-    [base_score, 1.0].min
+    [ base_score, 1.0 ].min
   end
 
   def calculate_profile_factor
@@ -107,17 +107,17 @@ class LeadQualityPredictionService
     authority_data = extract_authority_data
 
     authority_score = 0.1 # Base score for having an account
-    
+
     # Follower count factor (logarithmic scale)
     if authority_data[:follower_count] > 0
       follower_factor = Math.log10(authority_data[:follower_count] + 1) / 6 # Max at 1M followers
-      authority_score += [follower_factor * 0.4, 0.4].min
+      authority_score += [ follower_factor * 0.4, 0.4 ].min
     end
 
     authority_score += 0.3 if authority_data[:is_verified]
-    authority_score += 0.2 if authority_data[:posting_frequency] == 'regular'
+    authority_score += 0.2 if authority_data[:posting_frequency] == "regular"
 
-    [authority_score, 1.0].min
+    [ authority_score, 1.0 ].min
   end
 
   def calculate_relevance_factor
@@ -126,21 +126,21 @@ class LeadQualityPredictionService
 
     content = @mention.content.downcase
     keyword_text = @keyword.keyword.downcase
-    
+
     relevance_score = 0.0
-    
+
     # Direct keyword match
     relevance_score += 0.4 if content.include?(keyword_text)
-    
+
     # Related terms (simple implementation)
     related_terms = generate_related_terms(keyword_text)
     related_matches = related_terms.count { |term| content.include?(term) }
-    relevance_score += [related_matches * 0.1, 0.3].min
-    
+    relevance_score += [ related_matches * 0.1, 0.3 ].min
+
     # Context analysis (basic implementation)
     relevance_score += 0.3 if analyze_context_relevance(content, keyword_text)
 
-    [relevance_score, 1.0].min
+    [ relevance_score, 1.0 ].min
   end
 
   def calculate_timing_factor
@@ -148,7 +148,7 @@ class LeadQualityPredictionService
     return 0.5 unless @mention.posted_at
 
     hours_ago = (Time.current - @mention.posted_at) / 1.hour
-    
+
     case hours_ago
     when 0..24
       1.0 # Very recent
@@ -168,97 +168,97 @@ class LeadQualityPredictionService
     similar_leads = find_similar_leads
     return 0.5 if similar_leads.empty?
 
-    converted_count = similar_leads.where(status: 'converted').count
+    converted_count = similar_leads.where(status: "converted").count
     total_count = similar_leads.count
-    
+
     return 0.5 if total_count == 0
-    
+
     conversion_rate = converted_count.to_f / total_count
-    [conversion_rate, 1.0].min
+    [ conversion_rate, 1.0 ].min
   end
 
   def calculate_weighted_score(factors)
     total_score = 0.0
-    
+
     SCORING_FACTORS.each do |factor, weight|
       factor_score = factors[factor] || 0.5
       total_score += factor_score * weight
     end
-    
+
     total_score
   end
 
   def determine_quality_tier(score)
     case score
     when 0.8..1.0
-      'high'
+      "high"
     when 0.6..0.8
-      'medium'
+      "medium"
     when 0.4..0.6
-      'low'
+      "low"
     else
-      'very_low'
+      "very_low"
     end
   end
 
   def estimate_conversion_probability(quality_score, factors)
     # Base probability from quality score
     base_probability = quality_score * 0.7
-    
+
     # Adjust based on specific factors
     adjustments = 0.0
     adjustments += 0.1 if factors[:sentiment_score] > 0.8
     adjustments += 0.1 if factors[:engagement_level] > 0.7
     adjustments += 0.05 if factors[:platform_authority] > 0.6
     adjustments -= 0.1 if factors[:timing_factor] < 0.3
-    
+
     final_probability = base_probability + adjustments
-    [final_probability, 1.0].min
+    [ final_probability, 1.0 ].min
   end
 
   def calculate_confidence(factors)
     # Confidence based on data availability and quality
     data_points = factors.values.count { |v| v != 0.5 } # Non-default values
     total_factors = factors.size
-    
+
     base_confidence = data_points.to_f / total_factors
-    
+
     # Adjust for specific high-confidence indicators
     base_confidence += 0.1 if @mention.analysis_result&.sentiment_score
     base_confidence += 0.1 if extract_engagement_metrics.values.any?
-    
-    [base_confidence, 1.0].min
+
+    [ base_confidence, 1.0 ].min
   end
 
   def generate_recommendations(factors, quality_tier)
     recommendations = []
-    
+
     case quality_tier
-    when 'high'
+    when "high"
       recommendations << "Priority lead - contact immediately"
       recommendations << "Personalize outreach based on positive sentiment" if factors[:sentiment_score] > 0.8
-    when 'medium'
+    when "medium"
       recommendations << "Good potential - follow up within 24 hours"
       recommendations << "Research profile before contacting" if factors[:profile_completeness] < 0.6
-    when 'low'
+    when "low"
       recommendations << "Monitor for additional engagement before contacting"
       recommendations << "Consider automated nurturing sequence"
     else
       recommendations << "Low priority - add to general nurturing campaign"
     end
-    
+
     # Factor-specific recommendations
     recommendations << "Leverage positive sentiment in messaging" if factors[:sentiment_score] > 0.7
     recommendations << "Engage with their content first" if factors[:engagement_level] > 0.7
     recommendations << "Time-sensitive - mention is very recent" if factors[:timing_factor] > 0.9
-    
+
     recommendations
   end
 
   def extract_engagement_metrics
     # Extract engagement data from mention content/metadata
     content = @mention.content || ""
-    
+
     {
       has_comments: content.include?("comment") || content.include?("reply"),
       has_likes: content.include?("like") || content.include?("love"),
@@ -285,7 +285,7 @@ class LeadQualityPredictionService
     {
       follower_count: 100, # Would come from API
       is_verified: false,
-      posting_frequency: 'regular'
+      posting_frequency: "regular"
     }
   end
 
@@ -294,13 +294,13 @@ class LeadQualityPredictionService
     # In production, this could use NLP libraries or APIs
     base_terms = keyword.split(/\s+/)
     related = []
-    
+
     base_terms.each do |term|
       related << "#{term}s" # Plural
       related << "#{term}ing" # Gerund
       related << "best #{term}" # Qualifier
     end
-    
+
     related.uniq
   end
 
@@ -323,10 +323,10 @@ class LeadQualityPredictionService
   def default_prediction
     {
       quality_score: 0.5,
-      quality_tier: 'unknown',
+      quality_tier: "unknown",
       conversion_probability: 0.3,
       factors: {},
-      recommendations: ["Insufficient data for prediction"],
+      recommendations: [ "Insufficient data for prediction" ],
       confidence: 0.0
     }
   end

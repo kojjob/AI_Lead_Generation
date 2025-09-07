@@ -17,8 +17,8 @@ class CreateWebhooks < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :webhooks, [:integration_id, :event_type]
-    add_index :webhooks, [:status, :created_at]
+    add_index :webhooks, [ :integration_id, :event_type ]
+    add_index :webhooks, [ :status, :created_at ]
     add_index :webhooks, :processed_at
     add_index :webhooks, :next_retry_at
   end

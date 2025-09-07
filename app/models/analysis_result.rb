@@ -9,10 +9,10 @@ class AnalysisResult < ApplicationRecord
   validates :sentiment_score, numericality: { in: -1.0..1.0 }, allow_nil: true
 
   # Scopes
-  scope :positive, -> { where('sentiment_score > 0.1') }
-  scope :negative, -> { where('sentiment_score < -0.1') }
-  scope :neutral, -> { where('sentiment_score BETWEEN -0.1 AND 0.1') }
-  scope :high_confidence, -> { where('confidence > 0.7') }
+  scope :positive, -> { where("sentiment_score > 0.1") }
+  scope :negative, -> { where("sentiment_score < -0.1") }
+  scope :neutral, -> { where("sentiment_score BETWEEN -0.1 AND 0.1") }
+  scope :high_confidence, -> { where("confidence > 0.7") }
 
   # Callbacks
   after_create :trigger_lead_quality_update
@@ -20,15 +20,15 @@ class AnalysisResult < ApplicationRecord
 
   # Instance methods
   def sentiment_label
-    return 'unknown' if sentiment_score.nil?
+    return "unknown" if sentiment_score.nil?
 
     case sentiment_score
     when 0.1..1.0
-      'positive'
+      "positive"
     when -1.0..-0.1
-      'negative'
+      "negative"
     else
-      'neutral'
+      "neutral"
     end
   end
 
@@ -41,17 +41,17 @@ class AnalysisResult < ApplicationRecord
   end
 
   def confidence_level
-    return 'unknown' if confidence.nil?
+    return "unknown" if confidence.nil?
 
     case confidence
     when 0.8..1.0
-      'high'
+      "high"
     when 0.6..0.8
-      'medium'
+      "medium"
     when 0.4..0.6
-      'low'
+      "low"
     else
-      'very_low'
+      "very_low"
     end
   end
 
@@ -82,15 +82,15 @@ class AnalysisResult < ApplicationRecord
 
     # Extract mentions (@username)
     mentions = content.scan(/@(\w+)/).flatten
-    entities.concat(mentions.map { |m| { type: 'mention', value: m } })
+    entities.concat(mentions.map { |m| { type: "mention", value: m } })
 
     # Extract hashtags (#hashtag)
     hashtags = content.scan(/#(\w+)/).flatten
-    entities.concat(hashtags.map { |h| { type: 'hashtag', value: h } })
+    entities.concat(hashtags.map { |h| { type: "hashtag", value: h } })
 
     # Extract URLs
     urls = content.scan(/https?:\/\/[^\s]+/).flatten
-    entities.concat(urls.map { |u| { type: 'url', value: u } })
+    entities.concat(urls.map { |u| { type: "url", value: u } })
 
     # Update entities field
     update!(entities: entities) if entities.any?
@@ -106,23 +106,23 @@ class AnalysisResult < ApplicationRecord
 
     # Intent classification
     if content.match?(/\b(buy|purchase|price|cost)\b/)
-      classifications << 'buying_intent'
+      classifications << "buying_intent"
     elsif content.match?(/\b(compare|vs|versus|alternative)\b/)
-      classifications << 'comparison_request'
+      classifications << "comparison_request"
     elsif content.match?(/\b(problem|issue|help|solution)\b/)
-      classifications << 'support_request'
+      classifications << "support_request"
     elsif content.match?(/\b(how|what|when|where|why)\b/)
-      classifications << 'information_seeking'
+      classifications << "information_seeking"
     end
 
     # Topic classification
     if content.match?(/\b(software|app|tool|platform)\b/)
-      classifications << 'software_related'
+      classifications << "software_related"
     elsif content.match?(/\b(service|consulting|support)\b/)
-      classifications << 'service_related'
+      classifications << "service_related"
     end
 
-    update!(classification: classifications.join(',')) if classifications.any?
+    update!(classification: classifications.join(",")) if classifications.any?
     classifications
   end
 

@@ -12,9 +12,9 @@ Rails.application.routes.draw do
   get "settings", to: "users#settings", as: :settings
   patch "settings", to: "users#update_settings", as: :update_settings
   get "billing", to: "users#billing", as: :billing
-  
+
   # Notifications
-  resources :notifications, only: [:index] do
+  resources :notifications, only: [ :index ] do
     member do
       patch :mark_as_read
     end
@@ -25,9 +25,9 @@ Rails.application.routes.draw do
 
   # Keywords resource
   resources :keywords
-  
+
   # Mentions resource
-  resources :mentions, only: [:index, :show, :destroy]
+  resources :mentions, only: [ :index, :show, :destroy ]
 
   # Integrations resource with custom actions
   resources :integrations do
@@ -59,33 +59,33 @@ Rails.application.routes.draw do
   end
 
   # Webhook endpoints
-  resources :webhooks, only: [:index] do
+  resources :webhooks, only: [ :index ] do
     collection do
       # Generic webhook receiver
-      post ':platform/:integration_id', to: 'webhooks#receive', as: :receive
-      get ':platform/:integration_id/verify', to: 'webhooks#verify', as: :verify
+      post ":platform/:integration_id", to: "webhooks#receive", as: :receive
+      get ":platform/:integration_id/verify", to: "webhooks#verify", as: :verify
 
       # Platform-specific webhook endpoints
-      post 'instagram/:integration_id', to: 'webhooks#instagram', as: :instagram
-      post 'tiktok/:integration_id', to: 'webhooks#tiktok', as: :tiktok
-      post 'salesforce/:integration_id', to: 'webhooks#salesforce', as: :salesforce
-      post 'hubspot/:integration_id', to: 'webhooks#hubspot', as: :hubspot
-      post 'pipedrive/:integration_id', to: 'webhooks#pipedrive', as: :pipedrive
+      post "instagram/:integration_id", to: "webhooks#instagram", as: :instagram
+      post "tiktok/:integration_id", to: "webhooks#tiktok", as: :tiktok
+      post "salesforce/:integration_id", to: "webhooks#salesforce", as: :salesforce
+      post "hubspot/:integration_id", to: "webhooks#hubspot", as: :hubspot
+      post "pipedrive/:integration_id", to: "webhooks#pipedrive", as: :pipedrive
     end
   end
 
   # AI Intelligence routes
   namespace :ai do
-    get '/', to: 'intelligence#index', as: :intelligence
-    post 'analyze', to: 'intelligence#analyze'
-    post 'score', to: 'intelligence#score'
-    post 'search', to: 'intelligence#search'
-    post 'bulk_analyze', to: 'intelligence#bulk_analyze'
-    post 'bulk_score', to: 'intelligence#bulk_score'
-    get 'available_providers', to: 'intelligence#available_providers'
-    post 'test_provider', to: 'intelligence#test_provider'
-    
-    resources :models, controller: 'intelligence' do
+    get "/", to: "intelligence#index", as: :intelligence
+    post "analyze", to: "intelligence#analyze"
+    post "score", to: "intelligence#score"
+    post "search", to: "intelligence#search"
+    post "bulk_analyze", to: "intelligence#bulk_analyze"
+    post "bulk_score", to: "intelligence#bulk_score"
+    get "available_providers", to: "intelligence#available_providers"
+    post "test_provider", to: "intelligence#test_provider"
+
+    resources :models, controller: "intelligence" do
       member do
         patch :configure, action: :configure_model
       end

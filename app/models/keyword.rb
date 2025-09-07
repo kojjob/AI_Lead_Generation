@@ -58,11 +58,11 @@ class Keyword < ApplicationRecord
 
   def average_sentiment
     mentions.joins(:analysis_result)
-            .average('analysis_results.sentiment_score') || 0.0
+            .average("analysis_results.sentiment_score") || 0.0
   end
 
   def quality_leads_count
-    leads.where(quality_tier: 'high').count
+    leads.where(quality_tier: "high").count
   end
 
   def quality_leads_percentage
@@ -78,7 +78,7 @@ class Keyword < ApplicationRecord
     return 0 if older_mentions.zero?
 
     growth_rate = (recent_mentions - older_mentions).to_f / older_mentions
-    [growth_rate * 100, 100].min
+    [ growth_rate * 100, 100 ].min
   end
 
   def engagement_score
@@ -88,7 +88,7 @@ class Keyword < ApplicationRecord
 
     # Count mentions with high engagement indicators
     engaged_mentions = mentions.joins(:analysis_result)
-                              .where('analysis_results.sentiment_score > 0.3')
+                              .where("analysis_results.sentiment_score > 0.3")
                               .count
 
     (engaged_mentions.to_f / total_mentions * 100).round(1)
@@ -131,7 +131,7 @@ class Keyword < ApplicationRecord
       suggestions << "Low mention volume - consider broader keyword variations"
     end
 
-    suggestions.presence || ["Keyword performing well - continue monitoring"]
+    suggestions.presence || [ "Keyword performing well - continue monitoring" ]
   end
 
   def related_keyword_suggestions
@@ -147,7 +147,7 @@ class Keyword < ApplicationRecord
 
   def self.performance_leaderboard(limit: 10)
     joins(:mentions, :leads)
-      .group('keywords.id')
+      .group("keywords.id")
       .select('keywords.*,
                COUNT(DISTINCT mentions.id) as mention_count,
                COUNT(DISTINCT leads.id) as lead_count,
@@ -156,7 +156,7 @@ class Keyword < ApplicationRecord
                  THEN (COUNT(DISTINCT leads.id)::float / COUNT(DISTINCT mentions.id) * 100)
                  ELSE 0
                END as conversion_rate')
-      .order('conversion_rate DESC, mention_count DESC')
+      .order("conversion_rate DESC, mention_count DESC")
       .limit(limit)
   end
 
@@ -165,7 +165,7 @@ class Keyword < ApplicationRecord
     previous_period = (days * 2).days.ago..days.days.ago
 
     joins(:mentions)
-      .group('keywords.id')
+      .group("keywords.id")
       .select('keywords.*,
                COUNT(CASE WHEN mentions.created_at BETWEEN ? AND ? THEN 1 END) as recent_count,
                COUNT(CASE WHEN mentions.created_at BETWEEN ? AND ? THEN 1 END) as previous_count',
@@ -175,18 +175,18 @@ class Keyword < ApplicationRecord
                COUNT(CASE WHEN mentions.created_at BETWEEN ? AND ? THEN 1 END)',
                recent_period.begin, recent_period.end,
                previous_period.begin, previous_period.end)
-      .order('recent_count DESC')
+      .order("recent_count DESC")
   end
 
   def self.sentiment_leaders
     joins(mentions: :analysis_result)
-      .group('keywords.id')
-      .select('keywords.*, AVG(analysis_results.sentiment_score) as avg_sentiment')
-      .having('COUNT(analysis_results.id) >= 5') # Minimum 5 analyzed mentions
-      .order('avg_sentiment DESC')
+      .group("keywords.id")
+      .select("keywords.*, AVG(analysis_results.sentiment_score) as avg_sentiment")
+      .having("COUNT(analysis_results.id) >= 5") # Minimum 5 analyzed mentions
+      .order("avg_sentiment DESC")
   end
 
   def self.needs_optimization
-    where('mentions_count > 10 AND leads_count < mentions_count * 0.05') # Less than 5% conversion
+    where("mentions_count > 10 AND leads_count < mentions_count * 0.05") # Less than 5% conversion
   end
 end

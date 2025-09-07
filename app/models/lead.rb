@@ -180,31 +180,31 @@ class Lead < ApplicationRecord
 
   def quality_tier_color
     case quality_tier
-    when 'high'
-      'green'
-    when 'medium'
-      'yellow'
-    when 'low'
-      'orange'
-    when 'very_low'
-      'red'
+    when "high"
+      "green"
+    when "medium"
+      "yellow"
+    when "low"
+      "orange"
+    when "very_low"
+      "red"
     else
-      'gray'
+      "gray"
     end
   end
 
   def quality_tier_badge
     case quality_tier
-    when 'high'
-      '🔥'
-    when 'medium'
-      '⭐'
-    when 'low'
-      '📊'
-    when 'very_low'
-      '❄️'
+    when "high"
+      "🔥"
+    when "medium"
+      "⭐"
+    when "low"
+      "📊"
+    when "very_low"
+      "❄️"
     else
-      '❓'
+      "❓"
     end
   end
 
@@ -222,14 +222,14 @@ class Lead < ApplicationRecord
     prediction = predict_quality
 
     case prediction[:quality_tier]
-    when 'high'
-      'Contact immediately - high conversion potential'
-    when 'medium'
-      'Follow up within 24 hours'
-    when 'low'
-      'Add to nurturing campaign'
+    when "high"
+      "Contact immediately - high conversion potential"
+    when "medium"
+      "Follow up within 24 hours"
+    when "low"
+      "Add to nurturing campaign"
     else
-      'Monitor for additional engagement'
+      "Monitor for additional engagement"
     end
   end
 
@@ -242,11 +242,11 @@ class Lead < ApplicationRecord
   end
 
   def sentiment_label
-    sentiment_analysis&.sentiment_label || 'unknown'
+    sentiment_analysis&.sentiment_label || "unknown"
   end
 
   def sentiment_emoji
-    sentiment_analysis&.sentiment_emoji || '❓'
+    sentiment_analysis&.sentiment_emoji || "❓"
   end
 
   # Class methods for AI features
@@ -261,11 +261,11 @@ class Lead < ApplicationRecord
 
   def self.quality_distribution
     {
-      high: where(quality_tier: 'high').count,
-      medium: where(quality_tier: 'medium').count,
-      low: where(quality_tier: 'low').count,
-      very_low: where(quality_tier: 'very_low').count,
-      unknown: where(quality_tier: [nil, '']).count
+      high: where(quality_tier: "high").count,
+      medium: where(quality_tier: "medium").count,
+      low: where(quality_tier: "low").count,
+      very_low: where(quality_tier: "very_low").count,
+      unknown: where(quality_tier: [ nil, "" ]).count
     }
   end
 
@@ -278,7 +278,7 @@ class Lead < ApplicationRecord
   end
 
   def self.high_quality_leads
-    where(quality_tier: 'high')
+    where(quality_tier: "high")
   end
 
   def self.needs_ai_analysis
@@ -349,7 +349,7 @@ class Lead < ApplicationRecord
       end
     end
   end
-  
+
   def create_notification
     LeadCreatedNotification.create!(
       user: user,
