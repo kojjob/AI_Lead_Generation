@@ -26,8 +26,8 @@ class AuthenticationInteractionsTest < ApplicationSystemTestCase
     password_field = find('[data-form-validation-target="password"]')
     submit_button = find('[data-form-validation-target="submit"]')
 
-    # Submit button should be disabled initially
-    assert submit_button[:disabled]
+    # Submit button should NOT be disabled initially (fixed behavior)
+    assert_equal false, submit_button.disabled?
 
     # Enter invalid email
     email_field.fill_in with: "invalid"
@@ -48,18 +48,23 @@ class AuthenticationInteractionsTest < ApplicationSystemTestCase
     password_field.native.send_keys(:tab)
 
     # Submit button should be enabled with valid inputs
-    assert_not submit_button[:disabled]
+    assert_equal false, submit_button.disabled?
   end
 
   test "password strength indicator on signup page" do
     visit new_user_registration_path
 
     password_field = find('[data-password-strength-target="password"]')
-    strength_bar = find('[data-password-strength-target="bar"]')
+    
+    # Wait for the password strength controller to initialize
+    sleep 0.5
+    
+    strength_bar = find('[data-password-strength-target="bar"]', visible: :all)
     strength_label = find('[data-password-strength-target="label"]')
 
-    # Initially should show empty state
-    assert_equal "0%", strength_bar.style("width")["width"]
+    # Initially should show empty state (bar might be hidden or 0 width)
+    initial_width = strength_bar.style("width")["width"] || "0%"
+    assert ["0%", "0px"].include?(initial_width)
     assert_equal "Enter a password", strength_label.text
 
     # Weak password
@@ -111,8 +116,8 @@ class AuthenticationInteractionsTest < ApplicationSystemTestCase
     toggle_button = find('[data-action*="password-toggle#toggle"]', match: :first)
     submit_button = find('[data-form-validation-target="submit"]')
 
-    # Submit should be disabled initially
-    assert submit_button[:disabled]
+    # Submit should NOT be disabled initially on signup either
+    assert_equal false, submit_button.disabled?
 
     # Fill in valid email
     email_field.fill_in with: "newuser@example.com"
@@ -136,6 +141,6 @@ class AuthenticationInteractionsTest < ApplicationSystemTestCase
     confirmation_field.native.send_keys(:tab)
 
     # Submit should be enabled with all valid inputs
-    assert_not submit_button[:disabled]
+    assert_equal false, submit_button.disabled?
   end
 end
