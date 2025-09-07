@@ -346,17 +346,77 @@ class LeadsController < ApplicationController
   end
 
   def detailed_lead_analytics
-    # Detailed analytics for the analytics page
-    calculate_lead_analytics
+    # Enhanced analytics for the analytics page
+    base_analytics = calculate_lead_analytics
+
+    # Add source breakdown
+    source_breakdown = current_user.leads.group(:source_platform).count
+
+    # Add recent activity
+    recent_leads = current_user.leads.order(created_at: :desc).limit(5)
+    recent_activity = recent_leads.map do |lead|
+      {
+        description: "New lead: #{lead.name} from #{lead.company || 'Unknown Company'}",
+        timestamp: lead.created_at
+      }
+    end
+
+    base_analytics.merge(
+      source_breakdown: source_breakdown,
+      recent_activity: recent_activity
+    )
   end
 
   def build_conversion_funnel
-    # Conversion funnel data
-    {}
+    # Build conversion funnel showing lead progression
+    stages = %w[new contacted qualified converted]
+    total_leads = current_user.leads.count
+
+    return {} if total_leads.zero?
+
+    funnel_data = {}
+    stages.each do |stage|
+      count = current_user.leads.where(status: stage).count
+      percentage = (count.to_f / total_leads * 100).round(1)
+      funnel_data[stage] = {
+        count: count,
+        percentage: percentage
+      }
+    end
+
+    funnel_data
   end
 
   def calculate_performance_metrics
-    # Performance metrics calculation
-    {}
+    # Calculate detailed performance metrics
+    leads = current_user.leads
+
+    # Average qualification score
+    avg_qualification_score = leads.average(:qualification_score)&.round(1) || 0
+
+    # Average days to convert (for converted leads)
+    converted_leads = leads.where(status: 'converted')
+    avg_days_to_convert = if converted_leads.any?
+      total_days = converted_leads.sum do |lead|
+        (lead.updated_at.to_date - lead.created_at.to_date).to_i
+      end
+      (total_days.to_f / converted_leads.count).round(1)
+    else
+      0
+    end
+
+    # Response rate (contacted vs total)
+    contacted_leads = leads.where.not(status: 'new').count
+    response_rate = if leads.count > 0
+      (contacted_leads.to_f / leads.count * 100).round(1)
+    else
+      0
+    end
+
+    {
+      avg_qualification_score: avg_qualification_score,
+      avg_days_to_convert: avg_days_to_convert,
+      response_rate: response_rate
+    }
   end
 end
