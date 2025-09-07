@@ -40,10 +40,10 @@ class IntegrationsTest < ApplicationSystemTestCase
     assert_selector "h1", text: "Connect Your Platform"
 
     select "Linkedin", from: "Platform"
-    fill_in "Api provider", with: "linkedin_api"
-    fill_in "Api key / client id", with: "new_api_key"
-    fill_in "Api secret / client secret", with: "new_api_secret"
-    select "Daily", from: "Sync frequency"
+    fill_in "API Provider", with: "linkedin_api"
+    fill_in "API Key / Client ID", with: "new_api_key"
+    fill_in "API Secret / Client Secret", with: "new_api_secret"
+    select "Daily", from: "Sync Frequency"
     check "Enable automatic syncing"
 
     accept_confirm do
