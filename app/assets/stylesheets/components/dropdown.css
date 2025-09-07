@@ -1,0 +1,260 @@
+/* Enhanced Dropdown Styles */
+
+/* Dropdown Animation Classes */
+.dropdown-enter {
+  opacity: 0;
+  transform: scale(0.95) translateY(-10px);
+}
+
+.dropdown-enter-active {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  transition: opacity 200ms ease-out, transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.dropdown-exit {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.dropdown-exit-active {
+  opacity: 0;
+  transform: scale(0.95) translateY(-10px);
+  transition: opacity 150ms ease-in, transform 150ms ease-in;
+}
+
+/* Enhanced Dropdown Menu Styling */
+.dropdown-menu {
+  @apply absolute right-0 z-50 mt-2 origin-top-right rounded-xl bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none;
+  min-width: 12rem;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.dropdown-menu-left {
+  @apply left-0 right-auto origin-top-left;
+}
+
+.dropdown-menu-center {
+  @apply left-1/2 -translate-x-1/2 origin-top;
+}
+
+/* Dropdown Items */
+.dropdown-item {
+  @apply relative flex items-center px-4 py-2.5 text-sm text-gray-700 transition-all duration-150;
+  @apply hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 hover:text-indigo-700;
+  @apply focus:bg-gradient-to-r focus:from-indigo-50 focus:to-purple-50 focus:text-indigo-700 focus:outline-none;
+}
+
+.dropdown-item:first-child {
+  @apply rounded-t-lg;
+}
+
+.dropdown-item:last-child {
+  @apply rounded-b-lg;
+}
+
+.dropdown-item-icon {
+  @apply mr-3 h-3 w-3 text-gray-400 transition-colors duration-150;
+  stroke-width: 1;
+}
+
+.dropdown-item:hover .dropdown-item-icon,
+.dropdown-item:focus .dropdown-item-icon {
+  @apply text-indigo-600;
+}
+
+/* Dropdown Divider */
+.dropdown-divider {
+  @apply my-1 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent;
+}
+
+/* Dropdown Header */
+.dropdown-header {
+  @apply px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider;
+}
+
+/* Dropdown Button Styling */
+.dropdown-button {
+  @apply relative inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200;
+  @apply bg-white text-gray-700 border border-gray-300;
+  @apply hover:bg-gray-50 hover:border-gray-400 hover:shadow-md;
+  @apply focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2;
+}
+
+.dropdown-button-primary {
+  @apply bg-indigo-600 text-white border-transparent;
+  @apply hover:bg-indigo-700 hover:shadow-lg hover:scale-105;
+  @apply active:scale-100;
+}
+
+.dropdown-button-ghost {
+  @apply bg-transparent border-transparent;
+  @apply hover:bg-gray-100;
+}
+
+/* Dropdown Indicator */
+.dropdown-indicator {
+  @apply ml-2 h-5 w-5 transition-transform duration-200;
+}
+
+.dropdown-button[aria-expanded="true"] .dropdown-indicator {
+  @apply rotate-180;
+}
+
+/* Notification Badge */
+.dropdown-badge {
+  @apply absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white;
+  animation: pulse-badge 2s infinite;
+}
+
+@keyframes pulse-badge {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+/* User Avatar Dropdown */
+.avatar-dropdown {
+  @apply relative inline-block;
+}
+
+.avatar-button {
+  @apply flex items-center space-x-2 rounded-full p-1.5 transition-all duration-200;
+  @apply hover:bg-gray-100 hover:shadow-md;
+  @apply focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2;
+}
+
+.avatar {
+  @apply h-8 w-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600;
+  @apply flex items-center justify-center text-white font-semibold text-sm;
+  @apply ring-2 ring-white shadow-sm;
+}
+
+.avatar-image {
+  @apply h-8 w-8 rounded-full object-cover ring-2 ring-white shadow-sm;
+}
+
+/* Settings Navigation Dropdown Enhancement */
+.settings-nav-item {
+  @apply relative overflow-hidden transition-all duration-200;
+}
+
+.settings-nav-item::before {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-600 opacity-0 transition-opacity duration-200;
+}
+
+.settings-nav-item:hover::before {
+  @apply opacity-10;
+}
+
+.settings-nav-item.active {
+  @apply bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-700 border-l-4 border-indigo-500;
+}
+
+/* Modern Select Dropdown */
+.select-dropdown {
+  @apply relative;
+}
+
+.select-dropdown-button {
+  @apply w-full flex items-center justify-between px-4 py-2.5 text-left;
+  @apply bg-white border border-gray-300 rounded-lg;
+  @apply hover:border-indigo-500 hover:shadow-sm;
+  @apply focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent;
+  @apply transition-all duration-200;
+}
+
+.select-dropdown-menu {
+  @apply absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-xl;
+  @apply max-h-60 overflow-auto;
+}
+
+.select-option {
+  @apply px-4 py-2.5 text-sm cursor-pointer transition-colors duration-150;
+  @apply hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50;
+}
+
+.select-option.selected {
+  @apply bg-indigo-50 text-indigo-700 font-medium;
+}
+
+.select-option.selected::before {
+  content: '✓';
+  @apply absolute left-2 text-indigo-600;
+}
+
+/* Floating Action Menu */
+.floating-menu {
+  @apply fixed bottom-6 right-6 z-50;
+}
+
+.floating-menu-button {
+  @apply flex items-center justify-center w-14 h-14 rounded-full;
+  @apply bg-gradient-to-br from-indigo-500 to-purple-600 text-white;
+  @apply shadow-lg hover:shadow-xl hover:scale-110;
+  @apply transition-all duration-200;
+  @apply focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50;
+}
+
+.floating-menu-items {
+  @apply absolute bottom-full right-0 mb-4 space-y-2;
+}
+
+.floating-menu-item {
+  @apply flex items-center justify-end space-x-2 opacity-0 transform translate-y-2;
+  animation: float-in 200ms ease-out forwards;
+}
+
+@keyframes float-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.floating-menu-item:nth-child(1) { animation-delay: 0ms; }
+.floating-menu-item:nth-child(2) { animation-delay: 50ms; }
+.floating-menu-item:nth-child(3) { animation-delay: 100ms; }
+.floating-menu-item:nth-child(4) { animation-delay: 150ms; }
+
+/* Tooltip Enhancement for Dropdowns */
+.dropdown-tooltip {
+  @apply absolute z-50 px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded-md shadow-lg;
+  @apply opacity-0 invisible transition-all duration-200;
+  @apply -top-8 left-1/2 transform -translate-x-1/2;
+}
+
+.dropdown-item:hover .dropdown-tooltip {
+  @apply opacity-100 visible;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .dark .dropdown-menu {
+    @apply bg-gray-800 ring-gray-700;
+    background: rgba(31, 41, 55, 0.98);
+  }
+  
+  .dark .dropdown-item {
+    @apply text-gray-300;
+  }
+  
+  .dark .dropdown-item:hover,
+  .dark .dropdown-item:focus {
+    @apply bg-gray-700 text-white;
+  }
+  
+  .dark .dropdown-divider {
+    @apply from-transparent via-gray-600 to-transparent;
+  }
+  
+  .dark .dropdown-header {
+    @apply text-gray-400;
+  }
+}
