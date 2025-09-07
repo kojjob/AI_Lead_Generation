@@ -51,7 +51,7 @@ class LeadsController < ApplicationController
 
   # GET /leads/new
   def new
-    @lead = current_user.leads.build
+    @lead = Lead.new(user: current_user)
     @mentions = current_user.mentions.includes(:keyword).recent.limit(50)
   end
 
@@ -61,7 +61,8 @@ class LeadsController < ApplicationController
 
   # POST /leads
   def create
-    @lead = current_user.leads.build(lead_params)
+    @lead = Lead.new(lead_params)
+    @lead.user = current_user
 
     if @lead.save
       track_lead_creation
@@ -203,18 +204,18 @@ class LeadsController < ApplicationController
   end
 
   def apply_filters(leads)
-    leads = leads.where(status: params[:status]) if params[:status].present?
-    leads = leads.where(priority: params[:priority]) if params[:priority].present?
-    leads = leads.where(lead_stage: params[:stage]) if params[:stage].present?
-    leads = leads.where(temperature: params[:temperature]) if params[:temperature].present?
-    leads = leads.where(source_platform: params[:platform]) if params[:platform].present?
-    leads = leads.where(assigned_to: params[:assigned_to]) if params[:assigned_to].present?
+    leads = leads.where(leads: { status: params[:status] }) if params[:status].present?
+    leads = leads.where(leads: { priority: params[:priority] }) if params[:priority].present?
+    leads = leads.where(leads: { lead_stage: params[:stage] }) if params[:stage].present?
+    leads = leads.where(leads: { temperature: params[:temperature] }) if params[:temperature].present?
+    leads = leads.where(leads: { source_platform: params[:platform] }) if params[:platform].present?
+    leads = leads.where(leads: { assigned_to: params[:assigned_to] }) if params[:assigned_to].present?
 
     if params[:qualification_score].present?
       case params[:qualification_score]
-      when "high" then leads = leads.where("qualification_score >= ?", 70)
-      when "medium" then leads = leads.where("qualification_score BETWEEN ? AND ?", 40, 69)
-      when "low" then leads = leads.where("qualification_score < ?", 40)
+      when "high" then leads = leads.where("leads.qualification_score >= ?", 70)
+      when "medium" then leads = leads.where("leads.qualification_score BETWEEN ? AND ?", 40, 69)
+      when "low" then leads = leads.where("leads.qualification_score < ?", 40)
       end
     end
 

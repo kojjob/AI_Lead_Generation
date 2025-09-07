@@ -2,11 +2,12 @@ class Lead < ApplicationRecord
   self.inheritance_column = nil # Disable single-table inheritance
 
   # Associations
-  belongs_to :mention
+  belongs_to :user
+  belongs_to :mention, optional: true
   has_one :keyword, through: :mention
-  has_one :user, through: :keyword
 
   # Validations
+  validates :user, presence: true
   validates :status, inclusion: { in: %w[new contacted qualified converted rejected archived] }
   validates :priority, inclusion: { in: %w[low medium high urgent] }
   validates :lead_stage, inclusion: { in: %w[prospect qualified opportunity proposal negotiation closed] }

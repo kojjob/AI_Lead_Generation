@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_07_062826) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_07_065057) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -122,7 +122,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_062826) do
   end
 
   create_table "leads", force: :cascade do |t|
-    t.bigint "mention_id", null: false
+    t.bigint "mention_id"
     t.float "priority_score"
     t.string "status"
     t.string "lead_type", default: "lead"
@@ -158,6 +158,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_062826) do
     t.datetime "last_interaction_at"
     t.string "assigned_to"
     t.string "temperature", default: "cold"
+    t.bigint "user_id", null: false
     t.index ["created_at"], name: "index_leads_on_created_at"
     t.index ["email"], name: "index_leads_on_email"
     t.index ["lead_stage"], name: "index_leads_on_lead_stage"
@@ -165,6 +166,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_062826) do
     t.index ["priority"], name: "index_leads_on_priority"
     t.index ["qualification_score"], name: "index_leads_on_qualification_score"
     t.index ["status"], name: "index_leads_on_status"
+    t.index ["user_id"], name: "index_leads_on_user_id"
   end
 
   create_table "mentions", force: :cascade do |t|
@@ -229,5 +231,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_062826) do
   add_foreign_key "integrations", "users"
   add_foreign_key "keywords", "users"
   add_foreign_key "leads", "mentions"
+  add_foreign_key "leads", "users"
   add_foreign_key "mentions", "keywords"
 end
