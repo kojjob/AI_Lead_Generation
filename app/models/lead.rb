@@ -44,7 +44,7 @@ class Lead < ApplicationRecord
     return all if query.blank?
 
     where(
-      "name ILIKE ? OR email ILIKE ? OR company ILIKE ? OR position ILIKE ? OR notes ILIKE ?",
+      "leads.name ILIKE ? OR leads.email ILIKE ? OR leads.company ILIKE ? OR leads.position ILIKE ? OR leads.notes ILIKE ?",
       "%#{query}%", "%#{query}%", "%#{query}%", "%#{query}%", "%#{query}%"
     )
   }

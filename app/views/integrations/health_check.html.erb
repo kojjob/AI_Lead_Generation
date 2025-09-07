@@ -1,0 +1,285 @@
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="mb-8">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center">
+          <%= link_to integrations_path, class: "mr-4 text-gray-400 hover:text-gray-500" do %>
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+          <% end %>
+          <div>
+            <h1 class="text-3xl font-bold text-gray-900">Integration Health Dashboard</h1>
+            <p class="mt-1 text-sm text-gray-500">
+              System-wide health monitoring for all integrations
+            </p>
+          </div>
+        </div>
+        <div class="flex space-x-3">
+          <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+            <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            Refresh
+          </button>
+          <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
+            Export Report
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overall Health Score -->
+    <div class="mb-8 bg-white overflow-hidden shadow rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <div class="text-center">
+          <h2 class="text-lg font-medium text-gray-900 mb-4">Overall System Health</h2>
+          <div class="inline-flex items-center justify-center">
+            <div class="relative">
+              <svg class="h-32 w-32">
+                <circle cx="64" cy="64" r="56" stroke="#E5E7EB" stroke-width="12" fill="none" />
+                <circle cx="64" cy="64" r="56" stroke="#10B981" stroke-width="12" fill="none"
+                        stroke-dasharray="<%= 351.86 * 0.85 %> 351.86"
+                        stroke-dashoffset="87.965"
+                        transform="rotate(-90 64 64)" />
+              </svg>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <span class="text-3xl font-bold text-gray-900">85%</span>
+              </div>
+            </div>
+          </div>
+          <p class="mt-4 text-sm text-gray-500">Based on <%= @integrations&.count || 0 %> active integrations</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Health Metrics Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="p-5">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <svg class="h-6 w-6 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div class="ml-5 w-0 flex-1">
+              <dl>
+                <dt class="text-sm font-medium text-gray-500 truncate">Healthy</dt>
+                <dd class="flex items-baseline">
+                  <div class="text-2xl font-semibold text-gray-900">
+                    <%= @integrations&.select { |i| i.health_status == 'excellent' || i.health_status == 'good' }&.count || 0 %>
+                  </div>
+                  <span class="ml-2 text-sm text-green-600">
+                    <%= @integrations&.any? ? "#{((@integrations.select { |i| i.health_status == 'excellent' || i.health_status == 'good' }.count.to_f / @integrations.count) * 100).round}%" : "0%" %>
+                  </span>
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="p-5">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <svg class="h-6 w-6 text-yellow-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <div class="ml-5 w-0 flex-1">
+              <dl>
+                <dt class="text-sm font-medium text-gray-500 truncate">Warning</dt>
+                <dd class="flex items-baseline">
+                  <div class="text-2xl font-semibold text-gray-900">
+                    <%= @integrations&.select { |i| i.health_status == 'fair' }&.count || 0 %>
+                  </div>
+                  <span class="ml-2 text-sm text-yellow-600">
+                    <%= @integrations&.any? ? "#{((@integrations.select { |i| i.health_status == 'fair' }.count.to_f / @integrations.count) * 100).round}%" : "0%" %>
+                  </span>
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="p-5">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <svg class="h-6 w-6 text-red-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div class="ml-5 w-0 flex-1">
+              <dl>
+                <dt class="text-sm font-medium text-gray-500 truncate">Critical</dt>
+                <dd class="flex items-baseline">
+                  <div class="text-2xl font-semibold text-gray-900">
+                    <%= @integrations&.select { |i| i.health_status == 'poor' || i.health_status == 'critical' }&.count || 0 %>
+                  </div>
+                  <span class="ml-2 text-sm text-red-600">
+                    <%= @integrations&.any? ? "#{((@integrations.select { |i| i.health_status == 'poor' || i.health_status == 'critical' }.count.to_f / @integrations.count) * 100).round}%" : "0%" %>
+                  </span>
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="p-5">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <svg class="h-6 w-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <div class="ml-5 w-0 flex-1">
+              <dl>
+                <dt class="text-sm font-medium text-gray-500 truncate">Disconnected</dt>
+                <dd class="flex items-baseline">
+                  <div class="text-2xl font-semibold text-gray-900">
+                    <%= @integrations&.select { |i| i.connection_status == 'disconnected' }&.count || 0 %>
+                  </div>
+                  <span class="ml-2 text-sm text-gray-600">
+                    <%= @integrations&.any? ? "#{((@integrations.select { |i| i.connection_status == 'disconnected' }.count.to_f / @integrations.count) * 100).round}%" : "0%" %>
+                  </span>
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Integration Health Details -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Integration Health Details
+        </h3>
+      </div>
+      <div class="border-t border-gray-200">
+        <% if @health_data&.any? %>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Platform
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Health Score
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Last Sync
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Error Count
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <% @health_data.each do |integration| %>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center">
+                        <div class="flex-shrink-0 h-10 w-10">
+                          <div class="h-10 w-10 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">
+                              <%= (integration[:platform] || integration[:provider])&.first&.upcase %>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="ml-4">
+                          <div class="text-sm font-medium text-gray-900">
+                            <%= integration[:platform]&.capitalize || integration[:provider] %>
+                          </div>
+                          <div class="text-sm text-gray-500">
+                            <%= integration[:provider] %>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <% case integration[:status] %>
+                      <% when 'connected' %>
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                          Connected
+                        </span>
+                      <% when 'error' %>
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                          Error
+                        </span>
+                      <% else %>
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                          <%= integration[:status]&.humanize %>
+                        </span>
+                      <% end %>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center">
+                        <div class="flex-1 bg-gray-200 rounded-full h-2 mr-2 max-w-[100px]">
+                          <div class="bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 h-2 rounded-full" 
+                               style="width: <%= integration[:health_score] %>%"></div>
+                        </div>
+                        <span class="text-sm font-medium text-gray-900"><%= integration[:health_score] %>%</span>
+                      </div>
+                      <p class="text-xs text-gray-500 mt-1"><%= integration[:health_status]&.capitalize %></p>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <%= integration[:last_sync] ? time_ago_in_words(integration[:last_sync]) + " ago" : "Never" %>
+                      <div class="text-xs text-gray-400">
+                        <%= integration[:sync_status] %>
+                      </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <% if integration[:error_count] > 0 %>
+                        <span class="text-red-600 font-medium"><%= integration[:error_count] %></span>
+                      <% else %>
+                        <span class="text-green-600">0</span>
+                      <% end %>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <%= link_to "View", integration_path(integration[:id]), 
+                          class: "text-indigo-600 hover:text-indigo-900 mr-3" %>
+                      <%= link_to "Logs", logs_integration_path(integration[:id]), 
+                          class: "text-gray-600 hover:text-gray-900" %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        <% else %>
+          <div class="text-center py-12">
+            <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">No integrations configured</h3>
+            <p class="mt-1 text-sm text-gray-500">Get started by adding your first integration.</p>
+            <div class="mt-6">
+              <%= link_to new_integration_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700" do %>
+                <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                Add Integration
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
