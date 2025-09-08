@@ -141,12 +141,20 @@ class DashboardController < ApplicationController
       converted_leads = 0
     end
 
+    # Calculate conversion rate safely to avoid NaN
+    conversion_rate = if total_mentions > 0
+                       rate = (converted_leads.to_f / total_mentions * 100).round(2)
+                       rate.nan? ? 0.0 : rate
+                     else
+                       0.0
+                     end
+    
     {
       mentions: total_mentions,
       qualified: qualified_leads,
       contacted: contacted_leads,
       converted: converted_leads,
-      conversion_rate: total_mentions > 0 ? (converted_leads.to_f / total_mentions * 100).round(2) : 0
+      conversion_rate: conversion_rate
     }
   end
 
@@ -156,11 +164,19 @@ class DashboardController < ApplicationController
       mentions_count = Mention.where(keyword_id: keyword.id).count
       leads_count = Lead.joins(:mention).where(mentions: { keyword_id: keyword.id }).count
 
+      # Calculate conversion rate safely
+      conversion_rate = if mentions_count > 0
+                         rate = (leads_count.to_f / mentions_count * 100).round(2)
+                         rate.nan? ? 0.0 : rate
+                       else
+                         0.0
+                       end
+      
       {
         name: keyword.keyword || "Unknown", # Use 'keyword' column from schema
         mentions: mentions_count,
         leads: leads_count,
-        conversion_rate: mentions_count > 0 ? (leads_count.to_f / mentions_count * 100).round(2) : 0
+        conversion_rate: conversion_rate
       }
     end
 
@@ -285,8 +301,12 @@ class DashboardController < ApplicationController
     mention_ids = keyword_ids.any? ? Mention.where(keyword_id: keyword_ids).pluck(:id) : []
     converted_leads = mention_ids.any? ? Lead.where(mention_id: mention_ids, status: "converted").count : 0
 
-    return 0 if total_mentions.zero?
-    (converted_leads.to_f / total_mentions * 100).round(2)
+    # Always return 0.0 if no mentions to avoid NaN
+    return 0.0 if total_mentions.zero?
+    
+    # Calculate rate and ensure it's never NaN
+    rate = (converted_leads.to_f / total_mentions * 100).round(2)
+    rate.nan? ? 0.0 : rate
   end
 
   def calculate_avg_response_time(leads)

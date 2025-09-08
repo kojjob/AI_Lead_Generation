@@ -149,7 +149,11 @@ export default class extends Controller {
 
   // Animate counter from 0 to target value
   animateCounter(element) {
-    const targetValue = parseInt(element.textContent.replace(/,/g, '')) || 0
+    // Extract numeric value from text, handling percentages and other formats
+    const text = element.textContent || '0'
+    const cleanedText = text.replace(/[,%]/g, '').trim()
+    const targetValue = parseFloat(cleanedText) || 0
+    const hasPercentage = text.includes('%')
     const duration = 1500 // 1.5 seconds
     const startTime = performance.now()
 
@@ -159,14 +163,29 @@ export default class extends Controller {
 
       // Easing function for smooth animation
       const easeOutQuart = 1 - Math.pow(1 - progress, 4)
-      const currentValue = Math.floor(targetValue * easeOutQuart)
+      const currentValue = targetValue * easeOutQuart
 
-      element.textContent = this.formatNumber(currentValue)
+      // Format based on whether it's a percentage or regular number
+      if (hasPercentage) {
+        element.textContent = currentValue.toFixed(1) + '%'
+      } else if (targetValue % 1 !== 0) {
+        // If original was a decimal, keep decimal places
+        element.textContent = currentValue.toFixed(1)
+      } else {
+        element.textContent = this.formatNumber(Math.floor(currentValue))
+      }
 
       if (progress < 1) {
         requestAnimationFrame(animate)
       } else {
-        element.textContent = this.formatNumber(targetValue)
+        // Final value
+        if (hasPercentage) {
+          element.textContent = targetValue.toFixed(1) + '%'
+        } else if (targetValue % 1 !== 0) {
+          element.textContent = targetValue.toFixed(1)
+        } else {
+          element.textContent = this.formatNumber(targetValue)
+        }
       }
     }
 

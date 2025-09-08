@@ -337,7 +337,8 @@
                 <% if index > 0 %>
                   <div class="absolute -right-2 top-1/2 transform -translate-y-1/2">
                     <div class="bg-white border border-gray-200 rounded-full px-2 py-1 text-xs font-medium text-gray-600 shadow-sm">
-                      <%= ((stage[:count].to_f / funnel_stages[index-1][:count]) * 100).round(1) %>%
+                      <% prev_count = funnel_stages[index-1][:count] %>
+                      <%= prev_count > 0 ? ((stage[:count].to_f / prev_count) * 100).round(1) : 0 %>%
                     </div>
                   </div>
                 <% end %>
@@ -350,7 +351,8 @@
             <div class="grid grid-cols-2 gap-4 text-center">
               <div>
                 <div class="text-lg font-bold text-green-600">
-                  <%= ((funnel_stages.last[:count].to_f / funnel_stages.first[:count]) * 100).round(1) %>%
+                  <% first_count = funnel_stages.first[:count] %>
+                  <%= first_count > 0 ? ((funnel_stages.last[:count].to_f / first_count) * 100).round(1) : 0 %>%
                 </div>
                 <div class="text-xs text-gray-500">End-to-end conversion</div>
               </div>

@@ -300,69 +300,117 @@
     </div>
 
     <!-- Premium Main Content Grid -->
-    <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 ">
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-8">
 
-      <!-- Left Column - Analytics and Charts (8 columns) -->
+      <!-- Left Column - Quick Analytics Overview (8 columns) -->
       <div class="xl:col-span-8 space-y-8">
-    
 
-        <!-- Enhanced Analytics Section -->
+        <!-- Quick Analytics Summary -->
         <div class="premium-widget-card bg-gradient-to-br from-white via-white to-indigo-50/20 backdrop-blur-sm rounded-2xl border border-indigo-200/30 shadow-lg overflow-hidden">
           <div class="premium-widget-header bg-gradient-to-r from-indigo-500/10 to-purple-500/10 px-6 py-5 border-b border-indigo-200/30">
             <div class="flex items-center justify-between">
-              <div class="max-w-7xl mx-auto">
-                <h3 class="text-xl font-bold text-gray-900">Analytics Overview</h3>
-                <p class="text-sm text-gray-600 mt-1">Real-time insights into your lead generation performance</p>
+              <div>
+                <h3 class="text-xl font-bold text-gray-900">Performance Overview</h3>
+                <p class="text-sm text-gray-600 mt-1">Your lead generation at a glance</p>
               </div>
-              <div class="flex items-center space-x-3">
-                <!-- Time Range Selector -->
-                <div class="relative" data-controller="dropdown">
-                  <button data-action="click->dropdown#toggle"
-                          class="inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm border border-indigo-200/50 text-sm font-medium text-gray-700 rounded-xl hover:bg-white hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                    </svg>
-                    Last 7 days
-                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                  </button>
-                  <!-- Dropdown menu would go here -->
-                </div>
-
-                <!-- Export Button -->
-                <button class="inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm border border-indigo-200/50 text-sm font-medium text-gray-700 rounded-xl hover:bg-white hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
-                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                  </svg>
-                  Export
-                </button>
-              </div>
+              <%= link_to dashboard_analytics_path, 
+                  class: "premium-action-button inline-flex items-center px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-semibold rounded-xl shadow-sm hover:shadow-md transition-all duration-200" do %>
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+                View Full Analytics
+              <% end %>
             </div>
           </div>
 
-          <!-- Analytics Content -->
-          <%= render 'analytics_section' %>
+          <!-- Simple Performance Chart -->
+          <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <!-- Mini Performance Cards -->
+              <div class="text-center p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl">
+                <div class="text-3xl font-bold text-indigo-600 mb-2"><%= @analytics_data[:leads][:today] || 0 %></div>
+                <div class="text-sm text-gray-600">New Leads Today</div>
+              </div>
+              <div class="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl">
+                <div class="text-3xl font-bold text-green-600 mb-2"><%= @analytics_data[:conversions][:conversion_rate] %>%</div>
+                <div class="text-sm text-gray-600">Conversion Rate</div>
+              </div>
+              <div class="text-center p-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl">
+                <div class="text-3xl font-bold text-purple-600 mb-2"><%= @analytics_data[:leads][:growth_rate] %>%</div>
+                <div class="text-sm text-gray-600">Monthly Growth</div>
+              </div>
+            </div>
+
+            <!-- Simple Trend Line -->
+            <div class="h-48 bg-gray-50 rounded-xl p-4">
+              <div class="flex items-center justify-between mb-4">
+                <h4 class="text-sm font-medium text-gray-700">7-Day Lead Trend</h4>
+                <div class="flex items-center space-x-2 text-xs text-gray-500">
+                  <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <span>Leads</span>
+                </div>
+              </div>
+              <div class="h-32 flex items-end justify-between space-x-2">
+                <% last_7_days = @analytics_data[:leads][:daily_leads].to_a.last(7) %>
+                <% max_value = last_7_days.map { |_, v| v }.max.to_f %>
+                <% max_value = 1 if max_value == 0 %>
+                <% last_7_days.each do |date, count| %>
+                  <div class="flex-1 bg-gradient-to-t from-blue-500 to-indigo-500 rounded-t-lg hover:from-blue-600 hover:to-indigo-600 transition-all duration-200"
+                       style="height: <%= (count.to_f / max_value * 100).round %>%"
+                       title="<%= date.strftime('%b %d') %>: <%= count %> leads">
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Enhanced Conversion Funnel -->
-        <div class="premium-widget-card bg-gradient-to-br from-white via-white to-purple-50/20 backdrop-blur-sm rounded-2xl border border-purple-200/30 shadow-lg overflow-hidden">
-          <div class="premium-widget-header bg-gradient-to-r from-purple-500/10 to-pink-500/10 px-6 py-5 border-b border-purple-200/30">
+        <!-- Recent Activity Feed -->
+        <div class="premium-widget-card bg-gradient-to-br from-white via-white to-green-50/20 backdrop-blur-sm rounded-2xl border border-green-200/30 shadow-lg overflow-hidden">
+          <div class="premium-widget-header bg-gradient-to-r from-green-500/10 to-emerald-500/10 px-6 py-5 border-b border-green-200/30">
             <div class="flex items-center justify-between">
               <div>
-                <h3 class="text-xl font-bold text-gray-900">Conversion Funnel</h3>
-                <p class="text-sm text-gray-600 mt-1">Track your lead conversion process from mention to customer</p>
+                <h3 class="text-xl font-bold text-gray-900">Recent Activity</h3>
+                <p class="text-sm text-gray-600 mt-1">Latest updates from your lead generation system</p>
               </div>
               <div class="flex items-center space-x-2">
-                <span class="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-sm font-semibold rounded-full shadow-sm">
-                  <%= @analytics_data[:conversions][:conversion_rate] %>% Overall Rate
-                </span>
+                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span class="text-xs text-green-600 font-medium">Live</span>
               </div>
             </div>
           </div>
 
-          <!-- Funnel Content -->
-          <%= render 'conversion_funnel' %>
+          <!-- Activity List -->
+          <div class="p-6">
+            <div class="space-y-4">
+              <% if @recent_leads.any? %>
+                <% @recent_leads.first(5).each do |lead| %>
+                  <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-all duration-200">
+                    <div class="flex-shrink-0">
+                      <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                      </div>
+                    </div>
+                    <div class="flex-1">
+                      <p class="text-sm font-medium text-gray-900">New lead: <%= lead.name || 'Unknown' %></p>
+                      <p class="text-xs text-gray-600">From keyword: <%= lead.mention&.keyword&.keyword %></p>
+                      <p class="text-xs text-gray-500"><%= time_ago_in_words(lead.created_at) %> ago</p>
+                    </div>
+                  </div>
+                <% end %>
+              <% else %>
+                <div class="text-center py-8 text-gray-500">
+                  <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <p class="text-sm">No recent activity</p>
+                  <p class="text-xs text-gray-400 mt-1">New activity will appear here</p>
+                </div>
+              <% end %>
+            </div>
+          </div>
         </div>
       </div>
 
