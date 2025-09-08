@@ -1,6 +1,6 @@
 require "test_helper"
 
-class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
+class Ai::IntelligenceControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = users(:one)
     @mention = mentions(:one)
@@ -36,7 +36,7 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    AI::EnhancedAnalysisService.any_instance.stub :analyze_mention, mock_result do
+    Ai::EnhancedAnalysisService.any_instance.stub :analyze_mention, mock_result do
       post analyze_mention_ai_intelligence_index_url, params: {
         mention_id: @mention.id
       }
@@ -55,7 +55,7 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       error: "API rate limit exceeded"
     }
 
-    AI::EnhancedAnalysisService.any_instance.stub :analyze_mention, mock_result do
+    Ai::EnhancedAnalysisService.any_instance.stub :analyze_mention, mock_result do
       post analyze_mention_ai_intelligence_index_url, params: {
         mention_id: @mention.id
       }
@@ -88,7 +88,7 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    AI::EnhancedAnalysisService.any_instance.stub :score_lead, mock_result do
+    Ai::EnhancedAnalysisService.any_instance.stub :score_lead, mock_result do
       post score_lead_ai_intelligence_index_url, params: {
         lead_id: @lead.id
       }
@@ -107,7 +107,7 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       error: "Model unavailable"
     }
 
-    AI::EnhancedAnalysisService.any_instance.stub :score_lead, mock_result do
+    Ai::EnhancedAnalysisService.any_instance.stub :score_lead, mock_result do
       post score_lead_ai_intelligence_index_url, params: {
         lead_id: @lead.id
       }
@@ -128,7 +128,7 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       { success: true, analysis: { sentiment: { score: 0.8 } } }
     ]
 
-    AI::EnhancedAnalysisService.any_instance.stub :batch_analyze_mentions, mock_results do
+    Ai::EnhancedAnalysisService.any_instance.stub :batch_analyze_mentions, mock_results do
       post batch_analyze_ai_intelligence_index_url, params: {
         mention_ids: mention_ids
       }
@@ -148,7 +148,7 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       { success: false, error: "Processing failed" }
     ]
 
-    AI::EnhancedAnalysisService.any_instance.stub :batch_analyze_mentions, mock_results do
+    Ai::EnhancedAnalysisService.any_instance.stub :batch_analyze_mentions, mock_results do
       post batch_analyze_ai_intelligence_index_url, params: {
         mention_ids: mention_ids
       }
@@ -185,7 +185,7 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    AI::EnhancedAnalysisService.any_instance.stub :analyze_sentiment, mock_result do
+    Ai::EnhancedAnalysisService.any_instance.stub :analyze_sentiment, mock_result do
       post analyze_sentiment_ai_intelligence_index_url, params: {
         text: "I love this product! It's amazing!",
         ai_model_id: @ai_model.id
@@ -222,7 +222,7 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    AI::EnhancedAnalysisService.any_instance.stub :extract_entities, mock_result do
+    Ai::EnhancedAnalysisService.any_instance.stub :extract_entities, mock_result do
       post extract_entities_ai_intelligence_index_url, params: {
         text: "John Smith from Apple Inc. in San Francisco",
         ai_model_id: @ai_model.id
@@ -245,7 +245,7 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       prediction: "high_value"
     }
 
-    AI::MlScoringService.any_instance.stub :calculate_lead_score, mock_result do
+    Ai::MlScoringService.any_instance.stub :calculate_lead_score, mock_result do
       post calculate_score_ai_intelligence_index_url, params: {
         entity_type: "Lead",
         entity_id: @lead.id,
@@ -424,7 +424,7 @@ class AI::IntelligenceControllerTest < ActionDispatch::IntegrationTest
       sentiment: { sentiment: "neutral", score: 0.5 }
     }
 
-    AI::EnhancedAnalysisService.any_instance.stub :analyze_sentiment, mock_result do
+    Ai::EnhancedAnalysisService.any_instance.stub :analyze_sentiment, mock_result do
       post analyze_sentiment_ai_intelligence_index_url, params: {
         text: "Test text"
         # No ai_model_id specified

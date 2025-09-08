@@ -299,45 +299,132 @@
       </div>
     </div>
 
-    <!-- Main Content Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <!-- Left Column - Charts and Analytics -->
-      <div class="lg:col-span-2 space-y-8">
-        <!-- Analytics Section -->
-        <%= render 'analytics_section' %>
+    <!-- Premium Main Content Grid -->
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 ">
 
-        <!-- Conversion Funnel -->
-        <%= render 'conversion_funnel' %>
+      <!-- Left Column - Analytics and Charts (8 columns) -->
+      <div class="xl:col-span-8 space-y-8">
+    
+
+        <!-- Enhanced Analytics Section -->
+        <div class="premium-widget-card bg-gradient-to-br from-white via-white to-indigo-50/20 backdrop-blur-sm rounded-2xl border border-indigo-200/30 shadow-lg overflow-hidden">
+          <div class="premium-widget-header bg-gradient-to-r from-indigo-500/10 to-purple-500/10 px-6 py-5 border-b border-indigo-200/30">
+            <div class="flex items-center justify-between">
+              <div class="max-w-7xl mx-auto">
+                <h3 class="text-xl font-bold text-gray-900">Analytics Overview</h3>
+                <p class="text-sm text-gray-600 mt-1">Real-time insights into your lead generation performance</p>
+              </div>
+              <div class="flex items-center space-x-3">
+                <!-- Time Range Selector -->
+                <div class="relative" data-controller="dropdown">
+                  <button data-action="click->dropdown#toggle"
+                          class="inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm border border-indigo-200/50 text-sm font-medium text-gray-700 rounded-xl hover:bg-white hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    Last 7 days
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </button>
+                  <!-- Dropdown menu would go here -->
+                </div>
+
+                <!-- Export Button -->
+                <button class="inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm border border-indigo-200/50 text-sm font-medium text-gray-700 rounded-xl hover:bg-white hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                  </svg>
+                  Export
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Analytics Content -->
+          <%= render 'analytics_section' %>
+        </div>
+
+        <!-- Enhanced Conversion Funnel -->
+        <div class="premium-widget-card bg-gradient-to-br from-white via-white to-purple-50/20 backdrop-blur-sm rounded-2xl border border-purple-200/30 shadow-lg overflow-hidden">
+          <div class="premium-widget-header bg-gradient-to-r from-purple-500/10 to-pink-500/10 px-6 py-5 border-b border-purple-200/30">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-xl font-bold text-gray-900">Conversion Funnel</h3>
+                <p class="text-sm text-gray-600 mt-1">Track your lead conversion process from mention to customer</p>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span class="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-sm font-semibold rounded-full shadow-sm">
+                  <%= @analytics_data[:conversions][:conversion_rate] %>% Overall Rate
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Funnel Content -->
+          <%= render 'conversion_funnel' %>
+        </div>
       </div>
 
-      <!-- Right Column - Widgets and Quick Info -->
-      <div class="space-y-8">
-        <!-- Recent Leads -->
-        <div class="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden">
-          <div class="px-6 py-4 border-b border-gray-200">
-            <h3 class="text-lg font-semibold text-gray-900">Recent Leads</h3>
+      <!-- Right Column - Widgets and Quick Info (4 columns) -->
+      <div class="xl:col-span-4 space-y-6">
+
+        <!-- Enhanced Recent Leads Widget -->
+        <div class="premium-widget-card bg-gradient-to-br from-white via-white to-green-50/20 backdrop-blur-sm rounded-2xl border border-green-200/30 shadow-lg overflow-hidden">
+          <div class="premium-widget-header bg-gradient-to-r from-green-500/10 to-emerald-500/10 px-6 py-4 border-b border-green-200/30">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-lg font-bold text-gray-900">Recent Leads</h3>
+                <p class="text-sm text-gray-600">Latest qualified prospects</p>
+              </div>
+              <button class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors duration-200">
+                View All
+              </button>
+            </div>
           </div>
-          <div class="divide-y divide-gray-200" data-dashboard-target="recentLeads">
-            <!-- Recent leads will be rendered here -->
+          <div class="premium-widget-content max-h-96 overflow-y-auto" data-dashboard-target="recentLeads">
+            <!-- Recent leads will be rendered here with enhanced styling -->
+            <div class="p-6 text-center text-gray-500">
+              <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+              <p class="text-sm">No recent leads yet</p>
+              <p class="text-xs text-gray-400 mt-1">New leads will appear here as they're generated</p>
+            </div>
           </div>
         </div>
 
-        <!-- Keyword Performance -->
-        <div class="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden">
-          <div class="px-6 py-4 border-b border-gray-200">
-            <h3 class="text-lg font-semibold text-gray-900">Top Keywords</h3>
+        <!-- Enhanced Keyword Performance Widget -->
+        <div class="premium-widget-card bg-gradient-to-br from-white via-white to-blue-50/20 backdrop-blur-sm rounded-2xl border border-blue-200/30 shadow-lg overflow-hidden">
+          <div class="premium-widget-header bg-gradient-to-r from-blue-500/10 to-indigo-500/10 px-6 py-4 border-b border-blue-200/30">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-lg font-bold text-gray-900">Top Keywords</h3>
+                <p class="text-sm text-gray-600">Best performing search terms</p>
+              </div>
+              <button class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors duration-200">
+                Manage
+              </button>
+            </div>
           </div>
-          <div class="p-6" data-dashboard-target="keywordPerformance">
-            <!-- Keyword performance will be rendered here -->
+          <div class="premium-widget-content p-6" data-dashboard-target="keywordPerformance">
+            <!-- Keyword performance will be rendered here with enhanced styling -->
+            <div class="text-center text-gray-500">
+              <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+              </svg>
+              <p class="text-sm">No keyword data available</p>
+              <p class="text-xs text-gray-400 mt-1">Add keywords to start monitoring</p>
+            </div>
           </div>
         </div>
 
-        <!-- Integration Status -->
+        <!-- Enhanced Integration Status -->
         <%= render 'integration_status' %>
 
-        <!-- Notification Center -->
+        <!-- Enhanced Notification Center -->
         <%= render 'notification_center' %>
       </div>
     </div>
-  </div>
+  </main>
 </div>
