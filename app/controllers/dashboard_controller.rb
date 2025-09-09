@@ -1,39 +1,47 @@
 class DashboardController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_dashboard_data
 
   def index
     # Main dashboard view with all widgets and analytics
+    # Just use the old method for now since it works
+    set_dashboard_data
   end
 
   def analytics
     # Detailed analytics view
-    render json: {
-      leads: @analytics_data[:leads],
-      conversions: @analytics_data[:conversions],
-      keywords: @analytics_data[:keywords],
-      integrations: @analytics_data[:integrations]
-    }
+    set_dashboard_data
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @analytics_data }
+    end
   end
 
   def widgets
     # Return widget data for AJAX updates
+    set_dashboard_data
+
     render json: {
       recent_leads: @recent_leads,
       keyword_performance: @keyword_performance,
-      integration_status: @integration_status,
-      conversion_metrics: @conversion_metrics
+      stats: {
+        total_keywords: @user_keywords.count,
+        total_leads: @recent_leads.count,
+        new_leads_today: @conversion_metrics[:new_leads_today],
+        conversion_rate: @conversion_metrics[:conversion_rate]
+      }
     }
   end
 
   private
 
+  # Keep the old method for backwards compatibility but deprecated
   def set_dashboard_data
     @user = current_user
 
     # Use simple queries to avoid complex joins
-    @user_keywords = current_user.keywords
-    @user_integrations = current_user.integrations
+    @user_keywords = @user.keywords
+    @user_integrations = @user.integrations
 
     # Get data through simpler approach to avoid ambiguous column errors
     keyword_ids = @user_keywords.pluck(:id)
@@ -53,7 +61,8 @@ class DashboardController < ApplicationController
       leads: leads_analytics,
       conversions: conversion_analytics,
       keywords: keyword_analytics,
-      integrations: integration_analytics
+      integrations: integration_analytics,
+      insights: insights_analytics
     }
 
     # Conversion metrics
@@ -84,6 +93,7 @@ class DashboardController < ApplicationController
       total_leads = Lead.where(mention_id: mention_ids).count
       this_month = Lead.where(mention_id: mention_ids).where(created_at: 1.month.ago..Time.current).count
       last_month = Lead.where(mention_id: mention_ids).where(created_at: 2.months.ago..1.month.ago).count
+      today = Lead.where(mention_id: mention_ids).where(created_at: Date.current.beginning_of_day..Date.current.end_of_day).count
     else
       formatted_leads_by_day = {}
       (30.days.ago.to_date..Date.current).each do |date|
@@ -92,13 +102,25 @@ class DashboardController < ApplicationController
       total_leads = 0
       this_month = 0
       last_month = 0
+      today = 0
+    end
+
+    # Calculate growth rate
+    growth_rate = if last_month > 0
+                    ((this_month - last_month).to_f / last_month * 100).round(1)
+    elsif this_month > 0
+                    100.0
+    else
+                    0.0
     end
 
     {
       daily_leads: formatted_leads_by_day,
       total_leads: total_leads,
       this_month: this_month,
-      last_month: last_month
+      last_month: last_month,
+      today: today,
+      growth_rate: growth_rate
     }
   end
 
@@ -119,12 +141,20 @@ class DashboardController < ApplicationController
       converted_leads = 0
     end
 
+    # Calculate conversion rate safely to avoid NaN
+    conversion_rate = if total_mentions > 0
+                       rate = (converted_leads.to_f / total_mentions * 100).round(2)
+                       rate.nan? ? 0.0 : rate
+    else
+                       0.0
+    end
+
     {
       mentions: total_mentions,
       qualified: qualified_leads,
       contacted: contacted_leads,
       converted: converted_leads,
-      conversion_rate: total_mentions > 0 ? (converted_leads.to_f / total_mentions * 100).round(2) : 0
+      conversion_rate: conversion_rate
     }
   end
 
@@ -134,11 +164,19 @@ class DashboardController < ApplicationController
       mentions_count = Mention.where(keyword_id: keyword.id).count
       leads_count = Lead.joins(:mention).where(mentions: { keyword_id: keyword.id }).count
 
+      # Calculate conversion rate safely
+      conversion_rate = if mentions_count > 0
+                         rate = (leads_count.to_f / mentions_count * 100).round(2)
+                         rate.nan? ? 0.0 : rate
+      else
+                         0.0
+      end
+
       {
         name: keyword.keyword || "Unknown", # Use 'keyword' column from schema
         mentions: mentions_count,
         leads: leads_count,
-        conversion_rate: mentions_count > 0 ? (leads_count.to_f / mentions_count * 100).round(2) : 0
+        conversion_rate: conversion_rate
       }
     end
 
@@ -162,6 +200,84 @@ class DashboardController < ApplicationController
     end
   end
 
+  def insights_analytics
+    # Generate AI insights based on current data
+    insights = []
+
+    # Performance insights
+    conversion_data = conversion_analytics
+    if conversion_data[:conversion_rate] > 15
+      insights << {
+        type: "performance",
+        title: "High Conversion Rate",
+        description: "Your conversion rate is above average",
+        priority: "positive"
+      }
+    elsif conversion_data[:conversion_rate] < 5
+      insights << {
+        type: "performance",
+        title: "Low Conversion Rate",
+        description: "Consider optimizing your lead qualification process",
+        priority: "urgent"
+      }
+    end
+
+    # Growth insights
+    leads_data = leads_analytics
+    if leads_data[:growth_rate] > 20
+      insights << {
+        type: "growth",
+        title: "Strong Growth Trend",
+        description: "Lead generation is trending upward",
+        priority: "positive"
+      }
+    elsif leads_data[:growth_rate] < -10
+      insights << {
+        type: "growth",
+        title: "Declining Performance",
+        description: "Lead generation needs attention",
+        priority: "urgent"
+      }
+    end
+
+    # Keyword insights
+    top_keywords = keyword_analytics.first(3)
+    if top_keywords.any? { |k| k[:conversion_rate] > 25 }
+      insights << {
+        type: "keywords",
+        title: "High-Performing Keywords",
+        description: "Some keywords are converting exceptionally well",
+        priority: "positive"
+      }
+    end
+
+    # Default insights if none generated
+    if insights.empty?
+      insights = [
+        {
+          type: "general",
+          title: "System Running Smoothly",
+          description: "All metrics are within normal ranges",
+          priority: "neutral"
+        },
+        {
+          type: "optimization",
+          title: "Optimization Opportunity",
+          description: "Consider expanding successful keyword strategies",
+          priority: "suggestion"
+        },
+        {
+          type: "monitoring",
+          title: "Continuous Monitoring",
+          description: "AI analysis is actively tracking performance",
+          priority: "info"
+        }
+      ]
+    end
+
+    insights
+  end
+
   def calculate_conversion_metrics
     keyword_ids = @user_keywords.pluck(:id)
     mention_ids = keyword_ids.any? ? Mention.where(keyword_id: keyword_ids).pluck(:id) : []
@@ -177,11 +293,20 @@ class DashboardController < ApplicationController
   end
 
   def calculate_overall_conversion_rate
-    total_mentions = current_user.mentions.count
-    converted_leads = current_user.leads.where(status: "converted").count
+    # Get mentions through keywords
+    keyword_ids = @user_keywords.pluck(:id)
+    total_mentions = keyword_ids.any? ? Mention.where(keyword_id: keyword_ids).count : 0
 
-    return 0 if total_mentions.zero?
-    (converted_leads.to_f / total_mentions * 100).round(2)
+    # Get converted leads through mentions
+    mention_ids = keyword_ids.any? ? Mention.where(keyword_id: keyword_ids).pluck(:id) : []
+    converted_leads = mention_ids.any? ? Lead.where(mention_id: mention_ids, status: "converted").count : 0
+
+    # Always return 0.0 if no mentions to avoid NaN
+    return 0.0 if total_mentions.zero?
+
+    # Calculate rate and ensure it's never NaN
+    rate = (converted_leads.to_f / total_mentions * 100).round(2)
+    rate.nan? ? 0.0 : rate
   end
 
   def calculate_avg_response_time(leads)

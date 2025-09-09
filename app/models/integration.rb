@@ -2,7 +2,50 @@ class Integration < ApplicationRecord
   self.inheritance_column = nil # Disable single-table inheritance
 
   # Constants
-  SUPPORTED_PLATFORMS = %w[twitter linkedin reddit facebook instagram slack discord].freeze
+  SUPPORTED_PLATFORMS = %w[
+    twitter linkedin reddit facebook instagram tiktok youtube
+    salesforce hubspot pipedrive zoho
+    slack discord teams
+  ].freeze
+
+  # Platform categories for better organization
+  SOCIAL_MEDIA_PLATFORMS = %w[twitter linkedin reddit facebook instagram tiktok youtube].freeze
+  CRM_PLATFORMS = %w[salesforce hubspot pipedrive zoho].freeze
+  COMMUNICATION_PLATFORMS = %w[slack discord teams].freeze
+
+  # Platform-specific configuration
+  PLATFORM_CONFIGS = {
+    "instagram" => {
+      api_version: "v18.0",
+      required_fields: %w[access_token],
+      optional_fields: %w[page_id],
+      webhook_events: %w[mentions comments stories]
+    },
+    "tiktok" => {
+      api_version: "v1.3",
+      required_fields: %w[access_token],
+      optional_fields: %w[advertiser_id],
+      webhook_events: %w[mentions comments videos]
+    },
+    "salesforce" => {
+      api_version: "v58.0",
+      required_fields: %w[client_id client_secret username password security_token],
+      optional_fields: %w[sandbox_mode],
+      webhook_events: %w[lead_created lead_updated]
+    },
+    "hubspot" => {
+      api_version: "v3",
+      required_fields: %w[access_token],
+      optional_fields: %w[portal_id],
+      webhook_events: %w[contact_created contact_updated deal_created]
+    },
+    "pipedrive" => {
+      api_version: "v1",
+      required_fields: %w[api_token company_domain],
+      optional_fields: %w[],
+      webhook_events: %w[person_added person_updated deal_added]
+    }
+  }.freeze
 
   SYNC_FREQUENCIES = {
     "realtime" => 1.minute,
@@ -29,7 +72,7 @@ class Integration < ApplicationRecord
   encrypts :webhook_secret, deterministic: false
 
   # Associations
-  belongs_to :user
+  belongs_to :user, counter_cache: true
   has_many :mentions, ->(integration) { where(platform: integration.platform_name) },
            foreign_key: :keyword_id, through: :user, source: :mentions
   has_many :integration_logs, dependent: :destroy
@@ -71,6 +114,10 @@ class Integration < ApplicationRecord
   end
 
   # Instance methods - Core functionality
+  def name
+    provider || platform_name || "Unknown Integration"
+  end
+
   def active?
     status == "active" && enabled? && connected?
   end
@@ -459,5 +506,134 @@ class Integration < ApplicationRecord
   def connect_facebook!
     # Implementation would go here
     raise NotImplementedError, "Facebook connection not yet implemented"
+  end
+
+  # New platform connection methods
+  def connect_instagram!
+    # Implementation would go here
+    raise NotImplementedError, "Instagram connection not yet implemented"
+  end
+
+  def connect_tiktok!
+    # Implementation would go here
+    raise NotImplementedError, "TikTok connection not yet implemented"
+  end
+
+  def connect_salesforce!
+    # Implementation would go here
+    raise NotImplementedError, "Salesforce connection not yet implemented"
+  end
+
+  def connect_hubspot!
+    # Implementation would go here
+    raise NotImplementedError, "HubSpot connection not yet implemented"
+  end
+
+  def connect_pipedrive!
+    # Implementation would go here
+    raise NotImplementedError, "Pipedrive connection not yet implemented"
+  end
+
+  # Platform categorization methods
+  def social_media_platform?
+    SOCIAL_MEDIA_PLATFORMS.include?(platform_name)
+  end
+
+  def crm_platform?
+    CRM_PLATFORMS.include?(platform_name)
+  end
+
+  def communication_platform?
+    COMMUNICATION_PLATFORMS.include?(platform_name)
+  end
+
+  # Platform configuration helpers
+  def platform_config
+    PLATFORM_CONFIGS[platform_name] || {}
+  end
+
+  def required_fields
+    platform_config[:required_fields] || []
+  end
+
+  def optional_fields
+    platform_config[:optional_fields] || []
+  end
+
+  def supported_webhook_events
+    platform_config[:webhook_events] || []
+  end
+
+  def api_version
+    platform_config[:api_version]
+  end
+
+  # CRM-specific methods
+  def export_lead_to_crm(lead)
+    return unless crm_platform?
+
+    case platform_name
+    when "salesforce"
+      export_to_salesforce(lead)
+    when "hubspot"
+      export_to_hubspot(lead)
+    when "pipedrive"
+      export_to_pipedrive(lead)
+    else
+      raise NotImplementedError, "CRM export not implemented for #{platform_name}"
+    end
+  end
+
+  def sync_leads_from_crm
+    return unless crm_platform?
+
+    case platform_name
+    when "salesforce"
+      sync_from_salesforce
+    when "hubspot"
+      sync_from_hubspot
+    when "pipedrive"
+      sync_from_pipedrive
+    else
+      raise NotImplementedError, "CRM sync not implemented for #{platform_name}"
+    end
+  end
+
+  private
+
+  def export_to_salesforce(lead)
+    # Salesforce lead export implementation
+    Rails.logger.info "Exporting lead #{lead.id} to Salesforce"
+    # Implementation would go here
+  end
+
+  def export_to_hubspot(lead)
+    # HubSpot contact export implementation
+    Rails.logger.info "Exporting lead #{lead.id} to HubSpot"
+    # Implementation would go here
+  end
+
+  def export_to_pipedrive(lead)
+    # Pipedrive person export implementation
+    Rails.logger.info "Exporting lead #{lead.id} to Pipedrive"
+    # Implementation would go here
+  end
+
+  def sync_from_salesforce
+    # Salesforce lead sync implementation
+    Rails.logger.info "Syncing leads from Salesforce"
+    # Implementation would go here
+  end
+
+  def sync_from_hubspot
+    # HubSpot contact sync implementation
+    Rails.logger.info "Syncing contacts from HubSpot"
+    # Implementation would go here
+  end
+
+  def sync_from_pipedrive
+    # Pipedrive person sync implementation
+    Rails.logger.info "Syncing persons from Pipedrive"
+    # Implementation would go here
   end
 end

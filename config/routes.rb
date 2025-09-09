@@ -1,10 +1,40 @@
 Rails.application.routes.draw do
   devise_for :users
 
+  # API routes
+  namespace :api do
+    namespace :v1 do
+      resources :analytics, only: [] do
+        collection do
+          get :overview
+          get :mentions
+          get :leads
+          get :keywords
+          get :performance
+          get :trends
+          post :export
+        end
+      end
+    end
+  end
+
   # Dashboard routes
   get "dashboard", to: "dashboard#index", as: :dashboard
   get "dashboard/analytics", to: "dashboard#analytics", as: :dashboard_analytics
   get "dashboard/widgets", to: "dashboard#widgets", as: :dashboard_widgets
+
+  # Analytics routes - Comprehensive analytics platform
+  scope :analytics do
+    get "/", to: "analytics#index", as: :analytics
+    get "performance", to: "analytics#performance", as: :analytics_performance
+    get "trends", to: "analytics#trends", as: :analytics_trends
+    get "keywords", to: "analytics#keywords", as: :analytics_keywords
+    get "leads", to: "analytics#leads", as: :analytics_leads
+    get "integrations", to: "analytics#integrations", as: :analytics_integrations
+    get "export", to: "analytics#export", as: :analytics_export
+    get "realtime", to: "analytics#realtime", as: :analytics_realtime
+    post "custom", to: "analytics#custom", as: :analytics_custom
+  end
 
   # User account pages
   get "profile", to: "users#profile", as: :profile
@@ -13,8 +43,21 @@ Rails.application.routes.draw do
   patch "settings", to: "users#update_settings", as: :update_settings
   get "billing", to: "users#billing", as: :billing
 
+  # Notifications
+  resources :notifications, only: [ :index ] do
+    member do
+      patch :mark_as_read
+    end
+    collection do
+      patch :mark_all_as_read
+    end
+  end
+
   # Keywords resource
   resources :keywords
+
+  # Mentions resource
+  resources :mentions, only: [ :index, :show, :destroy ]
 
   # Integrations resource with custom actions
   resources :integrations do
@@ -42,6 +85,40 @@ Rails.application.routes.draw do
       post :bulk_action
       get :analytics
       get :export
+    end
+  end
+
+  # Webhook endpoints
+  resources :webhooks, only: [ :index ] do
+    collection do
+      # Generic webhook receiver
+      post ":platform/:integration_id", to: "webhooks#receive", as: :receive
+      get ":platform/:integration_id/verify", to: "webhooks#verify", as: :verify
+
+      # Platform-specific webhook endpoints
+      post "instagram/:integration_id", to: "webhooks#instagram", as: :instagram
+      post "tiktok/:integration_id", to: "webhooks#tiktok", as: :tiktok
+      post "salesforce/:integration_id", to: "webhooks#salesforce", as: :salesforce
+      post "hubspot/:integration_id", to: "webhooks#hubspot", as: :hubspot
+      post "pipedrive/:integration_id", to: "webhooks#pipedrive", as: :pipedrive
+    end
+  end
+
+  # AI Intelligence routes
+  namespace :ai do
+    get "/", to: "intelligence#index", as: :intelligence
+    post "analyze", to: "intelligence#analyze"
+    post "score", to: "intelligence#score"
+    post "search", to: "intelligence#search"
+    post "bulk_analyze", to: "intelligence#bulk_analyze"
+    post "bulk_score", to: "intelligence#bulk_score"
+    get "available_providers", to: "intelligence#available_providers"
+    post "test_provider", to: "intelligence#test_provider"
+
+    resources :models, controller: "intelligence" do
+      member do
+        patch :configure, action: :configure_model
+      end
     end
   end
 

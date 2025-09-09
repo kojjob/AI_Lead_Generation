@@ -1,0 +1,360 @@
+<div class="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
+  <!-- Analytics Header -->
+  <div class="bg-white/80 backdrop-blur-sm border-b border-indigo-100 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="py-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              Analytics Dashboard
+            </h1>
+            <p class="mt-1 text-gray-600">Comprehensive insights and performance metrics</p>
+          </div>
+          
+          <!-- Date Range Selector -->
+          <div class="flex items-center space-x-4">
+            <%= form_with url: analytics_path, method: :get, class: "flex items-center space-x-3", data: { turbo_frame: "analytics_content" } do |f| %>
+              <div class="flex items-center space-x-2 bg-white rounded-lg px-3 py-2 border border-gray-200">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <%= f.date_field :start_date, value: @start_date, class: "border-0 focus:ring-0 text-sm" %>
+                <span class="text-gray-400">to</span>
+                <%= f.date_field :end_date, value: @end_date, class: "border-0 focus:ring-0 text-sm" %>
+              </div>
+              
+              <!-- Quick Date Range Buttons -->
+              <div class="flex space-x-2">
+                <button type="button" data-range="7" class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  7 Days
+                </button>
+                <button type="button" data-range="30" class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  30 Days
+                </button>
+                <button type="button" data-range="90" class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  90 Days
+                </button>
+              </div>
+              
+              <%= f.submit "Apply", class: "px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+            <% end %>
+            
+            <!-- Export Button -->
+            <div class="relative" data-controller="dropdown">
+              <button type="button" class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 flex items-center space-x-2" data-action="click->dropdown#toggle">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+                <span>Export</span>
+              </button>
+              <div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-200" data-dropdown-target="menu">
+                <%= link_to "Export as CSV", analytics_export_path(format: :csv, start_date: @start_date, end_date: @end_date), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
+                <%= link_to "Export as Excel", analytics_export_path(format: :xlsx, start_date: @start_date, end_date: @end_date), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
+                <%= link_to "Export as PDF", analytics_export_path(format: :pdf, start_date: @start_date, end_date: @end_date), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
+                <%= link_to "Export as JSON", analytics_export_path(format: :json, start_date: @start_date, end_date: @end_date), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Navigation Tabs -->
+        <div class="mt-4 flex space-x-1 border-b border-gray-200">
+          <%= link_to "Overview", analytics_path, class: "px-4 py-2 text-sm font-medium text-indigo-600 border-b-2 border-indigo-600 bg-indigo-50 rounded-t-lg" %>
+          <%= link_to "Performance", analytics_performance_path, class: "px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-t-lg" %>
+          <%= link_to "Trends", analytics_trends_path, class: "px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-t-lg" %>
+          <%= link_to "Keywords", analytics_keywords_path, class: "px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-t-lg" %>
+          <%= link_to "Leads", analytics_leads_path, class: "px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-t-lg" %>
+          <%= link_to "Integrations", analytics_integrations_path, class: "px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-t-lg" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analytics Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" id="analytics_content">
+    <%= turbo_frame_tag "analytics_content" do %>
+      
+      <!-- Key Metrics Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <% [
+          { title: "Total Mentions", value: number_with_delimiter(@metrics[:total_mentions]), change: @metrics[:period_growth][:mentions], icon: "chat", color: "indigo" },
+          { title: "Total Leads", value: number_with_delimiter(@metrics[:total_leads]), change: @metrics[:period_growth][:leads], icon: "users", color: "purple" },
+          { title: "Conversion Rate", value: "#{@metrics[:conversion_rate]}%", change: @metrics[:period_growth][:conversion], icon: "trending", color: "pink" },
+          { title: "Avg Lead Score", value: @metrics[:avg_lead_score], change: @metrics[:period_growth][:score], icon: "star", color: "amber" }
+        ].each do |metric| %>
+          <div class="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-shadow p-6 border border-gray-100">
+            <div class="flex items-center justify-between mb-4">
+              <div class="p-3 bg-gradient-to-br from-<%= metric[:color] %>-50 to-<%= metric[:color] %>-100 rounded-xl">
+                <svg class="w-6 h-6 text-<%= metric[:color] %>-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <% case metric[:icon]
+                     when "chat" %>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                  <% when "users" %>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                  <% when "trending" %>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                  <% when "star" %>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                  <% end %>
+                </svg>
+              </div>
+              <% if metric[:change] %>
+                <span class="<%= metric[:change] > 0 ? 'text-green-600' : 'text-red-600' %> text-sm font-medium flex items-center">
+                  <%= metric[:change] > 0 ? '↑' : '↓' %> <%= number_to_percentage(metric[:change].abs, precision: 1) %>
+                </span>
+              <% end %>
+            </div>
+            <p class="text-gray-600 text-sm mb-1"><%= metric[:title] %></p>
+            <p class="text-2xl font-bold text-gray-900"><%= metric[:value] %></p>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Charts Section -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <!-- Performance Chart -->
+        <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-gray-900">Performance Over Time</h3>
+            <div class="flex space-x-2">
+              <button class="px-3 py-1 text-xs font-medium text-indigo-600 bg-indigo-50 rounded-lg">Mentions</button>
+              <button class="px-3 py-1 text-xs font-medium text-gray-600 hover:bg-gray-50 rounded-lg">Leads</button>
+              <button class="px-3 py-1 text-xs font-medium text-gray-600 hover:bg-gray-50 rounded-lg">Conversion</button>
+            </div>
+          </div>
+          <div class="relative h-64">
+            <canvas id="performanceChart" class="absolute inset-0 w-full h-full"></canvas>
+          </div>
+        </div>
+
+        <!-- Conversion Funnel -->
+        <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Conversion Funnel</h3>
+          <div class="space-y-3">
+            <% @conversion_funnel[:stages].each_with_index do |stage, index| %>
+              <div class="relative">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-sm font-medium text-gray-700"><%= stage[:name] %></span>
+                  <span class="text-sm text-gray-600"><%= number_with_delimiter(stage[:count]) %> (<%= stage[:percentage] %>%)</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                  <div class="bg-gradient-to-r from-indigo-500 to-purple-500 h-2 rounded-full transition-all duration-500" 
+                       style="width: <%= stage[:percentage] %>%"></div>
+                </div>
+                <% if index < @conversion_funnel[:stages].length - 1 %>
+                  <div class="flex justify-center my-2">
+                    <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Performers Section -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <!-- Top Keywords -->
+        <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Top Keywords</h3>
+          <div class="space-y-3">
+            <% (@top_performers[:keywords] || []).each_with_index do |keyword, index| %>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                  <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-sm font-medium">
+                    <%= index + 1 %>
+                  </span>
+                  <div>
+                    <p class="text-sm font-medium text-gray-900"><%= keyword[:name] %></p>
+                    <p class="text-xs text-gray-500"><%= keyword[:leads_count] %> leads</p>
+                  </div>
+                </div>
+                <span class="text-sm font-medium text-gray-900">
+                  <%= number_with_precision(keyword[:avg_score], precision: 1) %>
+                </span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Top Integrations -->
+        <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Top Integrations</h3>
+          <div class="space-y-3">
+            <% (@top_performers[:integrations] || []).each_with_index do |integration, index| %>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                  <span class="flex-shrink-0 w-8 h-8 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-sm font-medium">
+                    <%= index + 1 %>
+                  </span>
+                  <div>
+                    <p class="text-sm font-medium text-gray-900"><%= integration[:name] %></p>
+                    <p class="text-xs text-gray-500"><%= integration[:mentions_count] %> mentions</p>
+                  </div>
+                </div>
+                <span class="text-sm font-medium text-gray-900">
+                  <%= number_to_percentage(integration[:conversion_rate], precision: 1) %>
+                </span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
+          <div class="space-y-3">
+            <% (@recent_activity[:activity_timeline] || []).first(5).each do |activity| %>
+              <div class="flex items-start space-x-3">
+                <div class="flex-shrink-0 w-2 h-2 bg-indigo-400 rounded-full mt-1.5"></div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm text-gray-900"><%= activity[:description] %></p>
+                  <p class="text-xs text-gray-500"><%= time_ago_in_words(activity[:created_at]) %> ago</p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Advanced Filters -->
+      <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Advanced Filters</h3>
+        <%= form_with url: analytics_path, method: :get, class: "grid grid-cols-1 md:grid-cols-3 gap-4", data: { turbo_frame: "analytics_content" } do |f| %>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Keywords</label>
+            <%= f.select :keywords, 
+                options_for_select(current_user.keywords.pluck(:keyword, :id), params[:keywords]&.split(',')), 
+                { prompt: "All Keywords" }, 
+                { multiple: true, class: "w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" } %>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Integrations</label>
+            <%= f.select :integrations, 
+                options_for_select(current_user.integrations.pluck(:provider, :id), params[:integrations]&.split(',')), 
+                { prompt: "All Integrations" }, 
+                { multiple: true, class: "w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" } %>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Lead Score Range</label>
+            <div class="flex items-center space-x-2">
+              <%= f.number_field :min_score, placeholder: "Min", class: "w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500", step: 0.1, min: 0, max: 100 %>
+              <span class="text-gray-500">-</span>
+              <%= f.number_field :max_score, placeholder: "Max", class: "w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500", step: 0.1, min: 0, max: 100 %>
+            </div>
+          </div>
+          
+          <div class="md:col-span-3 flex justify-end space-x-3">
+            <%= link_to "Clear Filters", analytics_path, class: "px-4 py-2 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50" %>
+            <%= f.submit "Apply Filters", class: "px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-purple-700" %>
+          </div>
+        <% end %>
+      </div>
+      
+    <% end %>
+  </div>
+</div>
+
+<!-- Chart Styles -->
+<style>
+  #performanceChart {
+    max-height: 16rem !important;
+    height: 100% !important;
+    width: 100% !important;
+  }
+  .chart-wrapper {
+    position: relative;
+    height: 16rem;
+    width: 100%;
+    overflow: hidden;
+  }
+</style>
+
+<!-- Chart.js Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Performance Chart
+  const ctx = document.getElementById('performanceChart');
+  if (ctx) {
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: <%= (@performance_data[:mentions_by_day]&.keys || []).map(&:to_s).to_json.html_safe %>,
+        datasets: [{
+          label: 'Mentions',
+          data: <%= (@performance_data[:mentions_by_day]&.values || []).to_json %>,
+          borderColor: 'rgb(99, 102, 241)',
+          backgroundColor: 'rgba(99, 102, 241, 0.1)',
+          tension: 0.4
+        }, {
+          label: 'Leads',
+          data: <%= (@performance_data[:leads_by_day]&.values || []).to_json %>,
+          borderColor: 'rgb(168, 85, 247)',
+          backgroundColor: 'rgba(168, 85, 247, 0.1)',
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+          padding: 0
+        },
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              drawBorder: false
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Date range quick select buttons
+  document.querySelectorAll('[data-range]').forEach(button => {
+    button.addEventListener('click', function() {
+      const days = parseInt(this.dataset.range);
+      const endDate = new Date();
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - days);
+      
+      document.querySelector('input[name="start_date"]').value = startDate.toISOString().split('T')[0];
+      document.querySelector('input[name="end_date"]').value = endDate.toISOString().split('T')[0];
+    });
+  });
+
+  // Real-time updates
+  if (window.location.pathname === '/analytics') {
+    setInterval(() => {
+      fetch('/analytics/realtime', {
+        headers: {
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Update metrics with real-time data
+        console.log('Real-time update:', data);
+      });
+    }, 30000); // Update every 30 seconds
+  }
+});
+</script>

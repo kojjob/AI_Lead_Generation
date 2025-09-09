@@ -1,50 +1,442 @@
-/* Dashboard Responsive Styles */
+/* Premium Dashboard Styles */
 
 /* Mobile-first approach with progressive enhancement */
 .dashboard-container {
-  @apply min-h-screen bg-gray-50;
+  @apply min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50/30 to-purple-50/20;
+  background-attachment: fixed;
 }
 
-/* Dashboard Header Responsive */
-.dashboard-header {
-  @apply bg-white border-b border-gray-200;
+/* Premium Dashboard Header */
+.premium-dashboard-header {
+  @apply backdrop-blur-xl bg-white/80 border-b border-indigo-200/30 shadow-sm sticky top-0 z-40;
+  backdrop-filter: blur(20px) saturate(180%);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.dashboard-header-content {
-  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+.premium-dashboard-header:hover {
+  @apply shadow-md;
+  backdrop-filter: blur(20px) saturate(200%);
 }
 
-.dashboard-header-inner {
-  @apply flex items-center justify-between h-16;
+/* Premium Action Buttons */
+.premium-action-button {
+  @apply inline-flex items-center px-4 py-2.5 bg-white/80 backdrop-blur-sm border border-indigo-200/50 text-sm font-semibold text-gray-700 rounded-xl shadow-sm transition-all duration-200;
+  @apply hover:bg-white hover:border-indigo-300 hover:shadow-md hover:scale-105;
+  @apply focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:ring-offset-2;
 }
 
-/* Mobile: Stack header elements */
+.premium-cta-button {
+  @apply inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg transition-all duration-300;
+  @apply hover:shadow-xl hover:from-indigo-700 hover:to-purple-700 hover:scale-105;
+  @apply focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:ring-offset-2;
+}
+
+/* Premium Metric Cards */
+.premium-metric-card {
+  @apply relative overflow-hidden backdrop-blur-sm rounded-2xl shadow-sm transition-all duration-300;
+  @apply hover:shadow-xl hover:scale-[1.02] hover:-translate-y-1;
+  @apply focus-within:ring-2 focus-within:ring-indigo-500/20 focus-within:ring-offset-2;
+}
+
+.premium-metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.premium-metric-card:hover::before {
+  opacity: 1;
+}
+
+/* Premium Widget Cards */
+.premium-widget-card {
+  @apply relative overflow-hidden backdrop-blur-sm rounded-2xl shadow-lg transition-all duration-300;
+  @apply hover:shadow-xl hover:scale-[1.01];
+  @apply focus-within:ring-2 focus-within:ring-indigo-500/20 focus-within:ring-offset-2;
+}
+
+.premium-widget-header {
+  @apply px-6 py-5 border-b backdrop-blur-sm;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 100%);
+}
+
+.premium-widget-content {
+  @apply relative;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+}
+
+/* Counter Animation */
+.counter-animate {
+  @apply transition-all duration-500 ease-out;
+}
+
+.counter-animate:hover {
+  @apply scale-110;
+}
+
+/* Premium Tooltips */
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]:hover::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  z-index: 1000;
+  opacity: 0;
+  animation: tooltip-fade-in 0.2s ease-out forwards;
+}
+
+[data-tooltip]:hover::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(1px);
+  border: 4px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  opacity: 0;
+  animation: tooltip-fade-in 0.2s ease-out forwards;
+}
+
+@keyframes tooltip-fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Premium Loading States */
+.shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Icon Spin Animation */
+.icon-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Premium Gradient Backgrounds */
+.gradient-bg-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.gradient-bg-secondary {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.gradient-bg-success {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.gradient-bg-warning {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+/* Premium Glass Effect */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Premium Shadows */
+.shadow-premium {
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-premium-lg {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Premium Hover Effects */
+.hover-lift {
+  @apply transition-all duration-300 ease-out;
+}
+
+.hover-lift:hover {
+  @apply transform -translate-y-2 shadow-premium-lg;
+}
+
+/* Premium Focus States */
+.focus-premium {
+  @apply focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:ring-offset-2;
+}
+
+/* Premium Animations */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+@keyframes pulse-notification {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-animate {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* Premium Progress Bars */
+.progress-bar {
+  @apply w-full bg-gray-200 rounded-full h-2 overflow-hidden;
+}
+
+.progress-bar-fill {
+  @apply h-full rounded-full transition-all duration-1000 ease-out;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Premium Status Indicators */
+.status-indicator {
+  @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold;
+}
+
+.status-indicator.active {
+  @apply bg-green-100 text-green-800;
+}
+
+.status-indicator.inactive {
+  @apply bg-gray-100 text-gray-800;
+}
+
+.status-indicator.warning {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+.status-indicator.error {
+  @apply bg-red-100 text-red-800;
+}
+
+/* Premium Metric Value Animations */
+.metric-value {
+  @apply text-3xl font-bold text-gray-900 transition-all duration-300;
+}
+
+.metric-value:hover {
+  @apply scale-110 text-indigo-600;
+}
+
+/* Premium Card Hover Effects */
+.card-hover-effect {
+  @apply transition-all duration-300 ease-out;
+  @apply hover:shadow-xl hover:scale-[1.02] hover:-translate-y-1;
+}
+
+/* Premium Backdrop Effects */
+.backdrop-premium {
+  backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+/* Premium Gradient Text */
+.gradient-text {
+  @apply bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-800 bg-clip-text text-transparent;
+}
+
+/* Premium Loading Skeleton */
+.skeleton {
+  @apply bg-gray-200 rounded animate-pulse;
+}
+
+.skeleton-text {
+  @apply h-4 bg-gray-200 rounded animate-pulse;
+}
+
+.skeleton-circle {
+  @apply w-12 h-12 bg-gray-200 rounded-full animate-pulse;
+}
+
+/* Premium Notification Styles */
+.notification-badge {
+  @apply absolute -top-1 -right-1 h-5 w-5 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full;
+  @apply flex items-center justify-center font-semibold shadow-sm;
+  animation: pulse-notification 2s infinite;
+}
+
+/* Premium Interactive Elements */
+.interactive-element {
+  @apply transition-all duration-200 ease-out cursor-pointer;
+  @apply hover:scale-105 hover:shadow-md active:scale-95;
+}
+
+/* Premium Dividers */
+.premium-divider {
+  @apply h-px bg-gradient-to-r from-transparent via-gray-200/60 to-transparent;
+}
+
+/* Premium Spacing */
+.premium-spacing {
+  @apply space-y-6 lg:space-y-8;
+}
+
+/* Premium Responsive Design */
+
+/* Mobile Optimizations */
 @media (max-width: 640px) {
-  .dashboard-header-inner {
-    @apply flex-col h-auto py-4 space-y-4;
+  .dashboard-container {
+    @apply bg-gradient-to-b from-slate-50 to-indigo-50/30;
   }
-  
-  .dashboard-title {
-    @apply text-xl;
+
+  .premium-dashboard-header {
+    @apply h-16;
   }
-  
-  .dashboard-actions {
-    @apply flex flex-col w-full space-y-2;
+
+  .premium-dashboard-header .flex {
+    @apply flex-col space-y-4 py-4 h-auto;
   }
-  
-  .dashboard-actions button {
+
+  .premium-metric-card {
+    @apply hover:scale-100 hover:translate-y-0;
+  }
+
+  .premium-widget-card {
+    @apply hover:scale-100;
+  }
+
+  .premium-action-button,
+  .premium-cta-button {
     @apply w-full justify-center;
   }
+
+  .premium-widget-header {
+    @apply px-4 py-3;
+  }
+
+  .premium-widget-content {
+    @apply px-4 py-3;
+  }
+
+  /* Reduce animations on mobile for performance */
+  .counter-animate {
+    @apply transition-none;
+  }
+
+  .shimmer {
+    animation-duration: 2s;
+  }
 }
 
-/* Tablet: Adjust spacing */
+/* Tablet Optimizations */
 @media (min-width: 641px) and (max-width: 1024px) {
-  .dashboard-header-inner {
-    @apply h-14;
+  .premium-dashboard-header {
+    @apply h-18;
   }
-  
-  .dashboard-title {
-    @apply text-xl;
+
+  .premium-metric-card {
+    @apply hover:scale-[1.01];
+  }
+
+  .premium-widget-card {
+    @apply hover:scale-[1.005];
+  }
+}
+
+/* Desktop Enhancements */
+@media (min-width: 1025px) {
+  .premium-metric-card {
+    @apply hover:scale-[1.02] hover:-translate-y-1;
+  }
+
+  .premium-widget-card {
+    @apply hover:scale-[1.01];
+  }
+
+  /* Enhanced hover effects for desktop */
+  .premium-action-button:hover {
+    @apply scale-105;
+  }
+
+  .premium-cta-button:hover {
+    @apply scale-105;
+  }
+}
+
+/* Large Desktop Optimizations */
+@media (min-width: 1280px) {
+  .premium-dashboard-header {
+    @apply h-24;
+  }
+
+  .premium-widget-header {
+    @apply px-8 py-6;
+  }
+
+  .premium-widget-content {
+    @apply px-8 py-6;
   }
 }
 

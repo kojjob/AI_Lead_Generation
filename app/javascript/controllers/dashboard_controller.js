@@ -1,26 +1,106 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Dashboard controller for managing real-time updates and interactions
+// Premium Dashboard controller for managing real-time updates and interactions
 export default class extends Controller {
   static targets = [
-    "lastUpdated", "totalLeads", "conversionRate", "activeKeywords", 
-    "activeIntegrations", "leadsChart", "conversionFunnel", "recentLeads", 
-    "keywordPerformance", "integrationStatus"
+    "lastUpdated", "totalLeads", "conversionRate", "activeKeywords",
+    "activeIntegrations", "leadsChart", "conversionFunnel", "recentLeads",
+    "keywordPerformance", "integrationStatus", "refreshText"
   ]
-  
-  static values = { 
+
+  static values = {
     userId: Number,
     refreshInterval: { type: Number, default: 300000 }, // 5 minutes
     autoRefresh: { type: Boolean, default: true }
   }
 
   connect() {
-    console.log("Dashboard controller connected")
+    console.log("Premium Dashboard controller connected")
+    this.initializePremiumFeatures()
     this.animateInitialLoad()
     this.loadInitialData()
+    this.setupTooltips()
+    this.setupCounterAnimations()
 
     if (this.autoRefreshValue) {
       this.startAutoRefresh()
+    }
+  }
+
+  disconnect() {
+    if (this.refreshTimer) {
+      clearInterval(this.refreshTimer)
+    }
+    this.cleanupTooltips()
+  }
+
+  // Initialize premium dashboard features
+  initializePremiumFeatures() {
+    // Add premium loading states
+    this.addPremiumLoadingStates()
+
+    // Setup intersection observer for animations
+    this.setupIntersectionObserver()
+
+    // Initialize real-time status indicator
+    this.updateRealTimeStatus()
+
+    // Setup keyboard shortcuts
+    this.setupKeyboardShortcuts()
+  }
+
+  // Setup tooltips for metric cards
+  setupTooltips() {
+    const tooltipElements = this.element.querySelectorAll('[data-tooltip]')
+    tooltipElements.forEach(element => {
+      element.addEventListener('mouseenter', this.showTooltip.bind(this))
+      element.addEventListener('mouseleave', this.hideTooltip.bind(this))
+    })
+  }
+
+  // Cleanup tooltips
+  cleanupTooltips() {
+    const tooltipElements = this.element.querySelectorAll('[data-tooltip]')
+    tooltipElements.forEach(element => {
+      element.removeEventListener('mouseenter', this.showTooltip.bind(this))
+      element.removeEventListener('mouseleave', this.hideTooltip.bind(this))
+    })
+  }
+
+  // Show tooltip
+  showTooltip(event) {
+    const element = event.currentTarget
+    const tooltip = element.getAttribute('data-tooltip')
+
+    if (!tooltip) return
+
+    // Create tooltip element if it doesn't exist
+    if (!element.querySelector('.premium-tooltip')) {
+      const tooltipEl = document.createElement('div')
+      tooltipEl.className = 'premium-tooltip absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg opacity-0 transition-opacity duration-200 pointer-events-none z-50'
+      tooltipEl.textContent = tooltip
+      element.appendChild(tooltipEl)
+
+      // Animate in
+      setTimeout(() => {
+        tooltipEl.classList.remove('opacity-0')
+        tooltipEl.classList.add('opacity-100')
+      }, 10)
+    }
+  }
+
+  // Hide tooltip
+  hideTooltip(event) {
+    const element = event.currentTarget
+    const tooltip = element.querySelector('.premium-tooltip')
+
+    if (tooltip) {
+      tooltip.classList.remove('opacity-100')
+      tooltip.classList.add('opacity-0')
+
+      setTimeout(() => {
+        tooltip.remove()
+      }, 200)
     }
   }
 
@@ -53,15 +133,241 @@ export default class extends Controller {
 
   disconnect() {
     this.stopAutoRefresh()
+    this.cleanupTooltips()
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect()
+    }
+  }
+
+  // Setup counter animations for metric cards
+  setupCounterAnimations() {
+    const counterElements = this.element.querySelectorAll('.counter-animate')
+    counterElements.forEach(element => {
+      this.animateCounter(element)
+    })
+  }
+
+  // Animate counter from 0 to target value
+  animateCounter(element) {
+    // Extract numeric value from text, handling percentages and other formats
+    const text = element.textContent || '0'
+    const cleanedText = text.replace(/[,%]/g, '').trim()
+    const targetValue = parseFloat(cleanedText) || 0
+    const hasPercentage = text.includes('%')
+    const duration = 1500 // 1.5 seconds
+    const startTime = performance.now()
+
+    const animate = (currentTime) => {
+      const elapsed = currentTime - startTime
+      const progress = Math.min(elapsed / duration, 1)
+
+      // Easing function for smooth animation
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4)
+      const currentValue = targetValue * easeOutQuart
+
+      // Format based on whether it's a percentage or regular number
+      if (hasPercentage) {
+        element.textContent = currentValue.toFixed(1) + '%'
+      } else if (targetValue % 1 !== 0) {
+        // If original was a decimal, keep decimal places
+        element.textContent = currentValue.toFixed(1)
+      } else {
+        element.textContent = this.formatNumber(Math.floor(currentValue))
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(animate)
+      } else {
+        // Final value
+        if (hasPercentage) {
+          element.textContent = targetValue.toFixed(1) + '%'
+        } else if (targetValue % 1 !== 0) {
+          element.textContent = targetValue.toFixed(1)
+        } else {
+          element.textContent = this.formatNumber(targetValue)
+        }
+      }
+    }
+
+    requestAnimationFrame(animate)
+  }
+
+  // Format number with commas
+  formatNumber(num) {
+    return num.toLocaleString()
+  }
+
+  // Setup intersection observer for scroll animations
+  setupIntersectionObserver() {
+    if (!window.IntersectionObserver) return
+
+    this.intersectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-fade-in-up')
+          this.intersectionObserver.unobserve(entry.target)
+        }
+      })
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    })
+
+    // Observe metric cards and widgets
+    const observeElements = this.element.querySelectorAll('.premium-metric-card, .premium-widget-card')
+    observeElements.forEach(element => {
+      this.intersectionObserver.observe(element)
+    })
+  }
+
+  // Update real-time status indicator
+  updateRealTimeStatus() {
+    const statusIndicator = this.element.querySelector('.animate-pulse')
+    if (statusIndicator) {
+      // Simulate real-time activity
+      setInterval(() => {
+        statusIndicator.classList.remove('animate-pulse')
+        setTimeout(() => {
+          statusIndicator.classList.add('animate-pulse')
+        }, 100)
+      }, 3000)
+    }
+  }
+
+  // Setup keyboard shortcuts
+  setupKeyboardShortcuts() {
+    document.addEventListener('keydown', (event) => {
+      // Ctrl/Cmd + R for refresh
+      if ((event.ctrlKey || event.metaKey) && event.key === 'r') {
+        event.preventDefault()
+        this.refreshData()
+      }
+
+      // Escape to close any open modals/dropdowns
+      if (event.key === 'Escape') {
+        this.closeAllDropdowns()
+      }
+    })
+  }
+
+  // Close all open dropdowns
+  closeAllDropdowns() {
+    const dropdowns = this.element.querySelectorAll('[data-controller="dropdown"]')
+    dropdowns.forEach(dropdown => {
+      const controller = this.application.getControllerForElementAndIdentifier(dropdown, 'dropdown')
+      if (controller && controller.close) {
+        controller.close()
+      }
+    })
+  }
+
+  // Add premium loading states
+  addPremiumLoadingStates() {
+    const widgets = this.element.querySelectorAll('.premium-widget-card')
+    widgets.forEach(widget => {
+      widget.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+    })
   }
 
   // Manual refresh triggered by user
   refreshData() {
-    this.showLoadingState()
+    this.showPremiumLoadingState()
+    this.updateRefreshButtonState('loading')
+
     this.fetchDashboardData()
       .then(data => this.updateDashboard(data))
       .catch(error => this.handleError(error))
-      .finally(() => this.hideLoadingState())
+      .finally(() => {
+        this.hidePremiumLoadingState()
+        this.updateRefreshButtonState('idle')
+      })
+  }
+
+  // Update refresh button state with premium animations
+  updateRefreshButtonState(state) {
+    if (!this.hasRefreshTextTarget) return
+
+    const refreshButton = this.refreshTextTarget.closest('button')
+    const icon = refreshButton.querySelector('svg')
+
+    switch (state) {
+      case 'loading':
+        this.refreshTextTarget.textContent = 'Refreshing...'
+        if (icon) {
+          icon.classList.add('icon-spin')
+        }
+        refreshButton.disabled = true
+        refreshButton.classList.add('opacity-75', 'cursor-not-allowed')
+        break
+      case 'idle':
+        this.refreshTextTarget.textContent = 'Refresh'
+        if (icon) {
+          icon.classList.remove('icon-spin')
+        }
+        refreshButton.disabled = false
+        refreshButton.classList.remove('opacity-75', 'cursor-not-allowed')
+        break
+      case 'success':
+        this.refreshTextTarget.textContent = 'Updated!'
+        setTimeout(() => {
+          this.updateRefreshButtonState('idle')
+        }, 2000)
+        break
+    }
+  }
+
+  // Premium loading state with enhanced animations
+  showPremiumLoadingState() {
+    // Add loading indicators to widgets
+    const widgets = this.element.querySelectorAll('.premium-widget-card')
+    widgets.forEach(widget => {
+      widget.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+      widget.style.opacity = '0.7'
+      widget.style.transform = 'scale(0.98)'
+
+      // Add shimmer effect
+      const content = widget.querySelector('.premium-widget-content')
+      if (content) {
+        content.classList.add('shimmer')
+      }
+    })
+
+    // Add loading to metric cards
+    const metricCards = this.element.querySelectorAll('.premium-metric-card')
+    metricCards.forEach(card => {
+      card.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+      card.style.opacity = '0.7'
+      card.style.transform = 'scale(0.98)'
+    })
+  }
+
+  // Hide premium loading state
+  hidePremiumLoadingState() {
+    // Remove loading indicators from widgets
+    const widgets = this.element.querySelectorAll('.premium-widget-card')
+    widgets.forEach(widget => {
+      widget.style.opacity = '1'
+      widget.style.transform = 'scale(1)'
+
+      // Remove shimmer effect
+      const content = widget.querySelector('.premium-widget-content')
+      if (content) {
+        content.classList.remove('shimmer')
+      }
+    })
+
+    // Remove loading from metric cards
+    const metricCards = this.element.querySelectorAll('.premium-metric-card')
+    metricCards.forEach(card => {
+      card.style.opacity = '1'
+      card.style.transform = 'scale(1)'
+    })
+
+    // Update success state
+    this.updateRefreshButtonState('success')
+
+    // Re-animate counters
+    this.setupCounterAnimations()
   }
 
   // Load initial dashboard data

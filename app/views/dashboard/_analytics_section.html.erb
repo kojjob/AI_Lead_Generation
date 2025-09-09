@@ -1,15 +1,224 @@
-<!-- Real-time Analytics Section -->
-<div class="space-y-8">
-  <!-- Analytics Header -->
-  <div class="flex items-center justify-between">
-    <div>
-      <h2 class="text-xl font-bold text-gray-900">Analytics Overview</h2>
-      <p class="text-sm text-gray-500">Real-time insights into your lead generation performance</p>
+<!-- Premium Analytics Overview Section -->
+<div class="premium-spacing">
+
+  <!-- Analytics Summary Cards - Expanded Layout -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+
+    <!-- Performance Score Card - Expanded -->
+    <div class="premium-metric-card group relative overflow-hidden bg-gradient-to-br from-white via-white to-emerald-50/30 backdrop-blur-sm rounded-3xl border border-emerald-200/40 shadow-lg hover:shadow-2xl transition-all duration-300">
+      <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      <div class="relative p-8 lg:p-10">
+        <div class="flex items-center justify-between mb-6">
+          <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-green-600 rounded-3xl flex items-center justify-center shadow-xl group-hover:shadow-2xl group-hover:scale-110 transition-all duration-300">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <div class="text-right">
+            <div class="text-5xl font-bold text-gray-900 counter-animate mb-2">92</div>
+            <p class="text-base font-semibold text-gray-500">Performance Score</p>
+            <p class="text-sm text-emerald-600 font-medium">Excellent</p>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-base text-gray-600">This week</span>
+            <div class="flex items-center space-x-2 text-emerald-600 font-bold">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
+              </svg>
+              <span class="text-lg">+8 points</span>
+            </div>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-3">
+            <div class="bg-gradient-to-r from-emerald-400 to-green-500 h-3 rounded-full transition-all duration-1000 shadow-sm" style="width: 92%"></div>
+          </div>
+          <div class="flex justify-between text-sm text-gray-500">
+            <span>Poor</span>
+            <span>Good</span>
+            <span>Excellent</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="flex items-center space-x-3">
-      <!-- Time Range Selector -->
-      <div class="relative" data-controller="dropdown">
-        <button data-action="click->dropdown#toggle" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+
+    <!-- AI Insights Card - Expanded -->
+    <div class="premium-metric-card group relative overflow-hidden bg-gradient-to-br from-white via-white to-purple-50/30 backdrop-blur-sm rounded-3xl border border-purple-200/40 shadow-lg hover:shadow-2xl transition-all duration-300">
+      <div class="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      <div class="relative p-8 lg:p-10">
+        <div class="flex items-center justify-between mb-6">
+          <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-3xl flex items-center justify-center shadow-xl group-hover:shadow-2xl group-hover:scale-110 transition-all duration-300">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+            </svg>
+          </div>
+          <div class="text-right">
+            <div class="text-5xl font-bold text-gray-900 counter-animate mb-2">7</div>
+            <p class="text-base font-semibold text-gray-500">AI Insights</p>
+            <p class="text-sm text-purple-600 font-medium">Active</p>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-base text-gray-600">New recommendations</span>
+            <span class="font-bold text-purple-600 text-lg">3 urgent</span>
+          </div>
+          <div class="flex items-center space-x-3 bg-purple-50/50 rounded-xl p-3">
+            <div class="w-3 h-3 bg-purple-400 rounded-full animate-pulse"></div>
+            <span class="text-sm text-purple-700 font-medium">AI analysis running</span>
+            <div class="ml-auto">
+              <div class="flex space-x-1">
+                <div class="w-1 h-1 bg-purple-400 rounded-full animate-bounce"></div>
+                <div class="w-1 h-1 bg-purple-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                <div class="w-1 h-1 bg-purple-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trend Analysis Card - Expanded -->
+    <div class="premium-metric-card group relative overflow-hidden bg-gradient-to-br from-white via-white to-blue-50/30 backdrop-blur-sm rounded-3xl border border-blue-200/40 shadow-lg hover:shadow-2xl transition-all duration-300">
+      <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      <div class="relative p-8 lg:p-10">
+        <div class="flex items-center justify-between mb-6">
+          <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-3xl flex items-center justify-center shadow-xl group-hover:shadow-2xl group-hover:scale-110 transition-all duration-300">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <div class="text-right">
+            <div class="text-5xl mb-2">📈</div>
+            <p class="text-base font-semibold text-gray-500">Trending Up</p>
+            <p class="text-sm text-blue-600 font-medium">Strong Growth</p>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-base text-gray-600">Growth rate</span>
+            <div class="flex items-center space-x-2 text-blue-600 font-bold">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
+              </svg>
+              <span class="text-lg">+24.3%</span>
+            </div>
+          </div>
+          <div class="bg-blue-50/50 rounded-xl p-3">
+            <div class="text-sm text-blue-700 font-medium">🏆 Best month this quarter</div>
+            <div class="text-xs text-blue-600 mt-1">Outperforming previous months by 18%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Enhanced Analytics Charts Grid - Expanded Layout -->
+  <div class="grid grid-cols-1 xl:grid-cols-5 gap-8 mb-12">
+
+    <!-- Main Leads Trend Chart (Much Larger) -->
+    <div class="xl:col-span-3 premium-widget-card bg-gradient-to-br from-white via-white to-blue-50/20 backdrop-blur-sm rounded-3xl border border-blue-200/30 shadow-xl overflow-hidden">
+      <div class="premium-widget-header bg-gradient-to-r from-blue-500/10 to-indigo-500/10 px-8 py-6 border-b border-blue-200/30">
+        <div class="flex items-center justify-between">
+          <div>
+            <h4 class="text-2xl font-bold text-gray-900">📊 Lead Generation Analytics</h4>
+            <p class="text-base text-gray-600 mt-2">Comprehensive view of your lead acquisition performance over time</p>
+          </div>
+          <div class="flex items-center space-x-3">
+            <!-- Chart Type Selector -->
+            <div class="flex items-center space-x-1 bg-white/60 backdrop-blur-sm rounded-lg p-1 border border-blue-200/40">
+              <button class="px-3 py-1.5 text-xs font-medium text-blue-600 bg-blue-100 rounded-md transition-all duration-200">
+                Area
+              </button>
+              <button class="px-3 py-1.5 text-xs font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-all duration-200">
+                Line
+              </button>
+              <button class="px-3 py-1.5 text-xs font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-all duration-200">
+                Bar
+              </button>
+            </div>
+
+            <!-- Performance Badge -->
+            <span class="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-semibold rounded-full shadow-sm">
+              <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
+              </svg>
+              +12.5% vs last period
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="premium-widget-content p-6">
+        <div class="chart-container h-80"
+             data-controller="chart"
+             data-chart-type-value="area"
+             data-chart-data-value='<%= {
+               labels: @analytics_data[:leads][:daily_leads].keys.map { |date| date.strftime("%m/%d") },
+               datasets: [{
+                 label: "Leads Generated",
+                 data: @analytics_data[:leads][:daily_leads].values,
+                 borderColor: "rgb(59, 130, 246)",
+                 backgroundColor: "rgba(59, 130, 246, 0.1)",
+                 fill: true,
+                 tension: 0.4,
+                 pointBackgroundColor: "rgb(59, 130, 246)",
+                 pointBorderColor: "#fff",
+                 pointBorderWidth: 2,
+                 pointRadius: 4,
+                 pointHoverRadius: 6
+               }, {
+                 label: "Qualified Leads",
+                 data: @analytics_data[:leads][:daily_leads].values.map { |v| (v * 0.3).round },
+                 borderColor: "rgb(139, 92, 246)",
+                 backgroundColor: "rgba(139, 92, 246, 0.1)",
+                 fill: true,
+                 tension: 0.4,
+                 pointBackgroundColor: "rgb(139, 92, 246)",
+                 pointBorderColor: "#fff",
+                 pointBorderWidth: 2,
+                 pointRadius: 4,
+                 pointHoverRadius: 6
+               }]
+             }.to_json %>'
+             data-chart-target="container">
+          <!-- Enhanced Chart Loading State -->
+          <div class="flex items-center justify-center h-full text-gray-500">
+            <div class="text-center">
+              <div class="relative">
+                <div class="w-16 h-16 mx-auto mb-4">
+                  <div class="absolute inset-0 border-4 border-blue-200 rounded-full"></div>
+                  <div class="absolute inset-0 border-4 border-blue-500 rounded-full border-t-transparent animate-spin"></div>
+                </div>
+              </div>
+              <p class="text-sm font-medium">Loading analytics data...</p>
+              <p class="text-xs text-gray-400 mt-1">Analyzing your lead generation performance</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart Legend and Stats -->
+        <div class="mt-6 pt-6 border-t border-gray-200/50">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="text-center">
+              <div class="text-2xl font-bold text-blue-600"><%= @analytics_data[:leads][:total_leads] %></div>
+              <div class="text-xs text-gray-500">Total Leads</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-purple-600"><%= (@analytics_data[:leads][:total_leads] * 0.3).round %></div>
+              <div class="text-xs text-gray-500">Qualified</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-green-600"><%= @analytics_data[:conversions][:conversion_rate] %>%</div>
+              <div class="text-xs text-gray-500">Conversion Rate</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-orange-600">$<%= number_with_delimiter((@analytics_data[:leads][:total_leads] * 150).round) %></div>
+              <div class="text-xs text-gray-500">Est. Value</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
           </svg>
@@ -74,35 +283,172 @@
       </div>
     </div>
 
-    <!-- Conversion Metrics -->
-    <div class="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden">
-      <div class="px-6 py-4 border-b border-gray-200">
-        <div class="flex items-center justify-between">
-          <div>
-            <h3 class="text-lg font-semibold text-gray-900">Conversion Breakdown</h3>
-            <p class="text-sm text-gray-500">Lead status distribution</p>
+    <!-- Right Sidebar Analytics -->
+    <div class="space-y-6">
+
+      <!-- Conversion Funnel Widget -->
+      <div class="premium-widget-card bg-gradient-to-br from-white via-white to-purple-50/20 backdrop-blur-sm rounded-2xl border border-purple-200/30 shadow-lg overflow-hidden">
+        <div class="premium-widget-header bg-gradient-to-r from-purple-500/10 to-pink-500/10 px-6 py-4 border-b border-purple-200/30">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="text-lg font-bold text-gray-900">Conversion Funnel</h4>
+              <p class="text-sm text-gray-600">Lead progression stages</p>
+            </div>
+            <div class="text-right">
+              <div class="text-lg font-bold text-purple-600"><%= @analytics_data[:conversions][:conversion_rate] %>%</div>
+              <p class="text-xs text-gray-500">Overall rate</p>
+            </div>
           </div>
-          <div class="text-right">
-            <p class="text-2xl font-bold text-gray-900"><%= @analytics_data[:conversions][:conversion_rate] %>%</p>
-            <p class="text-xs text-gray-500">Overall rate</p>
+        </div>
+        <div class="premium-widget-content p-6">
+          <!-- Funnel Visualization -->
+          <div class="space-y-4">
+            <%
+              funnel_stages = [
+                { name: "Mentions", count: @analytics_data[:conversions][:mentions], color: "bg-blue-500", percentage: 100 },
+                { name: "Qualified", count: @analytics_data[:conversions][:qualified], color: "bg-indigo-500", percentage: (@analytics_data[:conversions][:qualified].to_f / [@analytics_data[:conversions][:mentions], 1].max * 100).round },
+                { name: "Contacted", count: @analytics_data[:conversions][:contacted], color: "bg-purple-500", percentage: (@analytics_data[:conversions][:contacted].to_f / [@analytics_data[:conversions][:mentions], 1].max * 100).round },
+                { name: "Converted", count: @analytics_data[:conversions][:converted], color: "bg-green-500", percentage: (@analytics_data[:conversions][:converted].to_f / [@analytics_data[:conversions][:mentions], 1].max * 100).round }
+              ]
+            %>
+
+            <% funnel_stages.each_with_index do |stage, index| %>
+              <div class="relative">
+                <div class="flex items-center justify-between mb-2">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-3 h-3 <%= stage[:color] %> rounded-full"></div>
+                    <span class="text-sm font-medium text-gray-700"><%= stage[:name] %></span>
+                  </div>
+                  <div class="text-right">
+                    <div class="text-sm font-bold text-gray-900"><%= number_with_delimiter(stage[:count]) %></div>
+                    <div class="text-xs text-gray-500"><%= stage[:percentage] %>%</div>
+                  </div>
+                </div>
+
+                <!-- Funnel Bar -->
+                <div class="relative h-8 bg-gray-100 rounded-lg overflow-hidden">
+                  <div class="absolute inset-0 <%= stage[:color] %> opacity-20 transition-all duration-1000"
+                       style="width: <%= stage[:percentage] %>%"></div>
+                  <div class="absolute inset-0 <%= stage[:color] %> transition-all duration-1000"
+                       style="width: <%= [stage[:percentage] * 0.7, 100].min %>%"></div>
+                </div>
+
+                <!-- Conversion Rate -->
+                <% if index > 0 %>
+                  <div class="absolute -right-2 top-1/2 transform -translate-y-1/2">
+                    <div class="bg-white border border-gray-200 rounded-full px-2 py-1 text-xs font-medium text-gray-600 shadow-sm">
+                      <% prev_count = funnel_stages[index-1][:count] %>
+                      <%= prev_count > 0 ? ((stage[:count].to_f / prev_count) * 100).round(1) : 0 %>%
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Funnel Insights -->
+          <div class="mt-6 pt-4 border-t border-gray-200/50">
+            <div class="grid grid-cols-2 gap-4 text-center">
+              <div>
+                <div class="text-lg font-bold text-green-600">
+                  <% first_count = funnel_stages.first[:count] %>
+                  <%= first_count > 0 ? ((funnel_stages.last[:count].to_f / first_count) * 100).round(1) : 0 %>%
+                </div>
+                <div class="text-xs text-gray-500">End-to-end conversion</div>
+              </div>
+              <div>
+                <div class="text-lg font-bold text-blue-600">
+                  <%= funnel_stages.map { |s| s[:count] }.sum %>
+                </div>
+                <div class="text-xs text-gray-500">Total pipeline</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="p-6">
-        <div data-controller="chart" 
-             data-chart-type-value="donut"
-             data-chart-data-value='<%= {
-               labels: ["Mentions", "Qualified", "Contacted", "Converted"],
-               datasets: [{
-                 data: [
-                   @analytics_data[:conversions][:mentions],
-                   @analytics_data[:conversions][:qualified],
-                   @analytics_data[:conversions][:contacted],
-                   @analytics_data[:conversions][:converted]
-                 ]
-               }]
-             }.to_json %>'
-             data-chart-target="container">
+
+      <!-- Top Keywords Performance -->
+      <div class="premium-widget-card bg-gradient-to-br from-white via-white to-orange-50/20 backdrop-blur-sm rounded-2xl border border-orange-200/30 shadow-lg overflow-hidden">
+        <div class="premium-widget-header bg-gradient-to-r from-orange-500/10 to-yellow-500/10 px-6 py-4 border-b border-orange-200/30">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="text-lg font-bold text-gray-900">Top Keywords</h4>
+              <p class="text-sm text-gray-600">Best performing search terms</p>
+            </div>
+            <button class="text-sm font-medium text-orange-600 hover:text-orange-800 transition-colors duration-200">
+              View All
+            </button>
+          </div>
+        </div>
+        <div class="premium-widget-content p-6">
+          <div class="space-y-4">
+            <% @analytics_data[:keywords].first(5).each_with_index do |keyword, index| %>
+              <div class="flex items-center justify-between p-3 bg-gradient-to-r from-orange-50/50 to-yellow-50/50 rounded-xl border border-orange-200/30 hover:shadow-md transition-all duration-200">
+                <div class="flex items-center space-x-3">
+                  <div class="w-8 h-8 bg-gradient-to-br from-orange-400 to-yellow-500 rounded-lg flex items-center justify-center text-white text-sm font-bold">
+                    <%= index + 1 %>
+                  </div>
+                  <div>
+                    <div class="font-medium text-gray-900 text-sm"><%= keyword[:name] %></div>
+                    <div class="text-xs text-gray-500"><%= keyword[:mentions] %> mentions</div>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <div class="text-sm font-bold text-orange-600"><%= keyword[:conversion_rate] %>%</div>
+                  <div class="text-xs text-gray-500">conversion</div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Keywords Summary -->
+          <div class="mt-6 pt-4 border-t border-gray-200/50">
+            <div class="text-center">
+              <div class="text-lg font-bold text-gray-900"><%= @analytics_data[:keywords].count %></div>
+              <div class="text-xs text-gray-500">Total active keywords</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Platform Performance -->
+      <div class="premium-widget-card bg-gradient-to-br from-white via-white to-cyan-50/20 backdrop-blur-sm rounded-2xl border border-cyan-200/30 shadow-lg overflow-hidden">
+        <div class="premium-widget-header bg-gradient-to-r from-cyan-500/10 to-blue-500/10 px-6 py-4 border-b border-cyan-200/30">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="text-lg font-bold text-gray-900">Platform Insights</h4>
+              <p class="text-sm text-gray-600">Performance by social platform</p>
+            </div>
+          </div>
+        </div>
+        <div class="premium-widget-content p-6">
+          <div class="space-y-4">
+            <%
+              platforms = [
+                { name: "LinkedIn", mentions: 45, leads: 12, color: "bg-blue-600", icon: "💼" },
+                { name: "Twitter", mentions: 38, leads: 8, color: "bg-sky-500", icon: "🐦" },
+                { name: "Reddit", mentions: 22, leads: 5, color: "bg-orange-600", icon: "🔗" }
+              ]
+            %>
+
+            <% platforms.each do |platform| %>
+              <div class="flex items-center justify-between p-3 bg-gradient-to-r from-cyan-50/50 to-blue-50/50 rounded-xl border border-cyan-200/30 hover:shadow-md transition-all duration-200">
+                <div class="flex items-center space-x-3">
+                  <div class="w-10 h-10 <%= platform[:color] %> rounded-xl flex items-center justify-center text-white text-lg">
+                    <%= platform[:icon] %>
+                  </div>
+                  <div>
+                    <div class="font-medium text-gray-900 text-sm"><%= platform[:name] %></div>
+                    <div class="text-xs text-gray-500"><%= platform[:mentions] %> mentions</div>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <div class="text-sm font-bold text-cyan-600"><%= platform[:leads] %></div>
+                  <div class="text-xs text-gray-500">leads</div>
+                </div>
+              </div>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
@@ -282,6 +628,91 @@
           <div class="flex-1">
             <p class="text-sm text-gray-900">Twitter integration synced successfully</p>
             <p class="text-xs text-gray-500">10 minutes ago</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analytics Action Center -->
+  <div class="mt-8 premium-widget-card bg-gradient-to-br from-white via-white to-indigo-50/20 backdrop-blur-sm rounded-2xl border border-indigo-200/30 shadow-lg overflow-hidden">
+    <div class="premium-widget-header bg-gradient-to-r from-indigo-500/10 to-purple-500/10 px-6 py-5 border-b border-indigo-200/30">
+      <div class="flex items-center justify-between">
+        <div>
+          <h4 class="text-xl font-bold text-gray-900">🎯 Analytics Summary & Actions</h4>
+          <p class="text-sm text-gray-600">Your lead generation performance is <span class="font-semibold text-green-600">above average</span> this month</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+          <span class="text-xs text-green-600 font-medium">Performing Well</span>
+        </div>
+      </div>
+    </div>
+    <div class="premium-widget-content p-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Export Report Action -->
+        <button class="premium-action-card group flex flex-col items-center p-6 bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200/50 rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300">
+          <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200 shadow-lg">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </div>
+          <h5 class="font-bold text-gray-900 text-base mb-2">Export Analytics</h5>
+          <p class="text-sm text-gray-600 text-center leading-relaxed">Download comprehensive performance report with insights and recommendations</p>
+          <div class="mt-3 text-xs text-blue-600 font-medium">PDF • Excel • CSV</div>
+        </button>
+
+        <!-- AI Optimization Action -->
+        <button class="premium-action-card group flex flex-col items-center p-6 bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200/50 rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300">
+          <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200 shadow-lg">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+            </svg>
+          </div>
+          <h5 class="font-bold text-gray-900 text-base mb-2">AI Optimization</h5>
+          <p class="text-sm text-gray-600 text-center leading-relaxed">Get personalized AI-powered suggestions to improve your conversion rates</p>
+          <div class="mt-3 text-xs text-purple-600 font-medium">7 new insights available</div>
+        </button>
+
+        <!-- Expand Coverage Action -->
+        <button class="premium-action-card group flex flex-col items-center p-6 bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200/50 rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300">
+          <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200 shadow-lg">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+          </div>
+          <h5 class="font-bold text-gray-900 text-base mb-2">Expand Coverage</h5>
+          <p class="text-sm text-gray-600 text-center leading-relaxed">Add more keywords and platforms to capture additional opportunities</p>
+          <div class="mt-3 text-xs text-green-600 font-medium">Recommended: +5 keywords</div>
+        </button>
+      </div>
+
+      <!-- Performance Summary Bar -->
+      <div class="mt-8 pt-6 border-t border-gray-200/50">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <div class="text-center">
+              <div class="text-2xl font-bold text-gray-900"><%= @analytics_data[:leads][:total_leads] %></div>
+              <div class="text-xs text-gray-500">Total Leads</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-green-600"><%= @analytics_data[:conversions][:conversion_rate] %>%</div>
+              <div class="text-xs text-gray-500">Conversion Rate</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-blue-600"><%= @analytics_data[:keywords].count %></div>
+              <div class="text-xs text-gray-500">Active Keywords</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-purple-600">92</div>
+              <div class="text-xs text-gray-500">Performance Score</div>
+            </div>
+          </div>
+
+          <div class="text-right">
+            <div class="text-sm text-gray-600">Next analysis in</div>
+            <div class="text-lg font-bold text-indigo-600">2h 15m</div>
           </div>
         </div>
       </div>

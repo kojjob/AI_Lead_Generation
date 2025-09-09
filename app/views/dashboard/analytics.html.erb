@@ -1,0 +1,196 @@
+<% content_for :title, "Analytics - AI Lead Generation" %>
+
+<!-- Analytics Page Container with Gradient Background -->
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50/30 to-purple-50/20"
+     data-controller="dashboard"
+     data-dashboard-user-id="<%= current_user&.id %>"
+     role="main"
+     aria-label="Analytics Dashboard">
+
+  <!-- Analytics Header -->
+  <header class="premium-dashboard-header backdrop-blur-xl bg-white/80 border-b border-indigo-200/30 shadow-sm sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20 lg:h-24">
+        <!-- Header Left Section -->
+        <div class="flex items-center space-x-6">
+          <!-- Analytics Title -->
+          <div class="flex items-center space-x-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg">
+              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <div>
+              <h1 class="text-3xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-800 bg-clip-text text-transparent">
+                Analytics
+              </h1>
+              <p class="text-sm text-gray-600 font-medium">Deep insights into your lead generation performance</p>
+            </div>
+          </div>
+
+          <!-- Time Range Selector -->
+          <div class="hidden lg:flex items-center space-x-3 px-4 py-2 bg-white/60 backdrop-blur-sm rounded-xl border border-indigo-200/40 shadow-sm">
+            <div class="flex items-center space-x-2">
+              <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <select class="text-sm font-medium text-gray-700 bg-transparent border-none focus:ring-0">
+                <option>Last 7 days</option>
+                <option selected>Last 30 days</option>
+                <option>Last 90 days</option>
+                <option>Last 12 months</option>
+                <option>Custom range</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Header Right Section -->
+        <div class="flex items-center space-x-4">
+          <!-- Back to Dashboard -->
+          <%= link_to dashboard_path,
+              class: "premium-action-button group inline-flex items-center px-4 py-2.5 bg-white/80 backdrop-blur-sm border border-indigo-200/50 text-sm font-semibold text-gray-700 rounded-xl shadow-sm hover:bg-white hover:border-indigo-300 hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20" do %>
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            Dashboard
+          <% end %>
+
+          <!-- Export Button -->
+          <button class="premium-action-button group inline-flex items-center px-4 py-2.5 bg-white/80 backdrop-blur-sm border border-indigo-200/50 text-sm font-semibold text-gray-700 rounded-xl shadow-sm hover:bg-white hover:border-indigo-300 hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            Export Report
+          </button>
+
+          <!-- Refresh Button -->
+          <button data-action="click->dashboard#refreshData"
+                  class="premium-cta-button group inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+            <svg class="w-4 h-4 mr-2 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            </svg>
+            <span data-dashboard-target="refreshText">Refresh</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Analytics Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Include the comprehensive analytics section -->
+    <%= render 'analytics_section' %>
+
+    <!-- Detailed Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+      <!-- Lead Generation Trend -->
+      <div class="premium-metric-card bg-white rounded-3xl border border-gray-200/40 shadow-lg p-8">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-xl font-bold text-gray-900">Lead Generation Trend</h3>
+          <div class="flex items-center space-x-2 text-sm text-gray-500">
+            <span>Last 30 days</span>
+          </div>
+        </div>
+        <div class="h-64 flex items-center justify-center bg-gray-50 rounded-xl">
+          <div class="text-center">
+            <div class="text-4xl mb-2">📊</div>
+            <p class="text-gray-600">Chart visualization coming soon</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conversion Funnel -->
+      <div class="premium-metric-card bg-white rounded-3xl border border-gray-200/40 shadow-lg p-8">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-xl font-bold text-gray-900">Conversion Funnel</h3>
+        </div>
+        <%= render 'conversion_funnel' %>
+      </div>
+    </div>
+
+    <!-- Keyword Performance Table -->
+    <div class="mt-8">
+      <div class="premium-metric-card bg-white rounded-3xl border border-gray-200/40 shadow-lg p-8">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-xl font-bold text-gray-900">Keyword Performance</h3>
+          <button class="btn btn-outline-primary btn-sm">View All</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-gray-200">
+                <th class="text-left py-3 px-4 font-semibold text-gray-700">Keyword</th>
+                <th class="text-left py-3 px-4 font-semibold text-gray-700">Mentions</th>
+                <th class="text-left py-3 px-4 font-semibold text-gray-700">Leads</th>
+                <th class="text-left py-3 px-4 font-semibold text-gray-700">Conversion Rate</th>
+                <th class="text-left py-3 px-4 font-semibold text-gray-700">Trend</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @analytics_data[:keywords].first(10).each do |keyword| %>
+                <tr class="border-b border-gray-100 hover:bg-gray-50">
+                  <td class="py-3 px-4">
+                    <div class="font-medium text-gray-900"><%= keyword[:name] %></div>
+                  </td>
+                  <td class="py-3 px-4 text-gray-600"><%= keyword[:mentions] %></td>
+                  <td class="py-3 px-4 text-gray-600"><%= keyword[:leads] %></td>
+                  <td class="py-3 px-4">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                      <%= keyword[:conversion_rate] > 15 ? 'bg-green-100 text-green-800' : 
+                          keyword[:conversion_rate] > 5 ? 'bg-yellow-100 text-yellow-800' : 
+                          'bg-red-100 text-red-800' %>">
+                      <%= keyword[:conversion_rate] %>%
+                    </span>
+                  </td>
+                  <td class="py-3 px-4">
+                    <div class="flex items-center">
+                      <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
+                      </svg>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Insights Section -->
+    <div class="mt-8">
+      <div class="premium-metric-card bg-white rounded-3xl border border-gray-200/40 shadow-lg p-8">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-xl font-bold text-gray-900">AI Insights & Recommendations</h3>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <% @analytics_data[:insights].each do |insight| %>
+            <div class="p-6 rounded-xl border border-gray-200 
+              <%= case insight[:priority]
+                  when 'urgent' then 'bg-red-50 border-red-200'
+                  when 'positive' then 'bg-green-50 border-green-200'
+                  when 'suggestion' then 'bg-blue-50 border-blue-200'
+                  else 'bg-gray-50 border-gray-200'
+                  end %>">
+              <div class="flex items-start space-x-3">
+                <div class="flex-shrink-0">
+                  <%= case insight[:priority]
+                      when 'urgent' then '🚨'
+                      when 'positive' then '✅'
+                      when 'suggestion' then '💡'
+                      else 'ℹ️'
+                      end %>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-gray-900 mb-1"><%= insight[:title] %></h4>
+                  <p class="text-sm text-gray-600"><%= insight[:description] %></p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

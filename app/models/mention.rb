@@ -1,9 +1,11 @@
 class Mention < ApplicationRecord
   self.inheritance_column = nil # Disable single-table inheritance
 
-  belongs_to :keyword
+  belongs_to :keyword, counter_cache: true
   has_one :user, through: :keyword
+  has_one :analysis_result, dependent: :destroy
   has_many :leads, dependent: :destroy
+  has_many :ml_scores, as: :scoreable, dependent: :destroy
 
   # Validations
   validates :content, presence: true

@@ -1,204 +1,195 @@
-<!-- Integration Status Dashboard -->
-<div class="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden">
-  <div class="px-6 py-4 border-b border-gray-200">
+<!-- Premium Integration Status Widget -->
+<div class="premium-widget-card bg-gradient-to-br from-white via-white to-cyan-50/20 backdrop-blur-sm rounded-2xl border border-cyan-200/30 shadow-lg overflow-hidden">
+  <!-- Widget Header -->
+  <div class="premium-widget-header bg-gradient-to-r from-cyan-500/10 to-blue-500/10 px-6 py-4 border-b border-cyan-200/30">
     <div class="flex items-center justify-between">
       <div>
-        <h3 class="text-lg font-semibold text-gray-900">Integration Status</h3>
-        <p class="text-sm text-gray-500">Monitor your connected platforms and their health</p>
+        <h3 class="text-lg font-bold text-gray-900">Integration Hub</h3>
+        <p class="text-sm text-gray-600">Connected platforms & sync status</p>
       </div>
-      <div class="flex items-center space-x-2">
-        <button class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
-          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-          </svg>
-          Add Integration
-        </button>
-        <button data-action="click->dashboard#refreshIntegrations" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
-          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-          </svg>
-          Sync All
-        </button>
-      </div>
+      <%= link_to "#", class: "text-sm font-medium text-cyan-600 hover:text-cyan-800 transition-colors duration-200" do %>
+        Manage
+      <% end %>
     </div>
   </div>
 
-  <div class="p-6">
-    <!-- Integration Overview Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-      <!-- Active Integrations -->
-      <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-4 border border-green-200">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-              <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-            </div>
+  <!-- Widget Content -->
+  <div class="premium-widget-content p-6">
+    <% if @integration_status.any? %>
+      <!-- Integration Summary Stats -->
+      <div class="grid grid-cols-3 gap-3 mb-6">
+        <!-- Active Count -->
+        <div class="text-center p-3 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border border-green-200/40">
+          <div class="text-2xl font-bold text-green-600"><%= @integration_status.where(status: 'active').count %></div>
+          <div class="text-xs text-gray-600 font-medium">Active</div>
+        </div>
+        
+        <!-- Total Mentions -->
+        <div class="text-center p-3 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-200/40">
+          <div class="text-2xl font-bold text-blue-600"><%= @analytics_data[:conversions][:mentions] %></div>
+          <div class="text-xs text-gray-600 font-medium">Mentions</div>
+        </div>
+        
+        <!-- Health Score -->
+        <div class="text-center p-3 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl border border-purple-200/40">
+          <div class="text-2xl font-bold text-purple-600">
+            <%= @integration_status.any? ? (@integration_status.map { |i| calculate_integration_health(i) }.sum.to_f / @integration_status.count).round : 0 %>%
           </div>
-          <div class="ml-4">
-            <p class="text-sm font-medium text-green-900">Active</p>
-            <p class="text-2xl font-bold text-green-900"><%= @integration_status.where(status: 'active').count %></p>
-          </div>
+          <div class="text-xs text-gray-600 font-medium">Avg Health</div>
         </div>
       </div>
 
-      <!-- Inactive Integrations -->
-      <div class="bg-gradient-to-r from-red-50 to-pink-50 rounded-lg p-4 border border-red-200">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
-              <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-              </svg>
-            </div>
-          </div>
-          <div class="ml-4">
-            <p class="text-sm font-medium text-red-900">Inactive</p>
-            <p class="text-2xl font-bold text-red-900"><%= @integration_status.where.not(status: 'active').count %></p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Total Mentions -->
-      <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-200">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-              </svg>
-            </div>
-          </div>
-          <div class="ml-4">
-            <p class="text-sm font-medium text-blue-900">Total Mentions</p>
-            <p class="text-2xl font-bold text-blue-900">
-              <%= @analytics_data[:conversions][:mentions] %>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Integration Details -->
-    <div class="space-y-4">
-      <h4 class="text-md font-semibold text-gray-900 mb-4">Platform Details</h4>
-      
-      <% if @integration_status.any? %>
-        <% @integration_status.each do |integration| %>
-          <div class="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors duration-200">
+      <!-- Integration List -->
+      <div class="space-y-3">
+        <% @integration_status.first(4).each do |integration| %>
+          <% health_score = calculate_integration_health(integration) %>
+          <div class="group relative p-4 bg-gradient-to-r from-gray-50/50 to-white rounded-xl border border-gray-200/50 hover:border-cyan-300/50 hover:shadow-md transition-all duration-200 cursor-pointer">
             <div class="flex items-center justify-between">
               <!-- Platform Info -->
-              <div class="flex items-center space-x-4">
-                <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center shadow-sm">
+              <div class="flex items-center space-x-3">
+                <!-- Platform Icon -->
+                <div class="w-10 h-10 bg-white rounded-xl shadow-sm border border-gray-200/50 flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
                   <% case integration.provider&.downcase %>
                   <% when 'twitter' %>
-                    <svg class="w-6 h-6 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-sky-500" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
                     </svg>
                   <% when 'linkedin' %>
-                    <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                     </svg>
                   <% when 'reddit' %>
-                    <svg class="w-6 h-6 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
                     </svg>
+                  <% when 'facebook' %>
+                    <svg class="w-5 h-5 text-blue-700" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                  <% when 'instagram' %>
+                    <svg class="w-5 h-5 text-pink-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
+                    </svg>
                   <% else %>
-                    <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
                     </svg>
                   <% end %>
                 </div>
                 
-                <div>
-                  <h5 class="text-lg font-semibold text-gray-900"><%= integration.provider&.capitalize || 'Unknown Platform' %></h5>
-                  <p class="text-sm text-gray-500">
-                    Last sync: 
+                <!-- Platform Details -->
+                <div class="flex-1">
+                  <div class="font-medium text-gray-900 text-sm"><%= integration.provider&.capitalize || 'Unknown' %></div>
+                  <div class="text-xs text-gray-500">
                     <% if integration.last_searched_at %>
-                      <%= time_ago_in_words(integration.last_searched_at) %> ago
+                      Synced <%= time_ago_in_words(integration.last_searched_at) %> ago
                     <% else %>
-                      Never
+                      Never synced
                     <% end %>
-                  </p>
+                  </div>
                 </div>
               </div>
 
-              <!-- Status and Actions -->
-              <div class="flex items-center space-x-4">
-                <!-- Health Score -->
-                <div class="text-center">
-                  <div class="text-sm font-medium text-gray-900"><%= integration.health_score %>%</div>
-                  <div class="text-xs text-gray-500">Health</div>
-                  <div class="w-16 bg-gray-200 rounded-full h-2 mt-1">
-                    <div class="<%= integration.health_score >= 80 ? 'bg-green-500' : integration.health_score >= 60 ? 'bg-yellow-500' : 'bg-red-500' %> h-2 rounded-full transition-all duration-500" style="width: <%= integration.health_score %>%"></div>
+              <!-- Status & Health -->
+              <div class="flex items-center space-x-3">
+                <!-- Health Bar -->
+                <div class="hidden sm:flex flex-col items-end">
+                  <div class="text-xs font-medium text-gray-600 mb-1"><%= health_score %>% health</div>
+                  <div class="w-24 bg-gray-200 rounded-full h-1.5">
+                    <div class="h-1.5 rounded-full transition-all duration-500 <%= health_score >= 80 ? 'bg-gradient-to-r from-green-400 to-emerald-500' : health_score >= 50 ? 'bg-gradient-to-r from-yellow-400 to-orange-500' : 'bg-gradient-to-r from-red-400 to-pink-500' %>" 
+                         style="width: <%= health_score %>%"></div>
                   </div>
                 </div>
-
-                <!-- Status Badge -->
-                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <%= integration.status == 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
-                  <div class="w-2 h-2 <%= integration.status == 'active' ? 'bg-green-500' : 'bg-red-500' %> rounded-full mr-2"></div>
-                  <%= integration.status&.capitalize || 'Unknown' %>
-                </span>
-
-                <!-- Actions -->
-                <div class="flex items-center space-x-2">
-                  <button class="p-2 text-gray-400 hover:text-gray-600 transition-colors duration-200" title="Sync Now">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                    </svg>
-                  </button>
-                  <button class="p-2 text-gray-400 hover:text-gray-600 transition-colors duration-200" title="Settings">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    </svg>
-                  </button>
+                
+                <!-- Status Indicator -->
+                <div class="flex items-center">
+                  <% if integration.status == 'active' %>
+                    <div class="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></div>
+                  <% else %>
+                    <div class="w-2.5 h-2.5 bg-red-400 rounded-full"></div>
+                  <% end %>
                 </div>
               </div>
             </div>
 
-            <!-- Additional Details (Expandable) -->
-            <div class="mt-4 pt-4 border-t border-gray-200">
-              <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                <div>
-                  <span class="text-gray-500">Mentions Found:</span>
-                  <span class="font-medium text-gray-900 ml-1"><%= integration.mentions_count %></span>
-                </div>
-                <div>
-                  <span class="text-gray-500">API Calls:</span>
-                  <span class="font-medium text-gray-900 ml-1"><%= rand(100..500) %></span>
-                </div>
-                <div>
-                  <span class="text-gray-500">Rate Limit:</span>
-                  <span class="font-medium text-gray-900 ml-1"><%= rand(70..95) %>%</span>
-                </div>
-                <div>
-                  <span class="text-gray-500">Next Sync:</span>
-                  <span class="font-medium text-gray-900 ml-1"><%= rand(5..30) %>m</span>
-                </div>
-              </div>
+            <!-- Hover Actions -->
+            <div class="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center space-x-1">
+              <button class="p-1.5 text-gray-400 hover:text-cyan-600 transition-colors duration-200" title="Sync Now">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+              </button>
+              <button class="p-1.5 text-gray-400 hover:text-cyan-600 transition-colors duration-200" title="Settings">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+              </button>
             </div>
           </div>
         <% end %>
-      <% else %>
-        <!-- Empty State -->
-        <div class="text-center py-12">
-          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
-          </svg>
-          <h3 class="mt-2 text-sm font-medium text-gray-900">No integrations</h3>
-          <p class="mt-1 text-sm text-gray-500">Get started by connecting your first platform.</p>
-          <div class="mt-6">
-            <button class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-              </svg>
-              Add Integration
-            </button>
-          </div>
+      </div>
+
+      <!-- View All Link -->
+      <% if @integration_status.count > 4 %>
+        <div class="mt-4 text-center">
+          <%= link_to "#", class: "text-sm font-medium text-cyan-600 hover:text-cyan-800 transition-colors duration-200" do %>
+            View all <%= @integration_status.count %> integrations →
+          <% end %>
         </div>
       <% end %>
+
+    <% else %>
+      <!-- Empty State -->
+      <div class="text-center py-8">
+        <div class="w-16 h-16 bg-gradient-to-br from-cyan-100 to-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+          </svg>
+        </div>
+        <h4 class="font-medium text-gray-900 mb-1">No integrations yet</h4>
+        <p class="text-sm text-gray-500 mb-4">Connect your first platform to start monitoring</p>
+        <%= link_to "#", class: "inline-flex items-center px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-sm font-semibold rounded-xl shadow-sm hover:shadow-md transition-all duration-200" do %>
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          Add Integration
+        <% end %>
+      </div>
+    <% end %>
+
+    <!-- Quick Actions Footer -->
+    <div class="mt-6 pt-4 border-t border-gray-200/50">
+      <div class="flex items-center justify-between">
+        <button class="inline-flex items-center px-3 py-1.5 bg-white border border-gray-300 text-gray-700 text-sm font-semibold rounded-lg shadow-sm hover:bg-gray-50 hover:border-gray-400 transition-all duration-200">
+          <svg class="w-4 h-4 mr-1.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+          Sync All
+        </button>
+        
+        <%= link_to "#", class: "inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-sm font-semibold rounded-lg shadow-sm hover:shadow-md hover:from-cyan-700 hover:to-blue-700 transition-all duration-200" do %>
+          <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          Add Integration
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
+
+<%# Helper method needed in controller %>
+<% 
+  def calculate_integration_health(integration)
+    score = 100
+    if integration.last_searched_at
+      days_since_sync = (Time.current - integration.last_searched_at) / 1.day
+      score -= [days_since_sync * 5, 50].min
+    else
+      score -= 50
+    end
+    score -= 30 unless integration.status == "active"
+    [score, 0].max.round
+  end
+%>

@@ -26,7 +26,7 @@
           { name: "Keywords", path: keywords_path, icon: "M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" },
           { name: "Leads", path: leads_path, icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 515.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" },
           { name: "Integrations", path: integrations_path, icon: "M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a1 1 0 01-1-1V9a1 1 0 011-1h1a2 2 0 100-4H4a1 1 0 01-1-1V4a1 1 0 011-1h3a1 1 0 001-1z" },
-          { name: "Analytics", path: "#", icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" }
+          { name: "Analytics", path: analytics_path, icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" }
         ].each do |item| %>
           <%= link_to item[:path], class: "premium-nav-link group relative px-4 py-3 rounded-xl font-medium text-gray-700 hover:text-indigo-700 transition-all duration-300" do %>
             <div class="flex items-center space-x-2">
@@ -69,7 +69,7 @@
               <svg class="h-5 w-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
               </svg>
-              <span class="absolute -top-1 -right-1 h-5 w-5 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full flex items-center justify-center font-semibold shadow-sm">3</span>
+              <%= render "shared/notifications_count", user: current_user %>
             </button>
             
             <!-- Premium Notifications Panel -->
@@ -77,50 +77,38 @@
               <div class="px-5 py-4 border-b border-gray-100/50">
                 <div class="flex items-center justify-between">
                   <h3 class="text-lg font-semibold text-gray-900">Notifications</h3>
-                  <span class="inline-flex items-center px-2.5 py-1 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs font-semibold rounded-full">3 new</span>
+                  <% unread_count = current_user.notifications.unread.count %>
+                  <% if unread_count > 0 %>
+                    <span class="inline-flex items-center px-2.5 py-1 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs font-semibold rounded-full">
+                      <%= unread_count %> new
+                    </span>
+                  <% end %>
                 </div>
               </div>
               
-              <div class="py-2 max-h-80 overflow-y-auto">
-                <!-- Notification items with enhanced styling -->
-                <div class="px-5 py-4 hover:bg-gray-50/50 transition-colors duration-150 cursor-pointer border-b border-gray-100/50">
-                  <div class="flex items-start space-x-3">
-                    <div class="h-8 w-8 rounded-xl flex items-center justify-center shadow-sm bg-gradient-to-r from-green-400 to-emerald-500">
-                      <svg class="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                      </svg>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                      <p class="text-sm font-semibold text-gray-900">New lead detected</p>
-                      <p class="text-xs text-gray-600 mt-1">Found potential lead for "Ruby on Rails developer"</p>
-                      <p class="text-xs text-gray-400 mt-1">2 minutes ago</p>
-                    </div>
+              <div class="py-2 max-h-80 overflow-y-auto" id="notifications-list">
+                <% if current_user.notifications.unread.any? %>
+                  <% current_user.notifications.unread.limit(5).order(created_at: :desc).each do |notification| %>
+                    <%= render "shared/notification_item", notification: notification %>
+                  <% end %>
+                <% else %>
+                  <div class="px-5 py-8 text-center">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                    </svg>
+                    <p class="mt-2 text-sm text-gray-500">No new notifications</p>
+                    <p class="text-xs text-gray-400 mt-1">You're all caught up!</p>
                   </div>
-                </div>
-                
-                <div class="px-5 py-4 hover:bg-gray-50/50 transition-colors duration-150 cursor-pointer">
-                  <div class="flex items-start space-x-3">
-                    <div class="h-8 w-8 rounded-xl flex items-center justify-center shadow-sm bg-gradient-to-r from-blue-400 to-indigo-500">
-                      <svg class="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                      </svg>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                      <p class="text-sm font-semibold text-gray-900">Analysis complete</p>
-                      <p class="text-xs text-gray-600 mt-1">AI analysis finished for 5 new mentions</p>
-                      <p class="text-xs text-gray-400 mt-1">1 hour ago</p>
-                    </div>
-                  </div>
-                </div>
+                <% end %>
               </div>
               
               <div class="px-5 py-3 border-t border-gray-100/50 bg-gray-50/30">
-                <a href="#" class="flex items-center justify-center text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors duration-150">
+                <%= link_to notifications_path, class: "flex items-center justify-center text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors duration-150" do %>
                   <span>View all notifications</span>
                   <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                   </svg>
-                </a>
+                <% end %>
               </div>
             </div>
           </div>
@@ -263,7 +251,7 @@
           { name: "Keywords", path: keywords_path, icon: "M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" },
           { name: "Leads", path: leads_path, icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 616 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" },
           { name: "Integrations", path: integrations_path, icon: "M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a1 1 0 01-1-1V9a1 1 0 011-1h1a2 2 0 100-4H4a1 1 0 01-1-1V4a1 1 0 011-1h3a1 1 0 001-1z" },
-          { name: "Analytics", path: "#", icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" }
+          { name: "Analytics", path: analytics_path, icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" }
         ].each do |item| %>
           <%= link_to item[:path], class: "premium-mobile-nav-item" do %>
             <div class="flex items-center space-x-3">
