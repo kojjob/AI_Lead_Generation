@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :mentions, through: :keywords
   has_many :leads, dependent: :destroy
   has_many :notifications, dependent: :destroy
+  has_many :api_keys, dependent: :destroy
 
   # Validations
   validates :email, presence: true, uniqueness: true

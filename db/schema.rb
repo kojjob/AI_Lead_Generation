@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_07_150905) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_09_114944) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -60,6 +60,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_150905) do
     t.datetime "updated_at", null: false
     t.index ["mention_id"], name: "index_analysis_results_on_mention_id"
     t.index ["sentiment_score"], name: "index_analysis_results_on_sentiment_score"
+  end
+
+  create_table "api_keys", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name", null: false
+    t.string "token", null: false
+    t.boolean "active", default: true
+    t.datetime "last_used_at"
+    t.datetime "expires_at"
+    t.integer "usage_count", default: 0
+    t.json "permissions", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_api_keys_on_active"
+    t.index ["expires_at"], name: "index_api_keys_on_expires_at"
+    t.index ["token"], name: "index_api_keys_on_token", unique: true
+    t.index ["user_id"], name: "index_api_keys_on_user_id"
   end
 
   create_table "integration_logs", force: :cascade do |t|
@@ -189,6 +206,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_150905) do
     t.string "assigned_to"
     t.string "temperature", default: "cold"
     t.bigint "user_id", null: false
+    t.decimal "score", precision: 5, scale: 2, default: "0.0"
     t.index ["created_at"], name: "index_leads_on_created_at"
     t.index ["email"], name: "index_leads_on_email"
     t.index ["lead_stage"], name: "index_leads_on_lead_stage"
@@ -340,6 +358,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_150905) do
   end
 
   add_foreign_key "analysis_results", "mentions"
+  add_foreign_key "api_keys", "users"
   add_foreign_key "integration_logs", "integrations"
   add_foreign_key "integrations", "users"
   add_foreign_key "keywords", "users"

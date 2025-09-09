@@ -17,6 +17,7 @@
 /* Import Custom Components */
 @import 'components/dropdown.css';
 @import 'components/premium_navbar.css';
+@import 'analytics.css';
 
 /* Custom Navigation Styles */
 .navbar {

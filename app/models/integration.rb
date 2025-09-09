@@ -114,6 +114,10 @@ class Integration < ApplicationRecord
   end
 
   # Instance methods - Core functionality
+  def name
+    provider || platform_name || "Unknown Integration"
+  end
+
   def active?
     status == "active" && enabled? && connected?
   end

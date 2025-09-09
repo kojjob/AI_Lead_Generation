@@ -1,0 +1,29 @@
+/* Analytics Chart Styles */
+
+/* Ensure charts stay within their containers */
+.chart-container {
+  position: relative;
+  height: 16rem; /* h-64 equivalent */
+  width: 100%;
+}
+
+.chart-container-lg {
+  position: relative;
+  height: 24rem; /* h-96 equivalent */
+  width: 100%;
+}
+
+.chart-container canvas {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+}
+
+/* Override Chart.js default styles that might cause growth */
+canvas[id$="Chart"] {
+  max-width: 100% !important;
+  max-height: 100% !important;
+}

@@ -1,10 +1,40 @@
 Rails.application.routes.draw do
   devise_for :users
+  
+  # API routes
+  namespace :api do
+    namespace :v1 do
+      resources :analytics, only: [] do
+        collection do
+          get :overview
+          get :mentions
+          get :leads
+          get :keywords
+          get :performance
+          get :trends
+          post :export
+        end
+      end
+    end
+  end
 
   # Dashboard routes
   get "dashboard", to: "dashboard#index", as: :dashboard
   get "dashboard/analytics", to: "dashboard#analytics", as: :dashboard_analytics
   get "dashboard/widgets", to: "dashboard#widgets", as: :dashboard_widgets
+
+  # Analytics routes - Comprehensive analytics platform
+  scope :analytics do
+    get "/", to: "analytics#index", as: :analytics
+    get "performance", to: "analytics#performance", as: :analytics_performance
+    get "trends", to: "analytics#trends", as: :analytics_trends
+    get "keywords", to: "analytics#keywords", as: :analytics_keywords
+    get "leads", to: "analytics#leads", as: :analytics_leads
+    get "integrations", to: "analytics#integrations", as: :analytics_integrations
+    get "export", to: "analytics#export", as: :analytics_export
+    get "realtime", to: "analytics#realtime", as: :analytics_realtime
+    post "custom", to: "analytics#custom", as: :analytics_custom
+  end
 
   # User account pages
   get "profile", to: "users#profile", as: :profile
