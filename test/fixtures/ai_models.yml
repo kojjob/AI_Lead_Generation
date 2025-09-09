@@ -1,6 +1,6 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+gpt_4_test:
   name: gpt-4-test
   model_type: text_classification
   provider: openai
@@ -10,6 +10,16 @@ one:
   enabled: true
   priority: 100
 
+one:
+  name: gpt-3.5-test
+  model_type: text_classification
+  provider: openai
+  version: test
+  configuration: { temperature: 0.3 }
+  performance_metrics: { accuracy: 0.85 }
+  enabled: true
+  priority: 90
+
 two:
   name: claude-test
   model_type: sentiment_analysis
@@ -18,4 +28,4 @@ two:
   configuration: { temperature: 0.3 }
   performance_metrics: { accuracy: 0.85 }
   enabled: false
-  priority: 90
+  priority: 80

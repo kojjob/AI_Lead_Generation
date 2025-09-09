@@ -24,4 +24,26 @@ module ApplicationHelper
       "M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
     end
   end
+
+  def calculate_integration_health(integration)
+    # Use the Integration model's health_score method if available
+    return integration.health_score if integration.respond_to?(:health_score)
+    
+    # Fallback calculation for compatibility
+    score = 100
+    
+    # Deduct points for old last sync
+    if integration.respond_to?(:last_searched_at) && integration.last_searched_at
+      days_since_sync = (Time.current - integration.last_searched_at) / 1.day
+      score -= [ days_since_sync * 5, 50 ].min
+    elsif integration.respond_to?(:last_sync_at) && integration.last_sync_at
+      days_since_sync = (Time.current - integration.last_sync_at) / 1.day
+      score -= [ days_since_sync * 5, 50 ].min
+    else
+      score -= 50
+    end
+    
+    # Return minimum of 0
+    [ score, 0 ].max
+  end
 end
