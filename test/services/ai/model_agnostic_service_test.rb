@@ -1,8 +1,8 @@
 require "test_helper"
 
-class AI::ModelAgnosticServiceTest < ActiveSupport::TestCase
+class Ai::ModelAgnosticServiceTest < ActiveSupport::TestCase
   def setup
-    @service = AI::ModelAgnosticService.new
+    @service = Ai::ModelAgnosticService.new
     @ai_model = ai_models(:gpt_4_test)
   end
 

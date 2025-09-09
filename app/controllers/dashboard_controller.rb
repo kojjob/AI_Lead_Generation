@@ -108,11 +108,11 @@ class DashboardController < ApplicationController
     # Calculate growth rate
     growth_rate = if last_month > 0
                     ((this_month - last_month).to_f / last_month * 100).round(1)
-                  elsif this_month > 0
+    elsif this_month > 0
                     100.0
-                  else
+    else
                     0.0
-                  end
+    end
 
     {
       daily_leads: formatted_leads_by_day,
@@ -145,10 +145,10 @@ class DashboardController < ApplicationController
     conversion_rate = if total_mentions > 0
                        rate = (converted_leads.to_f / total_mentions * 100).round(2)
                        rate.nan? ? 0.0 : rate
-                     else
+    else
                        0.0
-                     end
-    
+    end
+
     {
       mentions: total_mentions,
       qualified: qualified_leads,
@@ -168,10 +168,10 @@ class DashboardController < ApplicationController
       conversion_rate = if mentions_count > 0
                          rate = (leads_count.to_f / mentions_count * 100).round(2)
                          rate.nan? ? 0.0 : rate
-                       else
+      else
                          0.0
-                       end
-      
+      end
+
       {
         name: keyword.keyword || "Unknown", # Use 'keyword' column from schema
         mentions: mentions_count,
@@ -296,14 +296,14 @@ class DashboardController < ApplicationController
     # Get mentions through keywords
     keyword_ids = @user_keywords.pluck(:id)
     total_mentions = keyword_ids.any? ? Mention.where(keyword_id: keyword_ids).count : 0
-    
+
     # Get converted leads through mentions
     mention_ids = keyword_ids.any? ? Mention.where(keyword_id: keyword_ids).pluck(:id) : []
     converted_leads = mention_ids.any? ? Lead.where(mention_id: mention_ids, status: "converted").count : 0
 
     # Always return 0.0 if no mentions to avoid NaN
     return 0.0 if total_mentions.zero?
-    
+
     # Calculate rate and ensure it's never NaN
     rate = (converted_leads.to_f / total_mentions * 100).round(2)
     rate.nan? ? 0.0 : rate

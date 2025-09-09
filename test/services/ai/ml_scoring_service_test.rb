@@ -1,8 +1,8 @@
 require "test_helper"
 
-class AI::MlScoringServiceTest < ActiveSupport::TestCase
+class Ai::MlScoringServiceTest < ActiveSupport::TestCase
   def setup
-    @service = AI::MlScoringService.new
+    @service = Ai::MlScoringService.new
     @lead = leads(:one)
     @mention = mentions(:one)
     @analysis_result = analysis_results(:one)

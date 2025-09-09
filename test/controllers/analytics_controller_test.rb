@@ -57,15 +57,15 @@ class AnalyticsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should export data as CSV" do
-    get analytics_export_path(format: :csv, export_type: 'overview')
+    get analytics_export_path(format: :csv, export_type: "overview")
     assert_response :success
-    assert_equal 'text/csv', response.content_type
+    assert_equal "text/csv", response.content_type
   end
 
   test "should export data as JSON" do
-    get analytics_export_path(format: :json, export_type: 'overview')
+    get analytics_export_path(format: :json, export_type: "overview")
     assert_response :success
-    assert_equal 'application/json', response.content_type
+    assert_equal "application/json", response.content_type
   end
 
   test "should get realtime updates" do
@@ -84,7 +84,7 @@ class AnalyticsControllerTest < ActionDispatch::IntegrationTest
     # First request should cache the data
     get analytics_path
     assert_response :success
-    
+
     # Second request should use cached data
     get analytics_path
     assert_response :success
@@ -94,7 +94,7 @@ class AnalyticsControllerTest < ActionDispatch::IntegrationTest
     # Remove all data for the user
     @user.mentions.destroy_all
     @user.leads.destroy_all
-    
+
     get analytics_path
     assert_response :success
     assert_not_nil assigns(:metrics)
@@ -103,7 +103,7 @@ class AnalyticsControllerTest < ActionDispatch::IntegrationTest
   test "should calculate conversion funnel correctly" do
     get analytics_path
     funnel = assigns(:conversion_funnel)
-    
+
     assert funnel[:mentions] >= funnel[:analyzed]
     assert funnel[:analyzed] >= funnel[:leads]
     assert funnel[:leads] >= funnel[:qualified]
@@ -118,17 +118,17 @@ class AnalyticsControllerTest < ActionDispatch::IntegrationTest
 
   test "should only show current user's data" do
     other_user = users(:two)
-    
+
     get analytics_path
     metrics = assigns(:metrics)
-    
+
     # Ensure we're not seeing other user's data
     assert_not_includes metrics.to_s, other_user.email
   end
 
   test "should handle different time periods" do
-    periods = ['daily', 'weekly', 'monthly']
-    
+    periods = [ "daily", "weekly", "monthly" ]
+
     periods.each do |period|
       get analytics_performance_path, params: { period: period }
       assert_response :success
@@ -136,13 +136,13 @@ class AnalyticsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should export keywords data" do
-    get analytics_export_path(format: :csv, export_type: 'keywords')
+    get analytics_export_path(format: :csv, export_type: "keywords")
     assert_response :success
     assert_match /Keyword,Platform,Mentions,Leads/, response.body
   end
 
   test "should export leads data" do
-    get analytics_export_path(format: :csv, export_type: 'leads')
+    get analytics_export_path(format: :csv, export_type: "leads")
     assert_response :success
     assert_match /ID,Name,Email,Company,Score/, response.body
   end
@@ -150,9 +150,9 @@ class AnalyticsControllerTest < ActionDispatch::IntegrationTest
   test "should handle JSON format for analytics data" do
     get analytics_path, params: { format: :json }
     assert_response :success
-    
+
     json_response = JSON.parse(response.body)
-    assert json_response['metrics'].present?
-    assert json_response['performance'].present?
+    assert json_response["metrics"].present?
+    assert json_response["performance"].present?
   end
 end

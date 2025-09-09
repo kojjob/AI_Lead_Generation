@@ -1,8 +1,8 @@
 require "test_helper"
 
-class AI::EnhancedAnalysisServiceTest < ActiveSupport::TestCase
+class Ai::EnhancedAnalysisServiceTest < ActiveSupport::TestCase
   def setup
-    @service = AI::EnhancedAnalysisService.new
+    @service = Ai::EnhancedAnalysisService.new
     @mention = mentions(:one)
     @lead = leads(:one)
     @analysis_result = analysis_results(:one)
